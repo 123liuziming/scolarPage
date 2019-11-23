@@ -1,0 +1,97 @@
+<template>
+<div id="body" >
+        <div id="yinyong">
+            <h1 id="fonter">
+                <strong>710</strong>
+            </h1>
+            <p id="fonter2">
+                引用
+            </p>
+        </div>
+        <div id="fabu">
+            <h1 id="fonter">
+                <strong>2016</strong>
+            </h1>
+            <div id="fonter2">
+                发布于
+            </div>
+        </div>
+</div>
+</template>
+
+<script>
+export default {
+  name: 'article_body',
+  data(){
+      return{
+          author:"AD Wade, K Wang"
+      }
+  }
+}
+</script>
+
+<style scoped>
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+#body{
+    width: 70%;
+    height: 1000px;
+    margin-bottom:5%; 
+    background-color: black;
+    position:absolute;
+    left:15%;    /* 定位父级的50% */
+    transform: translate(-50%,-50%); /*自己的50% */
+    margin-top: 25%;
+    border-radius: 20px;
+    -webkit-box-shadow: #000 0px 0px 10px; 
+    -moz-box-shadow: #000 0px 0px 10px; 
+    box-shadow: #000 0px 0px 10px; 
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeInLeft;
+  }
+
+  #yinyong{
+      width: 18%;
+      height: 12%;
+      margin-top: 5%;
+      margin-left: 80%;
+      margin-right:5%;
+      background: gray;
+     
+  }
+  #fabu{
+      width: 18%;
+      height: 12%;
+      margin-top: 5%;
+      margin-left: 80%;
+      margin-right:5%;
+      background: gray;
+      
+  }
+  #fonter{
+      margin-bottom:0px; 
+      margin-right: 2%;
+      font-size: 70px;
+      text-align: right;
+      color: white;
+  }
+  #fonter2{
+      margin-top:0px; 
+      font-size: 25px;
+      margin-right: 6%;
+      text-align: right;
+      color: white;
+      margin-bottom: 10%;
+  }
+</style>
