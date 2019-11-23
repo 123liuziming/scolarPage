@@ -1,22 +1,31 @@
 <template>
-  <div>
+  <div class="container">
   <div class="fh5co-loader"></div>
-    <header id="fh5co-header" class="fh5co-cover" style="background-image:url(images/img_bg_1.jpg);" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="display-tc animate-box" data-animate-effect="fadeIn" style="padding-left: 4%;padding-top: 1%;">
+    <header id="fh5co-header" class="fh5co-cover" data-stellar-background-ratio="0.5">
+      <div class="overlay" style="float: left"></div>
+      <div class="display-tc animate-box" data-animate-effect="fadeIn">
         <h1>Feifei Li</h1>
-        <h2>More Templates <a href="http://www.moobnn.com/" target="_blank" title="模板在线">模板在线</a> <a href="http://guantaow.taobao.com" target="_blank">厚朴网络 淘宝店</a> - Collect from <a href="http://www.moobnn.com/" title="模板在线" target="_blank">模板在线</a> <a href="http://guantaow.taobao.com" target="_blank">厚朴网络 淘宝店</a></h2>
-        <p><a class="btn btn-primary btn-lg btn-learn" href="#">Take A Course</a> <a class="btn btn-primary btn-lg popup-vimeo btn-video" href="https://vimeo.com/channels/staffpicks/93951774"><i class="icon-play"></i> Watch Video</a></p>
+        <h2>StandFord University(2016-now)</h2>
+        <a>ffl@standford.edu</a>
+        <div style="margin-top: 3%">
+          <p><a class="btn btn-primary btn-md btn-learn" href="#">发送私信</a> <a class="btn btn-primary btn-md popup-vimeo btn-video" href="https://vimeo.com/channels/staffpicks/93951774"><i class="icon-play"></i>关注+</a></p>
+        </div>
+      </div>
+      <div style="float: left; margin-left: 50%; padding-top: 5%">
+        <div style="margin-left: 30%">
+          <el-avatar>USR</el-avatar>
+        </div>
       </div>
     </header>
-
   </div>
 
 </template>
 
 <script>
+    import Avatar from "./avatar";
     export default {
         name: "Main",
+        components: {Avatar},
         data(){
             return{
                 msg:"good"
