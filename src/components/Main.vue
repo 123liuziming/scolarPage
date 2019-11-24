@@ -1,18 +1,26 @@
 <template>
-<div>
-  <Header></Header>
-  <Body></Body>
-</div>
+  <div>
+      <!-- 第一页 -->
+      <Header></Header>
+      <Body></Body>
+  </div>
 </template>
 
 <script>
     import Header from "./Header";
     import Body from "./Body";
+    import Paper from "./Paper";
+
     export default {
         name: "Main",
-        components:{
+        components: {
             Header,
-            Body
+            Body,
+        },
+        data() {
+            return {
+
+            }
         }
     }
 </script>

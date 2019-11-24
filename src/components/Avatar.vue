@@ -32,8 +32,8 @@
   }
   .ch-img-1 {
     background-image: url(../../static/image/is1.jpg);
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
     display: inline-block;
   }
   .ch-info {
@@ -90,7 +90,7 @@
   }
   .ch-info p {
     color: #fff;
-    padding: 10px 5px;
+    padding: 5px 5px;
     font-style: italic;
     margin: 0 30px;
     font-size: 12px;

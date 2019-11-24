@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Header from "../components/Header";
-import Main from "../components/Main";
+import Main from "@/components/Main"
+import Article from "@/components/Article"
+
 Vue.use(Router)
 
 export default new Router({
@@ -15,6 +17,11 @@ export default new Router({
       path: '/',
       name: 'Main',
       component: Main
+    },
+    {
+      path: '/article',
+      name: 'article',
+      component: Article
     }
 
   ],
