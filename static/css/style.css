@@ -336,8 +336,8 @@ h1, h2, h3, h4, h5, h6, figure {
   background-position: top center;
   background-repeat: no-repeat;
   position: relative;
-  float: left;
   width: 100%;
+
 }
 .fh5co-cover .overlay {
   z-index: 0;
@@ -363,8 +363,8 @@ h1, h2, h3, h4, h5, h6, figure {
   z-index: 9;
   height: 400px;
   display: table;
-  padding-left: 10%;
   padding-top: 5%;
+  padding-left: 20%;
   float: left;
 }
 @media screen and (max-width: 768px) {
