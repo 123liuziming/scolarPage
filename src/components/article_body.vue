@@ -1,27 +1,38 @@
 <template>
 <div id="body" >
-        <div id="yinyong">
-            <h1 id="fonter">
-                <strong>710</strong>
-            </h1>
-            <p id="fonter2">
-                引用
-            </p>
-        </div>
-        <div id="fabu">
-            <h1 id="fonter">
-                <strong>2016</strong>
-            </h1>
-            <div id="fonter2">
-                发布于
+    <el-main>
+    <el-row style="margin-top:5%">
+        <el-col :span="18">
+            <div id="content">
             </div>
-        </div>
+        </el-col>
+        <el-col :span="6" >
+            <div id="yinyong">
+                <h1 id="fonter">
+                    <strong>710</strong>
+                </h1>
+                <p id="fonter2">
+                    引用
+                </p>
+            </div>
+            <div id="fabu">
+                <h1 id="fonter">
+                    <strong>2016</strong>
+                </h1>
+                <div id="fonter2">
+                    发布于
+                </div>
+            </div>
+        </el-col>
+    </el-row> 
+    </el-main>
 </div>
 </template>
 
 <script>
 export default {
   name: 'article_body',
+
   data(){
       return{
           author:"AD Wade, K Wang"
@@ -52,7 +63,6 @@ export default {
     left:15%;    /* 定位父级的50% */
     transform: translate(-50%,-50%); /*自己的50% */
     margin-top: 25%;
-    border-radius: 20px;
     -webkit-box-shadow: #000 0px 0px 10px; 
     -moz-box-shadow: #000 0px 0px 10px; 
     box-shadow: #000 0px 0px 10px; 
@@ -60,22 +70,24 @@ export default {
     animation-fill-mode: both;
     animation-name: fadeInLeft;
   }
-
+  #content{
+      width: 90%;
+      height: 80%;
+      margin-top:1%;
+      margin-right: 0;
+      margin-left: 5%;
+      font-size: 25px;
+  }
   #yinyong{
-      width: 18%;
+      width: 80%;
       height: 12%;
-      margin-top: 5%;
-      margin-left: 80%;
-      margin-right:5%;
+      margin-top: 8%;
       background: gray;
-     
   }
   #fabu{
-      width: 18%;
+      width: 80%;
       height: 12%;
-      margin-top: 5%;
-      margin-left: 80%;
-      margin-right:5%;
+      margin-top: 8%;
       background: gray;
       
   }
