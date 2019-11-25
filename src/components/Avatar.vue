@@ -1,0 +1,105 @@
+<template>
+  <div class="ch-item ch-img-1">
+    <div class="ch-info">
+      <h3>Donec sed</h3>
+      <p>by Angela Merkel</p>
+    </div>
+  </div>
+</template>
+
+<script>
+    export default {
+        name: "avatar"
+    }
+</script>
+
+<style scoped>
+  .ch-item {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    cursor: default;
+    box-shadow:
+      inset 0 0 0 16px rgba(21, 28, 34, 0.31), 0 1px 2px rgba(0,0,0,0.1);
+
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    margin-bottom: 20px;
+  }
+  .ch-img-1 {
+    background-image: url(../../static/image/is1.jpg);
+    width: 180px;
+    height: 180px;
+    display: inline-block;
+  }
+  .ch-info {
+    position: absolute;
+    background: rgba(43, 194, 70, 0.53);
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    opacity: 0;
+
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+
+    -webkit-backface-visibility: hidden;
+  }
+  .ch-item:hover {
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.1),
+      0 1px 2px rgba(0,0,0,0.1);
+  }
+  .ch-item:hover .ch-info {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .ch-item:hover .ch-info p {
+    opacity: 1;
+  }
+  .ch-info h3 {
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 22px;
+    margin: 0 30px;
+    padding: 45px 0 0 0;
+    height: 140px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    text-shadow:
+      0 0 1px #fff,
+      0 1px 2px rgba(0,0,0,0.3);
+  }
+  .ch-info p {
+    color: #fff;
+    padding: 5px 5px;
+    font-style: italic;
+    margin: 0 30px;
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    opacity: 0;
+    -webkit-transition: all 1s ease-in-out 0.4s;
+    -moz-transition: all 1s ease-in-out 0.4s;
+    -o-transition: all 1s ease-in-out 0.4s;
+    -ms-transition: all 1s ease-in-out 0.4s;
+    transition: all 1s ease-in-out 0.4s;
+  }
+</style>

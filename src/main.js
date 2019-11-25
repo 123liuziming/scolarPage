@@ -6,11 +6,19 @@ import router from './router'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+<<<<<<< HEAD
 import echarts from 'echarts'
 
 Vue.prototype.$echarts = echarts
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+=======
+
+
+Vue.use(ElementUI);
+
+Vue.config.productionTip = false;
+>>>>>>> 4d6329bf03252f7aa9e2e198715612bfcb53499a
 
 /* eslint-disable no-new */
 new Vue({

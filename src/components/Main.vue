@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
   <div class="fh5co-loader"></div>
@@ -29,13 +28,19 @@
 </template>
 
 <script>
-    import Avatar from "./avatar";
+    import Header from "./Header";
+    import Body from "./Body";
+    import Paper from "./Paper";
+
     export default {
         name: "Main",
-        components: {Avatar},
-        data(){
-            return{
-                msg:"good"
+        components: {
+            Header,
+            Body,
+        },
+        data() {
+            return {
+
             }
         }
     }

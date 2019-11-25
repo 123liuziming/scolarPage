@@ -89,17 +89,17 @@ export default {
       height: 12%;
       margin-top: 8%;
       background: gray;
-      
+
   }
   #fonter{
-      margin-bottom:0px; 
+      margin-bottom:0px;
       margin-right: 2%;
       font-size: 70px;
       text-align: right;
       color: white;
   }
   #fonter2{
-      margin-top:0px; 
+      margin-top:0px;
       font-size: 25px;
       margin-right: 6%;
       text-align: right;
