@@ -31,9 +31,9 @@ export default {
 .search-area-wrapper {
   background: #353b65 url("../../static/picture/bg.jpg") top no-repeat;
   background-size: 100%;
-  min-height: 450px;
+  min-height: 400px;
   height: auto !important;
-  height: 450px;
+  height: 400px;
 }
 .search-area-wrapper .search-area {
   padding: 50px 0;
@@ -41,12 +41,11 @@ export default {
 h3.article-header {
   font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 36px;
   color: #fff;
   text-align: left;
   margin-left: 10%;
   margin-top: 3%;
-  width: 70%;
 }
 a.search-tag-line {
   font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
