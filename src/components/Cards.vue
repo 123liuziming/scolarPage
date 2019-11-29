@@ -1,9 +1,9 @@
 <template>
   <div id="Cards">
-    <div class="col-md-3 col-sm-8" v-for="conut in 4">
+    <div class="col-md-3 col-sm-8" v-for="count in 4" :key="count">
       <div class="blog-item post-2 animated zoomIn">
           <h3 style="color: gray">最新发布</h3>
-          <el-divider></el-divider>
+          <el-divider />
           <span class="solid-line"></span>
           <el-image
             style="width: 100%;"

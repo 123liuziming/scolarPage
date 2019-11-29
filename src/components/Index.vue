@@ -8,14 +8,54 @@
       </div>
     </div>
     <div id="index--container-content">
-      <p style="color: white;">Coming soon.</p>
+      <div style="display: flex;">
+        <Card
+          v-for="(_, ind) in 4"
+          :key="ind"
+          :title="news[ind].title"
+          :description="news[ind].desc"
+          :pic="news[ind].keyword"
+          style="margin: 0 10px 0 10px;"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Card from "./Card";
+
 export default {
-  name: "Index"
+  name: "Index",
+  components: {
+    Card
+  },
+  data() {
+    return {
+      news: [
+        {
+          title: "最新发布",
+          desc: "The rise of the machines: Artificial intelligence",
+          keyword: "computer"
+        },
+        {
+          title: "编辑推荐",
+          desc: "Exploring scholarly data with rexplorer",
+          keyword: "book"
+        },
+        {
+          title: "近期热门",
+          desc: "Evaluating search engine models for scholarly purposes",
+          keyword: "student"
+        },
+        {
+          title: "最新发布",
+          desc: "The visibility of Wikipedia in scholarly publications",
+          keyword: "book"
+        }
+      ]
+    };
+  }
 };
 </script>
 
@@ -71,6 +111,7 @@ export default {
   min-height: 100vh;
   margin-top: 30px;
   background: #000000;
-  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
+    0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
 }
 </style>
