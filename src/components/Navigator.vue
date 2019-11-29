@@ -62,6 +62,7 @@ export default {
   margin-right: 120px;
   overflow-x: scroll !important;
   overflow-y: hidden;
+  scrollbar-width: none; /* hide scrollbars on Firefox */
   height: 60px;
   text-overflow: ellipsis;
   border-bottom: none !important;
@@ -69,6 +70,10 @@ export default {
   white-space: nowrap !important;
   width: 100%;
   display: flex;
+}
+
+#global-nav--menu::-webkit-scrollbar {
+  display: none; /* hide scrollbars on Chromium and WebKit */
 }
 
 .global-nav--menu-item {
