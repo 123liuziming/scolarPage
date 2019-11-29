@@ -2,7 +2,7 @@
   <nav id="global-nav">
     <el-menu
       id="global-nav--menu"
-      default-active="1"
+      :default-active="0"
       mode="horizontal"
       background-color="#000000"
       text-color="#ffffff"
@@ -31,17 +31,17 @@ export default {
     return {
       links: [
         {
-          name: "Beijing",
+          name: "首页",
+          to: "Index"
+        },
+        {
+          name: "作者",
           to: "Main"
         },
         {
-          name: "Shanghai",
+          name: "论文",
           to: "article"
         },
-        {
-          name: "Chongqing",
-          to: "Header"
-        }
       ]
     };
   }
