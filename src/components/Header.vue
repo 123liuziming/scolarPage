@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <div class="headAnimate">
   <div class="fh5co-loader"></div>
     <header id="fh5co-header" class="fh5co-cover" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="display-tc animate-box" data-animate-effect="fadeIn">
+      <div class="display-tc">
         <div class="container" style="width: 55%;float: left">
           <h1 style="color: white"><b>Feifei Li:</b></h1>
           <h4 style="color: white">StandFord University(2016-now)</h4>
@@ -55,7 +54,6 @@
   }
   .fh5co-cover {
     height: 200px;
-    background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
     position: relative;

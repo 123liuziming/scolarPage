@@ -28,6 +28,18 @@ export default {
     transform: none;
   }
 }
+
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 .body {
   width: 70%;
   margin-bottom: 5%;
@@ -43,6 +55,14 @@ export default {
   animation-fill-mode: both;
   animation-name: fadeInLeft;
 }
+
+
+.headAnimate{
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeInTop;
+}
+
 .body.bodyScholar {
   margin-top: 5% !important;
 }
