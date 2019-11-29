@@ -9,7 +9,6 @@
 <script>
     import Header from "./Header";
     import Body from "./Body";
-    import Paper from "./Paper";
 
     export default {
         name: "Main",
