@@ -217,7 +217,7 @@
     border-top: 4px solid greenyellow;
     float: left;
     background-color: gray;
-    width: 44vw;
+    width: 49vw;
     margin-left: 4vw;
     margin-right: 1vw;
     margin-top: 2vh;
