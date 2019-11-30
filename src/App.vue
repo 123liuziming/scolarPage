@@ -41,13 +41,13 @@ export default {
   }
 }
 .body {
-  width: 70%;
+  width: 80vw;
   margin-bottom: 5%;
   background-color: black;
   position: absolute;
-  left: 15%; /* 定位父级的50% */
+  left: 10vw; /* 定位父级的50% */
+  top: 30vh;
   transform: translate(-50%, -50%); /*自己的50% */
-  margin-top: 25%;
   -webkit-box-shadow: #000 0px 0px 10px;
   -moz-box-shadow: #000 0px 0px 10px;
   box-shadow: #000 0px 0px 10px;
@@ -61,6 +61,7 @@ export default {
   animation-duration: 1s;
   animation-fill-mode: both;
   animation-name: fadeInTop;
+  background-color: #444444;
 }
 
 .body.bodyScholar {

@@ -1,14 +1,12 @@
 <template>
   <div>
-    <div style="float: left">
-      <ul class="nav nav-pills nav-stacked">
-        <li role="presentation"><a class="nav">Home</a></li>
-        <li role="presentation"><a class="nav">Profile</a></li>
-        <li role="presentation"><a class="nav">Messages</a></li>
-      </ul>
+    <div style="float: left;width: 10vw">
+      <el-tabs :tab-position="tabPosition" style="height: 100px;margin-top: 2vh">
+        <el-tab-pane label="按年份排序"></el-tab-pane>
+        <el-tab-pane label="按引用量排序"></el-tab-pane>
+      </el-tabs>
     </div>
-    <div style="width: 70%;float: left">
-      <h3 class="paperTitle">文章列表:</h3>
+    <div style="width: 50vw;float: left;margin-left: 1vw">
       <ul class="articles">
         <li class="article-entry standard">
           <h4><a class="title">Integrating WordPress with Your Website</a></h4>
@@ -52,7 +50,6 @@
       </ul>
       <el-pagination
         class="align"
-        background
         style="padding-top: 5%;padding-left: 4%;"
         layout="prev, pager, next"
         :total="50">
@@ -124,8 +121,8 @@
   }
 
   .align {
-    margin-left: 2%;
-    margin-bottom: 2%;
+    margin-left: 1.5vh;
+    margin-bottom: 2vh;
   }
 
   .conference {
