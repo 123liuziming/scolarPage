@@ -85,7 +85,7 @@ export default {
 #index--container-search-box {
   width: 100%;
   background: #000000;
-  margin: 20px 0 20px 0;
+  margin: 30px 0 40px 0;
   height: 40px;
   border: 1px #aaaaaa solid;
   overflow-x: hidden;
@@ -117,7 +117,7 @@ export default {
   min-height: 100vh;
   margin-top: 30px;
   background: #000000;
-  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
-    0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.3),
+    0px 16px 24px 2px rgba(0, 0, 0, 0.18), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
 }
 </style>
