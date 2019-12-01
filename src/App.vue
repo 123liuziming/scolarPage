@@ -17,12 +17,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", "PingFang SC",
-    "Microsoft YaHei", sans-serif;
-}
-
 @keyframes fadeInLeft {
   from {
     opacity: 0;
