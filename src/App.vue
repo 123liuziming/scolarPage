@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navigator/>
+    <Navigator />
     <router-view />
   </div>
 </template>
@@ -40,6 +40,7 @@ export default {
     transform: none;
   }
 }
+
 .body {
   width: 80vw;
   min-height: 100vh;
@@ -48,23 +49,22 @@ export default {
   padding-right: 3vw;
   background-color: black;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
-  0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+    0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
   animation-duration: 1s;
   animation-fill-mode: both;
   animation-name: fadeInLeft;
 }
 
-
-.scholarPg{
+.scholarPg {
   padding: 20vh 10vw 0 10vw;
   height: 80vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
-  url("https://source.unsplash.com/1600x900/?book");
+    url("https://source.unsplash.com/1600x900/?book");
   background-size: cover;
   min-height: 400px;
 }
 
-.headAnimate{
+.headAnimate {
   animation-duration: 1s;
   animation-fill-mode: both;
   animation-name: fadeInTop;
@@ -72,14 +72,15 @@ export default {
   padding-left: 5vw;
 }
 
-.eChartContainer.rardar{
+.eChartContainer.rardar {
   width: 20vw;
   height: 40vh;
   animation-duration: 1s;
   animation-fill-mode: both;
   animation-name: fadeInTop;
 }
-.eChartContainer.relation{
+
+.eChartContainer.relation {
   width: 75vw;
   height: 70vh;
 }

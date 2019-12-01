@@ -4,6 +4,7 @@
       <p class="index--container-h1">站在巨人的肩膀上，</p>
       <p class="index--container-h1">创造你的价值。</p>
       <div id="index--container-search-box">
+        <font-awesome-icon id="index--container-search-box-icon" :icon="['fas', 'search']" />
         <input type="text" />
       </div>
     </div>
@@ -85,11 +86,16 @@ export default {
   width: 100%;
   background: #000000;
   margin: 20px 0 20px 0;
-  padding-left: 38px;
   height: 40px;
   border: 1px #aaaaaa solid;
   overflow-x: hidden;
-  display: inline-block;
+  display: flex;
+}
+
+#index--container-search-box-icon {
+  height: 100%;
+  margin: 0 15px 0 15px;
+  color: white;
 }
 
 #index--container-search-box > input {
