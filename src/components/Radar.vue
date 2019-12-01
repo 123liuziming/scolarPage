@@ -1,7 +1,7 @@
 <template>
- <div id="radar" class="container"> </div>
+ <div id="radar" class="eChartContainer rardar"> </div>
 </template>
- 
+
 <script>
  // 引入基本模板
  import echarts from 'echarts/lib/echarts'
@@ -21,7 +21,7 @@
      center: ['50%', '50%'],
      //设置大小
      radius:80
-    }, 
+    },
     series: [{
      type: 'radar',
      itemStyle: {normal: {areaStyle: {type: 'default'}}},
@@ -41,5 +41,5 @@
  }
 </script>
 <style scoped>
- .container{width: 500px;height: 400px;}
+
 </style>

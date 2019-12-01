@@ -1,8 +1,8 @@
 <template>
   <div class="headAnimate">
   <div class="fh5co-loader"></div>
-    <header id="fh5co-header" class="fh5co-cover" data-stellar-background-ratio="0.5">
-      <div class="display-tc">
+    <header id="fh5co-header">
+      <div>
         <div class="container" style="width: 49vw;float: left">
           <h1 style="color: white" class="h1"><b>Feifei Li:</b></h1>
           <h4 style="color: white" class="h4">StandFord University(2016-now)</h4>
@@ -48,32 +48,16 @@
     text-decoration: none;
   }
 
-  .fh5co-cover {
-    height: 60vh;
-    margin-bottom: 5vh;
-    background-position: top center;
-    background-repeat: no-repeat;
-    position: relative;
-    background-color: #444444;
-  }
   .h1{
     font-family: "Menlo", "Consolas", "Microsoft YaHei", monospace;
-    font-size: 80px;
+    font-size: 5vw;
   }
   .h4{
     font-family: "Menlo", "Consolas", "Microsoft YaHei", monospace;
-    font-size: 25px;
+    font-size: 3px;
   }
   .h5{
     font-family: "Menlo", "Consolas", "Microsoft YaHei", monospace;
-    font-size: 15px;
+    font-size: 2px;
   }
-  .fh5co-cover .display-tc {
-    z-index: 9;
-    height: 8vh;
-    padding-top: 6vw;
-    padding-left: 18vw;
-    background-color: #444444;
-  }
-
 </style>

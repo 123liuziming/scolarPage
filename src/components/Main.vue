@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="scholarPg">
       <!-- 第一页 -->
       <Header></Header>
       <Body></Body>
