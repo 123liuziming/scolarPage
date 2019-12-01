@@ -6,7 +6,7 @@
         <el-tab-pane label="按引用量排序"></el-tab-pane>
       </el-tabs>
     </div>
-    <div style="width: 50vw;float: left;margin-left: 1vw">
+    <div style="width: 45vw;float: left;margin-left: 1vw">
       <ul class="articles">
         <li class="article-entry standard">
           <h4><a class="title">Integrating WordPress with Your Website</a></h4>

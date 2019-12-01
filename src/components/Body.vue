@@ -1,6 +1,6 @@
 <template>
   <div class="body bodyScholar">
-    <div id="reasearchFields">
+    <div id="reasearchFields" style="display: flex;width: 100%">
       <h4 style="display: inline"><b style="color: white">研究方向：</b></h4>
       <el-tag
         class="transparent"
@@ -60,14 +60,13 @@
     <div class="scholarPaper clear">
       <el-collapse v-model="activeNames" @change="handleChange">
         <el-collapse-item title="个人简介" name="1">
-          <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-          <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+          <div style="float: left"><Intro></Intro></div>
+          <div style="float: left"><Radar></Radar></div>
         </el-collapse-item>
         <el-divider></el-divider>
         <el-collapse-item title="学者统计" name="2">
           <div style="display: flex">
-            <Radar></Radar>
-            <Radar></Radar>
+            <Relation></Relation>
           </div>
         </el-collapse-item>
         <el-divider></el-divider>
@@ -86,10 +85,14 @@
     import Card from "./Card";
     import Paper from "./Paper";
     import Radar from './Radar'
+    import Relation from "./Relation";
+    import Intro from "./Intro";
 
     export default {
         name: "Body",
         components: {
+            Intro,
+            Relation,
             Paper,
             Card,
             Radar
@@ -217,11 +220,11 @@
     border-top: 4px solid greenyellow;
     float: left;
     background-color: gray;
-    width: 49vw;
+    width: 43vw;
     margin-left: 4vw;
     margin-right: 1vw;
     margin-top: 2vh;
-    min-height: 27vh;
+    min-height: 36vh;
   }
 
 </style>

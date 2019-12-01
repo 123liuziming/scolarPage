@@ -1,18 +1,18 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Header from "../components/Header";
 import Main from "@/components/Main";
 import Article from "@/components/Article";
 import Index from "@/components/Index";
+import Relation from "../components/Relation";
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: "/header",
-      name: "Header",
-      component: Header
+      path: "/chart",
+      name: "Relation",
+      component: Relation
     },
     {
       path: "/",
