@@ -4,7 +4,10 @@
       <p class="index--container-h1">站在巨人的肩膀上，</p>
       <p class="index--container-h1">创造你的价值。</p>
       <div id="index--container-search-box">
-        <font-awesome-icon id="index--container-search-box-icon" :icon="['fas', 'search']" />
+        <font-awesome-icon
+          id="index--container-search-box-icon"
+          :icon="['fas', 'search']"
+        />
         <input type="text" />
       </div>
     </div>
