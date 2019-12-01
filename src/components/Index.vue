@@ -89,6 +89,7 @@ export default {
   width: 100%;
   background: #000000;
   margin: 30px 0 40px 0;
+  padding-right: 10px;
   height: 40px;
   border: 1px #aaaaaa solid;
   overflow-x: hidden;

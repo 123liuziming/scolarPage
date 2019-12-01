@@ -18,9 +18,19 @@
       >
         {{ el.name }}
       </el-menu-item>
-      <div class="global-nav--menu-item" id="global-nav--menu-pad">&nbsp;</div>
+      <div class="global-nav--menu-item" id="global-nav--menu-pad">
+        &nbsp;
+      </div>
     </el-menu>
-    <div id="global-nav-buttons"></div>
+    <div id="global-nav-buttons">
+      <a href="#">
+        <font-awesome-icon
+          class="global-nav-buttons--icon"
+          :icon="['fa', 'search']"
+          @click="placeholder"
+        />
+      </a>
+    </div>
   </nav>
 </template>
 
@@ -41,9 +51,18 @@ export default {
         {
           name: "论文",
           to: "article"
-        },
+        }
       ]
     };
+  },
+  methods: {
+    placeholder() {
+      this.$message({
+        message: "我们正在开发此功能。",
+        type: "warning",
+        showClose: true
+      });
+    }
   }
 };
 </script>
@@ -93,6 +112,14 @@ export default {
   height: 100%;
   width: 120px;
   background-color: #2e2e2e;
+  display: flex;
+}
+
+.global-nav-buttons--icon {
+  color: white;
+  height: 100%;
+  margin: 0 20px 0 20px;
+  font-size: 17px;
 }
 
 @media screen and (max-width: 800px) {
