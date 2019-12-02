@@ -37,10 +37,10 @@
           />
           </div>
         </div>
-        <div style="padding-left: 1vw;float: left;width: 25vw">
+        <div style="padding-left: 1vw;float: left;width: 29vw">
           <div style="padding-left: 1vw"><h4 style="color: white;">相关学者</h4>
             <el-divider></el-divider></div>
-          <el-carousel :interval="4000" type="card" height="200px">
+          <el-carousel :interval="4000" type="card" height="30vh">
             <el-carousel-item v-for="item in 6" :key="item">
               <h3 class="medium">{{ item }}</h3>
             </el-carousel-item>
@@ -166,6 +166,7 @@
     color: white;
     padding-top: 5vh;
     padding-left: 2vw;
+    padding-right: 2vw;
   }
 
   .selfIntroTime {
@@ -183,9 +184,14 @@
   }
 
   .scholarPaper {
-    width: 70vw;
+    width: 75vw;
     margin-left: 2vw;
-    margin-top: 3vh;
+    padding-top: 5vh;
+  }
+  @media (max-width: 1200px) {
+    .scholarPaper {
+      width: 95vw;
+    }
   }
 
   .clear {
@@ -220,11 +226,16 @@
     border-top: 4px solid greenyellow;
     float: left;
     background-color: gray;
-    width: 43vw;
+    width: 44vw;
     margin-left: 4vw;
     margin-right: 1vw;
     margin-top: 2vh;
-    min-height: 36vh;
+    min-height: 34vh;
+  }
+  @media (max-width: 1200px) {
+    .infoBox{
+      width: 63.5vw;
+    }
   }
 
 </style>

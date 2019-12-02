@@ -1,12 +1,10 @@
 <template>
   <div>
-    <div style="float: left;width: 10vw">
-      <el-tabs :tab-position="tabPosition" style="height: 100px;margin-top: 2vh">
-        <el-tab-pane label="按年份排序"></el-tab-pane>
-        <el-tab-pane label="按引用量排序"></el-tab-pane>
-      </el-tabs>
-    </div>
-    <div style="width: 45vw;float: left;margin-left: 1vw">
+    <el-button-group style="padding-left: 28vw;margin-bottom: 3vh">
+      <el-button type="primary" size="mini">按年份排序</el-button>
+      <el-button size="mini">按引用量排序</el-button>
+    </el-button-group>
+    <div style="width: 65vw;margin-left: 1vw">
       <ul class="articles">
         <li class="article-entry standard">
           <h4><a class="title">Integrating WordPress with Your Website</a></h4>

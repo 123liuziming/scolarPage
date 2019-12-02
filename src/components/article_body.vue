@@ -1,7 +1,5 @@
 <template>
-<div id="body" >
-    <el-main>
-    <el-row style="margin-top:5%">
+<div class="body bodyArticle" id="body" >
         <el-col :span="18">
             <div id="content">
                 <Radar></Radar>
@@ -25,8 +23,6 @@
                 </div>
             </div>
         </el-col>
-    </el-row> 
-    </el-main>
 </div>
 </template>
 
@@ -57,23 +53,6 @@ export default {
     transform: none;
   }
 }
-
-#body{
-    width: 70%;
-    height: 1000px;
-    margin-bottom:5%; 
-    background-color: black;
-    position:absolute;
-    left:15%;    /* 定位父级的50% */
-    transform: translate(-50%,-50%); /*自己的50% */
-    margin-top: 25%;
-    -webkit-box-shadow: #000 0px 0px 10px; 
-    -moz-box-shadow: #000 0px 0px 10px; 
-    box-shadow: #000 0px 0px 10px; 
-    animation-duration: 1s;
-    animation-fill-mode: both;
-    animation-name: fadeInLeft;
-  }
   #content{
       width: 90%;
       height: 80%;
@@ -109,5 +88,10 @@ export default {
       text-align: right;
       color: white;
       margin-bottom: 10%;
+  }
+  @media (max-width: 1200px) {
+    h1 strong{
+      font-size: 4vmax;
+    }
   }
 </style>
