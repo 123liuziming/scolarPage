@@ -28,3 +28,12 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
+
+import { login } from "./API/user";
+
+async function testLogin() {
+  const data = await login("czy@buaa.edu.cn", "1234");
+  console.log(data);
+}
+
+testLogin();
