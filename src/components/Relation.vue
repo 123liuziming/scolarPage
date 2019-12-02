@@ -31,13 +31,11 @@
                     data: ["夫妻", "战友", '亲戚']
                 },
                 series: [
-
                     {
                         type: 'graph',
                         layout: 'force',
                         symbolSize: 45,
-                        focusNodeAdjacency: true,
-                        roam: true,
+                        zoomOnMouseWheel:false,
                         categories: [{
                             name: '夫妻',
                             itemStyle: {
