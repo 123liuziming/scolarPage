@@ -21,6 +21,24 @@
         <el-button type="primary" @click="placeholder">登录</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      :visible.sync="isSearchDialogVisible"
+      title="Scholarly Spotlight"
+      :show-close="false"
+    >
+      <div style="width: 100%; display: flex; height: 50px;">
+        <font-awesome-icon
+          :icon="['fas', 'search']"
+          style="font-size: 38px; height: 100%;"
+        />
+        <el-input
+          placeholder="输入关键词…"
+          v-model="globalSearchUserInput"
+          id="search-everything--input"
+          type="text"
+        />
+      </div>
+    </el-dialog>
     <nav id="global-nav">
       <el-menu
         id="global-nav--menu"
@@ -49,7 +67,7 @@
           <font-awesome-icon
             class="global-nav-buttons--icon"
             :icon="['fa', 'search']"
-            @click="placeholder"
+            @click="isSearchDialogVisible = true"
           />
         </a>
         <a href="#">
@@ -69,7 +87,9 @@ export default {
   name: "Navigator",
   data() {
     return {
+      isSearchDialogVisible: false,
       isLoginFormVisible: false,
+      globalSearchUserInput: "",
       links: [
         {
           name: "首页",
@@ -157,7 +177,24 @@ export default {
   font-size: 17px;
 }
 
-@media screen and (max-width: 800px) {
+#search-everything--input {
+  background: none;
+  border: none;
+  width: 98%;
+  font-size: 38px;
+  font-weight: bold;
+  margin-left: 20px;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  border-bottom: #2c2c2c solid 3px;
+}
+
+#search-everything--input:focus {
+  outline-width: 0px;
+  border-bottom: #3fe07d solid 3px;
+}
+
+@media (max-width: 1200px) {
   #global-nav {
     width: 100vw;
   }

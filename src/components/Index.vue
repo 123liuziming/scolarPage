@@ -124,4 +124,11 @@ export default {
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.3),
     0px 16px 24px 2px rgba(0, 0, 0, 0.18), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
 }
+
+@media (max-width: 1200px) {
+  #index--container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 </style>
