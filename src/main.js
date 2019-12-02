@@ -12,6 +12,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+import ApolloClient from "apollo-boost";
+import VueApollo from "vue-apollo";
+
 library.add(faSearch);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
@@ -19,21 +22,19 @@ Vue.prototype.$echarts = echarts;
 
 Vue.use(ElementUI);
 
+const defaultClient = new ApolloClient({
+  uri: "http://192.144.174.132:5123/graphql"
+});
+const apolloProvider = new VueApollo({ defaultClient });
+
+Vue.use();
+
 Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
 new Vue({
   el: "#app",
   router,
+  apolloProvider,
   components: { App },
   template: "<App/>"
 });
-
-import { login } from "./API/user";
-
-async function testLogin() {
-  const data = await login("czy@buaa.edu.cn", "1234");
-  console.log(data);
-}
-
-testLogin();
