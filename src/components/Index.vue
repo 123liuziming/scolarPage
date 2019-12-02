@@ -8,7 +8,7 @@
           id="index--container-search-box-icon"
           :icon="['fas', 'search']"
         />
-        <input type="text" />
+        <input type="text" @keyup.enter="placeholder" />
       </div>
     </div>
     <div id="index--container-content">
@@ -59,6 +59,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    placeholder() {
+      this.$message.warning("我们正在开发此功能。");
+    }
   }
 };
 </script>

@@ -4,7 +4,7 @@
       title="登录到 Scholarly 以继续"
       :visible.sync="isLoginFormVisible"
     >
-      <el-form :model="userInfo">
+      <el-form :model="userInfo" @keyup.enter.native="login">
         <el-form-item label="您的 E-Mail">
           <el-input v-model="userInfo.email" autocomplete="off" />
         </el-form-item>
@@ -18,7 +18,7 @@
       </el-form>
       <div slot="footer">
         <el-button @click="isLoginFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="placeholder">登录</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -34,6 +34,7 @@
         <el-input
           placeholder="输入关键词…"
           v-model="globalSearchUserInput"
+          @keyup.enter.native="placeholder"
           id="search-everything--input"
           type="text"
         />
@@ -83,6 +84,8 @@
 </template>
 
 <script>
+import { login, checkLoginFormValidity } from "../graphql/user";
+
 export default {
   name: "Navigator",
   data() {
@@ -117,6 +120,21 @@ export default {
         type: "warning",
         showClose: true
       });
+    },
+    async login() {
+      const validity = checkLoginFormValidity(this.userInfo);
+      if (!validity.valid) {
+        this.$message.error(validity.message);
+        return;
+      }
+
+      try {
+        const result = await login(this.userInfo.email, this.userInfo.password);
+        this.$message.success("欢迎回来。");
+      } catch (err) {
+        // A temporary implementation. DON'T IMITATE.
+        this.$message.error("我们暂时无法处理您的请求。");
+      }
     }
   }
 };

@@ -12,7 +12,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import ApolloClient from "apollo-boost";
+import defaultClient from "./graphql/client";
 import VueApollo from "vue-apollo";
 
 library.add(faSearch, faUser);
@@ -22,9 +22,6 @@ Vue.prototype.$echarts = echarts;
 
 Vue.use(ElementUI);
 
-const defaultClient = new ApolloClient({
-  uri: "http://192.144.174.132:5123/graphql"
-});
 const apolloProvider = new VueApollo({ defaultClient });
 Vue.use(VueApollo);
 
