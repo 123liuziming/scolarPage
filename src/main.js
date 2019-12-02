@@ -9,13 +9,13 @@ import "../theme/index.css";
 import echarts from "echarts";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import ApolloClient from "apollo-boost";
 import VueApollo from "vue-apollo";
 
-library.add(faSearch);
+library.add(faSearch, faUser);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.prototype.$echarts = echarts;
@@ -26,8 +26,7 @@ const defaultClient = new ApolloClient({
   uri: "http://192.144.174.132:5123/graphql"
 });
 const apolloProvider = new VueApollo({ defaultClient });
-
-Vue.use();
+Vue.use(VueApollo);
 
 Vue.config.productionTip = false;
 

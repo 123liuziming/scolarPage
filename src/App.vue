@@ -7,6 +7,7 @@
 
 <script>
 import Navigator from "./components/Navigator";
+import gql from "graphql-tag";
 
 export default {
   name: "App",

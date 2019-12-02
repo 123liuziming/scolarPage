@@ -8,7 +8,7 @@
       v-if="!pic.startsWith('http')"
       style="width: 100%;"
       :src="`https://source.unsplash.com/400x200/?${pic}`"
-      :fit="fit"
+      fit="fit"
     />
     <el-image v-else style="width: 100%;" :src="pic" :fit="fit" />
     <p
