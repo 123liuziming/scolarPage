@@ -34,11 +34,11 @@
         </li>
       </ul>
     </div>
-    <el-dialog title="查看引用" :visible.sync="refDialogFlag">
-      sdfasasfsf
-      dsfafsad
-      fasfsadf
-    </el-dialog>
+    <el-pagination
+      style="padding-left: 2.5vw;padding-top: 3vh"
+      layout="prev, pager, next"
+      :total="50">
+    </el-pagination>
   </div>
 
 </template>
@@ -52,6 +52,30 @@
             return {
                 tabPosition: 'right',
                 articles: [{
+                    title: "Integrating WordPress with Your Website",
+                    authors: ["lzm", "wsy"],
+                    tags: ["machine learning", "data mining"],
+                    db: "EI",
+                    referNum: 500,
+                },{
+                    title: "Integrating WordPress with Your Website",
+                    authors: ["lzm", "wsy"],
+                    tags: ["machine learning", "data mining"],
+                    db: "EI",
+                    referNum: 500,
+                },{
+                    title: "Integrating WordPress with Your Website",
+                    authors: ["lzm", "wsy"],
+                    tags: ["machine learning", "data mining"],
+                    db: "EI",
+                    referNum: 500,
+                },{
+                    title: "Integrating WordPress with Your Website",
+                    authors: ["lzm", "wsy"],
+                    tags: ["machine learning", "data mining"],
+                    db: "EI",
+                    referNum: 500,
+                },{
                     title: "Integrating WordPress with Your Website",
                     authors: ["lzm", "wsy"],
                     tags: ["machine learning", "data mining"],
@@ -112,10 +136,6 @@
     background: url("../../static/image/standard.png") no-repeat 0 3px;
   }
 
-  .paperTitle {
-    margin-left: 4%;
-    color: white;
-  }
 
   .align {
     margin-left: 1.5vh;

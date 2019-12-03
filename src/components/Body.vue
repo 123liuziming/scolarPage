@@ -70,7 +70,7 @@
         </el-collapse-item>
         <el-divider></el-divider>
         <el-collapse-item title="学者统计" name="2">
-          <div style="height: 90vh">
+          <div style="height: 75vh">
             <Relation></Relation>
           </div>
         </el-collapse-item>
@@ -232,7 +232,7 @@
     border-top: 4px solid greenyellow;
     float: left;
     background-color: gray;
-    width: 45vw;
+    width: 44vw;
     margin-left: 4vw;
     margin-right: 1vw;
     margin-top: 2vh;
