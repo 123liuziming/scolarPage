@@ -5,67 +5,66 @@
       <el-button size="mini">按引用量排序</el-button>
     </el-button-group>
     <div style="width: 65vw;margin-left: 1vw">
-      <ul class="articles">
+      <ul class="articles" v-for="article in articles">
         <li class="article-entry standard">
-          <h4><a class="title">Integrating WordPress with Your Website</a></h4>
-          <div><a class="other">liuziming</a>
-            <a>wsy</a></div>
-          <div class="conference align">WWW '19: The Web Conference on The World Wide Web Conference WWW 2019,
-            pp.94-104, (2019)
-          </div>
+          <h4><a class="title">{{article.title}}</a></h4>
+          <div><a class="other" v-for="author in article.authors">{{author}}</a>
+            <a>lzm</a></div>
+          <el-button size="mini" class="conference align" v-for="tag in article.tags">
+            {{tag}}
+          </el-button>
           <div>
-            <span><el-button type="warning" size="mini" class="align">EI</el-button></span>
+            <span><el-button type="warning" size="mini" class="align">{{article.db}}</el-button></span>
             <el-divider direction="vertical"></el-divider>
-            <span style="color: greenyellow">引用</span>
-          </div>
-        </li>
-        <li class="article-entry standard">
-          <h4><a class="title">Integrating WordPress with Your Website</a></h4>
-          <div><a class="other">liuziming</a>
-            <a>wsy</a></div>
-          <div class="conference align">WWW '19: The Web Conference on The World Wide Web Conference WWW 2019,
-            pp.94-104, (2019)
-          </div>
-          <div>
-            <span><el-button type="warning" size="mini" class="align">EI</el-button></span>
+            <span style="color: greenyellow">
+              <el-popover
+                placement="top-start"
+                width="200"
+                trigger="hover"
+                content="
+                  [1] 王海粟.浅议会计信息披露模式[J].财政研究，2004,21(1)：56-58.
+                ">
+    <el-button slot="reference" size="mini" type="success">引用</el-button>
+  </el-popover>
+
+            </span>
             <el-divider direction="vertical"></el-divider>
-            <span style="color: greenyellow">引用</span>
-          </div>
-        </li>
-        <li class="article-entry standard">
-          <h4><a class="title">Integrating WordPress with Your Website</a></h4>
-          <div><a class="other">liuziming</a>
-            <a>wsy</a></div>
-          <div class="conference align">WWW '19: The Web Conference on The World Wide Web Conference WWW 2019,
-            pp.94-104, (2019)
-          </div>
-          <div>
-            <span><el-button type="warning" size="mini" class="align">EI</el-button></span>
-            <el-divider direction="vertical"></el-divider>
-            <span style="color: greenyellow">引用</span>
+            <span style="color: yellow">已被引{{article.referNum}}次</span>
           </div>
         </li>
       </ul>
-      <el-pagination
-        class="align"
-        style="padding-top: 5%;padding-left: 4%;"
-        layout="prev, pager, next"
-        :total="50">
-      </el-pagination>
     </div>
-
+    <el-dialog title="查看引用" :visible.sync="refDialogFlag">
+      sdfasasfsf
+      dsfafsad
+      fasfsadf
+    </el-dialog>
   </div>
 
 </template>
 
 <script>
+    import {getPaper} from "../graphql/scholar";
+
     export default {
         name: "Paper",
         data() {
             return {
                 tabPosition: 'right',
+                articles: [{
+                    title: "Integrating WordPress with Your Website",
+                    authors: ["lzm", "wsy"],
+                    tags: ["machine learning", "data mining"],
+                    db: "EI",
+                    referNum: 500,
+                }],
             }
-        }
+        },
+        async mounted() {
+            const result = await getPaper("pp");
+            console.log(result);
+        },
+        methods: {}
     }
 </script>
 
@@ -125,7 +124,6 @@
 
   .conference {
     margin-top: 1%;
-    color: deepskyblue;
   }
 
 </style>

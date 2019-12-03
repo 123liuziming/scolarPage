@@ -1,20 +1,56 @@
 <template>
-  <div style="width: 50vw">
-    <ul>
-      <li>姓名：老刘</li>
-      <li>年龄：21</li>
-      <li>个人简介：</li>
-      <li>教育经历：幼儿园毕业于南昌大学附属幼儿园；小学毕业于南昌大学附属小学；中学毕业于南昌大学附属中学；高中毕业于江西师大附中</li>
-    </ul>
+  <div class="introBox">
+    <el-table
+      :show-header="false"
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        width="100%"
+      >
+        <template slot-scope="scope">
+          <strong>{{ scope.row.date }}</strong>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="name"
+      >
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
     export default {
-        name: "Intro"
+        name: "Intro",
+        data() {
+            return {
+                tableData: [{
+                    date: '姓名',
+                    name: '老刘',
+                }, {
+                    date: '擅长领域',
+                    name: '机器学习',
+                }, {
+                    date: '个人简介',
+                    name: '擅长唱，跳，rap，篮球',
+                }, {
+                    date: '教育经历',
+                    name: '本科毕业于北京航空航天大学软件学院，',
+                }]
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+  .introBox {
+    width: 40vw;
+    margin-left: 3vw;
+    margin-top: 2vh;
+  }
+  @media (max-width: 1200px) {
+    .introBox{
+      width: 60vw;
+    }
+  }
 </style>
