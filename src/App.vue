@@ -79,19 +79,13 @@
     animation-fill-mode: both;
     animation-name: fadeInTop;
     background-color: #444444;
-    padding-left: 8vw;
+    padding-left: 4vw;
   }
 
-  .eChartContainer.rardar {
-    width: 20vw;
-    height: 40vh;
-    animation-duration: 1s;
-    animation-fill-mode: both;
-    animation-name: fadeInTop;
-  }
+
 
   .eChartContainer.relation {
     width: 75vw;
-    height: 70vh;
+    height: 85vh;
   }
 </style>

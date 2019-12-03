@@ -27,25 +27,26 @@
       <div style="margin-top: 3%;float: left;">
         <div>
           <div style="display: flex; padding: 0 1vw 0 1vw">
-          <Card
-            v-for="(_, ind) in 4"
-            :key="ind"
-            :title="news[ind].title"
-            :description="news[ind].desc"
-            :pic="news[ind].keyword"
-            style="margin: 0 1vw 0 1vw;"
-          />
+            <Card
+              v-for="(_, ind) in 4"
+              :key="ind"
+              :title="news[ind].title"
+              :description="news[ind].desc"
+              :pic="news[ind].keyword"
+              style="margin: 0 1vw 0 1vw;"
+            />
           </div>
         </div>
         <div style="padding-left: 1vw;float: left;width: 29vw">
           <div style="padding-left: 1vw"><h4 style="color: white;">相关学者</h4>
-            <el-divider></el-divider></div>
+            <el-divider></el-divider>
+          </div>
           <el-carousel :interval="4000" type="card" height="30vh">
             <el-carousel-item v-for="item in 6" :key="item">
               <h3 class="medium">{{ item }}</h3>
             </el-carousel-item>
           </el-carousel>
-          </div>
+        </div>
         <div class="infoBox">
           <p class="selfIntro">I'm recruiting some students to help me with a project.If you 're interested, please
             contact
@@ -58,14 +59,18 @@
     </div>
 
     <div class="scholarPaper clear">
-      <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse v-model="activeNames">
         <el-collapse-item title="个人简介" name="1">
-          <div style="float: left"><Intro></Intro></div>
-          <div style="float: left"><Radar></Radar></div>
+          <div style="float: left">
+            <Intro></Intro>
+          </div>
+          <div style="" class="introRadar">
+            <Radar></Radar>
+          </div>
         </el-collapse-item>
         <el-divider></el-divider>
         <el-collapse-item title="学者统计" name="2">
-          <div style="display: flex">
+          <div style="height: 90vh">
             <Relation></Relation>
           </div>
         </el-collapse-item>
@@ -103,8 +108,8 @@
                 inputVisible: false,
                 inputValue: '',
                 value: false,
-                activeNames: ['1','2','3','4'],
-                src:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+                activeNames: ['1', '2', '3', '4'],
+                src: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
                 news: [
                     {
                         title: "最新发布",
@@ -188,6 +193,7 @@
     margin-left: 2vw;
     padding-top: 5vh;
   }
+
   @media (max-width: 1200px) {
     .scholarPaper {
       width: 95vw;
@@ -222,19 +228,31 @@
     opacity: 1;
   }
 
-  .infoBox{
+  .infoBox {
     border-top: 4px solid greenyellow;
     float: left;
     background-color: gray;
-    width: 44vw;
+    width: 45vw;
     margin-left: 4vw;
     margin-right: 1vw;
     margin-top: 2vh;
-    min-height: 34vh;
+    min-height: 36vh;
   }
+
   @media (max-width: 1200px) {
-    .infoBox{
-      width: 63.5vw;
+    .infoBox {
+      width: 65vw;
+    }
+  }
+
+  .introRadar {
+    float: left;
+    margin-left: 3vw
+  }
+
+  @media (max-width: 1200px) {
+    .introRadar{
+      margin-left: 4vw;
     }
   }
 

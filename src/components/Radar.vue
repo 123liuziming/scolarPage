@@ -1,5 +1,5 @@
 <template>
- <div id="radar" class="eChartContainer rardar"> </div>
+ <div id="radar" class="eChartContainer radar"> </div>
 </template>
 
 <script>
@@ -41,5 +41,16 @@
  }
 </script>
 <style scoped>
-
+  .eChartContainer.radar {
+    width: 20vw;
+    height: 40vh;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeInTop;
+  }
+  @media (max-width: 1200px) {
+    .eChartContainer.radar{
+      padding-bottom: 4vh;
+    }
+  }
 </style>
