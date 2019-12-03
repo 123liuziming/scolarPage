@@ -10,7 +10,10 @@
       :visible.sync="isLoginFormVisible"
       top="10vh"
     >
-      <el-form :model="userInfo" @keyup.enter.native="login">
+      <el-form
+        :model="userInfo"
+        @keyup.enter.native="isRegistering ? register() : login()"
+      >
         <el-form-item label="您的 E-Mail">
           <el-input v-model="userInfo.email" />
         </el-form-item>
@@ -106,7 +109,11 @@
 </template>
 
 <script>
-import { login, checkLoginFormValidity } from "../graphql/user";
+import {
+  login,
+  checkLoginFormValidity,
+  checkRegisterFormValidity
+} from "../graphql/user";
 import { updateUser } from "../store";
 
 export default {
@@ -163,14 +170,23 @@ export default {
         this.isLoginFormVisible = false;
       } catch (err) {
         // A temporary implementation. DON'T IMITATE.
-        console.error(err);
-        this.$message.error("我们暂时无法处理您的请求。");
+        console.error(JSON.parse(JSON.stringify(err)));
+        if (!err.graphQLErrors)
+          this.$message.error("我们暂时无法处理您的请求。");
+        else
+          this.$message.error(
+            "您提供的用户名与密码并不匹配，因此我们无法认证您的身份。"
+          );
       } finally {
         this.loading = false;
       }
     },
     register() {
-      this.placeholder();
+      const validity = checkRegisterFormValidity(this.userInfo);
+      if (!validity.valid) {
+        this.$message.error(validity.message);
+        return;
+      }
     }
   }
 };

@@ -1,5 +1,3 @@
-// @ts-check
-
 import gql from "graphql-tag";
 import client from "../client";
 
@@ -40,4 +38,37 @@ function checkLoginFormValidity(form) {
   if (!form.password) return { valid: false, message: "密码不能为空。" };
 }
 
-export { login, checkLoginFormValidity };
+const registerMutation = gql`
+  mutation register($email: String!, $password: String!, $name: String!) {
+    register(params: { email: $email, name: $name, password: $password }) {
+      id
+      token
+      avatar
+      role
+      name
+    }
+  }
+`;
+
+function register(email, name, password) {
+  return client.mutate({
+    mutation: registerMutation,
+    variables: { email, name, password },
+    fetchPolicy: "network-only"
+  });
+}
+
+/**
+ * @param {{email?: string, password?: string, name?: string, confirmedPassword?: string}} form
+ * @returns {{valid: boolean, message?: string}}
+ */
+function checkRegisterFormValidity(form) {
+  const emailAndPasswordValidity = checkLoginFormValidity(form);
+  if (!emailAndPasswordValidity.valid) return emailAndPasswordValidity;
+  if (!form.name) return { valid: false, message: "您必须提供姓名。" };
+  if (form.confirmedPassword != form.password)
+    return { valid: false, message: "您提供的两个密码不一致。" };
+  return { valid: true };
+}
+
+export { login, checkLoginFormValidity, register, checkRegisterFormValidity };
