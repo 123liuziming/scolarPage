@@ -2,7 +2,7 @@
 <div class="body bodyArticle" id="body" >
         <el-col :span="18">
             <div id="content">
-                <Radar></Radar>
+                <PDF></PDF>
             </div>
         </el-col>
         <el-col :span="6" >
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import Radar from "./Radar"
+import PDF from "./pdf"
 export default {
   name: 'article_body',
   components:{
-      Radar
+      PDF
   },
   data(){
       return{

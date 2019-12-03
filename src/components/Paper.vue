@@ -5,12 +5,12 @@
       <el-button size="mini">按引用量排序</el-button>
     </el-button-group>
     <div style="width: 65vw;margin-left: 1vw">
-      <ul class="articles" v-for="article in articles">
+      <ul class="articles" :v-for="article in articles">
         <li class="article-entry standard">
           <h4><a class="title">{{article.title}}</a></h4>
-          <div><a class="other" v-for="author in article.authors">{{author}}</a>
+          <div><a class="other" :v-for="author in article.authors">{{author}}</a>
             <a>lzm</a></div>
-          <el-button size="mini" class="conference align" v-for="tag in article.tags">
+          <el-button size="mini" class="conference align" :v-for="tag in article.tags">
             {{tag}}
           </el-button>
           <div>

@@ -43,7 +43,7 @@
   }
 
   .body {
-    min-height: 100vh;
+    min-height: 125vh;
     margin-top: 330px;
     background-color: black;
     box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
@@ -51,6 +51,7 @@
     animation-duration: 1s;
     animation-fill-mode: both;
     animation-name: fadeInLeft;
+    margin-bottom: 10px;
   }
 
   .body.bodyArticle{
