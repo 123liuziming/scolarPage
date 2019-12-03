@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-dialog
+      v-loading="loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      element-loading-text="我们正在联系服务器…"
       title="登录到 Scholarly 以继续"
       :visible.sync="isLoginFormVisible"
     >
@@ -85,11 +88,13 @@
 
 <script>
 import { login, checkLoginFormValidity } from "../graphql/user";
+import { updateUser } from "../store";
 
 export default {
   name: "Navigator",
   data() {
     return {
+      loading: false,
       isSearchDialogVisible: false,
       isLoginFormVisible: false,
       globalSearchUserInput: "",
@@ -129,11 +134,17 @@ export default {
       }
 
       try {
+        this.loading = true;
         const result = await login(this.userInfo.email, this.userInfo.password);
+        this.$store.dispatch(updateUser, result.data.login);
         this.$message.success("欢迎回来。");
+        this.isLoginFormVisible = false;
       } catch (err) {
         // A temporary implementation. DON'T IMITATE.
+        console.error(err);
         this.$message.error("我们暂时无法处理您的请求。");
+      } finally {
+        this.loading = false;
       }
     }
   }

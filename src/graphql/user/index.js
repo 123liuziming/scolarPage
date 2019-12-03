@@ -4,11 +4,13 @@ import gql from "graphql-tag";
 import client from "../client";
 
 const loginQuery = gql`
-  mutation login($email: String!, $password: String!) {
+  query login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
+      token
       id
       avatar
-      token
+      role
+      name
     }
   }
 `;
@@ -17,12 +19,14 @@ const loginQuery = gql`
  * @param {string} email
  * @param {string} password
  * @returns Information related with the user logged in. The `data` field should contain an object with
- * the user's id (`id`), avatar (`avatar`) and JWT token (`token`).
+ * the user's id (`id`), avatar (`avatar`), role (`role`, 1 if admin else 0). name (`name`) and JWT
+ * token (`token`),
  */
 function login(email, password) {
-  return client.mutate({
-    mutation: loginQuery,
-    variables: { email, password }
+  return client.query({
+    query: loginQuery,
+    variables: { email, password },
+    fetchPolicy: "network-only"
   });
 }
 
