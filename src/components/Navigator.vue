@@ -4,24 +4,43 @@
       v-loading="loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
       element-loading-text="我们正在联系服务器…"
-      title="登录到 Scholarly 以继续"
+      :title="
+        isRegistering ? '注册您的 Scholarly 帐号' : '登录到 Scholarly 以继续'
+      "
       :visible.sync="isLoginFormVisible"
+      top="10vh"
     >
       <el-form :model="userInfo" @keyup.enter.native="login">
         <el-form-item label="您的 E-Mail">
-          <el-input v-model="userInfo.email" autocomplete="off" />
+          <el-input v-model="userInfo.email" />
+        </el-form-item>
+        <el-form-item v-if="isRegistering" label="姓名">
+          <el-input v-model="userInfo.name" auto-complete="off" />
         </el-form-item>
         <el-form-item label="密码">
           <el-input
             v-model="userInfo.password"
             type="password"
-            autocomplete="off"
+            auto-complete="off"
+          />
+        </el-form-item>
+        <el-form-item v-if="isRegistering" label="确认密码">
+          <el-input
+            v-model="userInfo.confirmedPassword"
+            type="password"
+            auto-complete="off"
           />
         </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button @click="isLoginFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="login">登录</el-button>
+        <template v-if="isRegistering">
+          <el-button @click="isRegistering = false">已有账号？登录</el-button>
+          <el-button type="primary" @click="register">注册</el-button>
+        </template>
+        <template v-else>
+          <el-button @click="isRegistering = true">没有账号？注册</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
+        </template>
       </div>
     </el-dialog>
     <el-dialog
@@ -96,6 +115,7 @@ export default {
     return {
       loading: false,
       isSearchDialogVisible: false,
+      isRegistering: false,
       isLoginFormVisible: false,
       globalSearchUserInput: "",
       links: [
@@ -114,7 +134,9 @@ export default {
       ],
       userInfo: {
         email: "",
-        password: ""
+        password: "",
+        confirmedPassword: "",
+        name: ""
       }
     };
   },
@@ -137,7 +159,7 @@ export default {
         this.loading = true;
         const result = await login(this.userInfo.email, this.userInfo.password);
         this.$store.dispatch(updateUser, result.data.login);
-        this.$message.success("欢迎回来。");
+        this.$message.success(`欢迎回来，${this.$store.getters.usersName}。`);
         this.isLoginFormVisible = false;
       } catch (err) {
         // A temporary implementation. DON'T IMITATE.
@@ -146,6 +168,9 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    register() {
+      this.placeholder();
     }
   }
 };

@@ -25,6 +25,11 @@ const store = new Vuex.Store({
     updateUser(context, userInfo) {
       context.commit("updateUser", userInfo);
     }
+  },
+  getters: {
+    usersName: state => {
+      return state.user.name;
+    }
   }
 });
 
