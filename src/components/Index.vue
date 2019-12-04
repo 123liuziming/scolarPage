@@ -28,6 +28,7 @@
       </div>
     </div>
     <el-drawer
+      :loading="loading"
       title="Spotlight"
       :visible.sync="drawer"
       direction="btt"
@@ -35,8 +36,7 @@
       :with-header="false"
     >
       <p style="color: white; margin-left: 20px;">
-        为您找到 {{ spotlightLength }} 条结果<span
-          v-if="spotlightLength > 10"
+        为您找到 {{ spotlightLength }} 条结果<span v-if="spotlightLength > 10"
           >，仅显示前 10 条。</span
         ><span v-else>。</span>
       </p>
@@ -54,6 +54,7 @@
 <script>
 import Card from "./Card";
 import { spotlightSearch } from "../graphql/spotlight";
+import { Loading } from "element-ui";
 
 const TEMPORARY_LENGTH_UNDERBOUND = 3;
 
@@ -99,6 +100,11 @@ export default {
         this.$message.info("您提供的关键词过短。请至少提供 3 个字符。");
         return;
       }
+      const loadingInstance = Loading.service({
+        fullscreen: true,
+        background: "rgba(0, 0, 0, 0.8)",
+        text: "我们正在加载内容"
+      });
       try {
         const results = await spotlightSearch(this.spotlightInput);
         this.drawer = true;
@@ -108,6 +114,8 @@ export default {
         this.$message.error(
           "我们遇到了一些问题，因此 Spotlight 目前无法为您提供服务。"
         );
+      } finally {
+        loadingInstance.close();
       }
     }
   }
