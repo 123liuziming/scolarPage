@@ -2,13 +2,20 @@
   <div class="body bodyArticle" id="body">
     <el-col :span="18">
       <div id="content">
-        <PDF></PDF>
+        <div style="margin:2%">
+          <div style="color:white">文章信息</div>
+          <Article_Detail></Article_Detail>
+        </div>
+        <div style="margin:2%">
+          <div style="color:white;margin-bottom:1%">PDF预览</div>
+          <PDF></PDF>
+          </div>
       </div>
     </el-col>
     <el-col :span="6">
       <div id="yinyong">
         <h1 id="fonter">
-          <strong>710</strong>
+          <strong>{{time_cite}}</strong>
         </h1>
         <p id="fonter2">
           引用
@@ -16,27 +23,30 @@
       </div>
       <div id="fabu">
         <h1 id="fonter">
-          <strong>2016</strong>
+          <strong>{{year_publish}}</strong>
         </h1>
         <div id="fonter2">
           发布于
         </div>
       </div>
+      <div id="comment">评论区<el-divider ></el-divider></div>
     </el-col>
   </div>
 </template>
 
 <script>
 import PDF from "../pdf";
-
+import Article_Detail from "./ArticleDetail"
 export default {
   name: "article_body",
   components: {
-    PDF
+    PDF,Article_Detail
   },
   data() {
     return {
-      author: "AD Wade, K Wang"
+      author: "AD Wade, K Wang",
+      time_cite:0,
+      year_publish:2016
     };
   }
 };
@@ -65,7 +75,7 @@ export default {
 #yinyong {
   width: 80%;
   height: 12%;
-  margin-top: 8%;
+  margin-top: 21%;
   background: gray;
 }
 #fabu {
@@ -73,6 +83,7 @@ export default {
   height: 12%;
   margin-top: 8%;
   background: gray;
+  margin-bottom: 33%
 }
 #fonter {
   margin-bottom: 0px;
@@ -93,5 +104,12 @@ export default {
   h1 strong {
     font-size: 4vmax;
   }
+}
+#comment{
+  width: 80%;
+  margin-top: 20%;
+  font-size: 30px;
+  color:grey;
+  margin-top:5%
 }
 </style>
