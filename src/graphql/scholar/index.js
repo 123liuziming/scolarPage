@@ -2,23 +2,32 @@ import client from "../client";
 import gql from "graphql-tag";
 
 const paperQuery = gql`
-  query Papers($params: String!) {
-    Papers(params:$params) {
+  query searchPapersByScholarId($scholarId:ID){
+  searchPapersByScholarId(scholarId:$scholarId) {
       id
       title,
       authors{
         id,
         name
-      }
+      },
+      year,
+      volume,
+      abstract,
+      venue,
+      nCititation,
+      keywords,
+      createdAt,
+      lang,
+      doi
   }
 }`;
 
-function getPaper(params) {
+function getPaperById(scholarId) {
   return client.query({
       query: paperQuery,
-      variables: {params},
+      variables: {scholarId},
     }
   )
 }
 
-export {getPaper }
+export {getPaperById }
