@@ -8,8 +8,9 @@
         v-for="tag in dynamicTags"
         closable
         :disable-transitions="false"
-        @close="handleClose(tag)">
-        {{tag}}
+        @close="handleClose(tag)"
+      >
+        {{ tag }}
       </el-tag>
       <el-input
         class="input-new-tag"
@@ -21,7 +22,9 @@
         @blur="handleInputConfirm"
       >
       </el-input>
-      <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+      <el-button v-else class="button-new-tag" size="small" @click="showInput"
+        >+ New Tag</el-button
+      >
     </div>
     <div>
       <div style="margin-top: 3%;float: left;">
@@ -38,8 +41,9 @@
           </div>
         </div>
         <div style="padding-left: 1vw;float: left;width: 29vw">
-          <div style="padding-left: 1vw"><h4 style="color: white;">相关学者</h4>
-            <el-divider></el-divider>
+          <div style="padding-left: 1vw">
+            <h4 style="color: white;">相关学者</h4>
+            <el-divider />
           </div>
           <el-carousel :interval="4000" type="card" height="30vh">
             <el-carousel-item v-for="item in 6" :key="item">
@@ -48,212 +52,215 @@
           </el-carousel>
         </div>
         <div class="infoBox">
-          <p class="selfIntro">I'm recruiting some students to help me with a project.If you 're interested, please
-            contact
-            me via the e-mail provided above
+          <p class="selfIntro">
+            I'm recruiting some students to help me with a project. If you're
+            interested, please contact me via the e-mail provided above.
           </p>
-          <p class="selfIntroTime">2019年5月31日,9:30 a.m.</p>
+          <p class="selfIntroTime">2019 年 5 月 31 日, 9:30 a.m.</p>
         </div>
       </div>
-
     </div>
 
     <div class="scholarPaper clear">
       <el-collapse v-model="activeNames">
         <el-collapse-item title="个人简介" name="1">
           <div style="float: left">
-            <Intro></Intro>
+            <Intro />
           </div>
-          <div style="" class="introRadar">
-            <Radar></Radar>
+          <div class="introRadar">
+            <Radar />
           </div>
         </el-collapse-item>
-        <el-divider></el-divider>
         <el-collapse-item title="学者统计" name="2">
           <div style="height: 75vh">
-            <Relation></Relation>
+            <Relation />
           </div>
         </el-collapse-item>
-        <el-divider></el-divider>
         <el-collapse-item title="论文列表" name="3">
-          <Paper></Paper>
+          <Paper />
         </el-collapse-item>
-        <el-divider></el-divider>
       </el-collapse>
     </div>
-
-
   </div>
 </template>
 
 <script>
-    import Card from "./Card";
-    import Paper from "./Paper";
-    import Radar from './Radar'
-    import Relation from "./Relation";
-    import Intro from "./Intro";
+import Card from "./Card";
+import Paper from "./Paper";
+import Radar from "./Radar";
+import Relation from "./Relation";
+import Intro from "./Intro";
 
-    export default {
-        name: "Body",
-        components: {
-            Intro,
-            Relation,
-            Paper,
-            Card,
-            Radar
+export default {
+  name: "Body",
+  components: {
+    Intro,
+    Relation,
+    Paper,
+    Card,
+    Radar
+  },
+  data() {
+    return {
+      dynamicTags: ["标签一", "标签二", "标签三"],
+      inputVisible: false,
+      inputValue: "",
+      value: false,
+      activeNames: ["1", "2", "3", "4"],
+      src:
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      news: [
+        {
+          title: "最新发布",
+          desc: "The rise of the machines: Artificial intelligence",
+          keyword: "computer"
         },
-        data() {
-            return {
-                dynamicTags: ['标签一', '标签二', '标签三'],
-                inputVisible: false,
-                inputValue: '',
-                value: false,
-                activeNames: ['1', '2', '3', '4'],
-                src: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-                news: [
-                    {
-                        title: "最新发布",
-                        desc: "The rise of the machines: Artificial intelligence",
-                        keyword: "computer"
-                    },
-                    {
-                        title: "编辑推荐",
-                        desc: "Exploring scholarly data with rexplorer",
-                        keyword: "book"
-                    },
-                    {
-                        title: "近期热门",
-                        desc: "Evaluating search engine models for scholarly purposes",
-                        keyword: "student"
-                    },
-                    {
-                        title: "最新发布",
-                        desc: "The visibility of Wikipedia in scholarly publications",
-                        keyword: "book"
-                    }
-                ]
-            }
+        {
+          title: "编辑推荐",
+          desc: "Exploring scholarly data with rexplorer",
+          keyword: "book"
         },
-        methods: {
-            handleClose(tag) {
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-            },
-
-            showInput() {
-                this.inputVisible = true;
-                this.$nextTick(_ => {
-                    this.$refs.saveTagInput.$refs.input.focus();
-                });
-            },
-
-            handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-                    this.dynamicTags.push(inputValue);
-                }
-                this.inputVisible = false;
-                this.inputValue = '';
-            }
+        {
+          title: "近期热门",
+          desc: "Evaluating search engine models for scholarly purposes",
+          keyword: "student"
+        },
+        {
+          title: "最新发布",
+          desc: "The visibility of Wikipedia in scholarly publications",
+          keyword: "book"
         }
+      ]
+    };
+  },
+  methods: {
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = "";
     }
+  }
+};
 </script>
 
 <style scoped>
+#reasearchFields {
+  padding-left: 2vw;
+  padding-top: 3vh;
+}
 
-  #reasearchFields {
-    padding-left: 2vw;
-    padding-top: 3vh;
-  }
+.selfIntro {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: x-large;
+  color: white;
+  padding-top: 5vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
 
-  .selfIntro {
-    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-    font-size: x-large;
-    color: white;
-    padding-top: 5vh;
-    padding-left: 2vw;
-    padding-right: 2vw;
-  }
+.selfIntroTime {
+  color: #9d9d9d;
+  padding-top: 2vh;
+  padding-left: 2vw;
+}
 
-  .selfIntroTime {
-    color: #9d9d9d;
-    padding-top: 2vh;
-    padding-left: 2vw;
-  }
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
 
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
+.scholarPaper {
+  width: 75vw;
+  margin-left: 2vw;
+  padding-top: 5vh;
+}
 
+@media (max-width: 1200px) {
   .scholarPaper {
-    width: 75vw;
-    margin-left: 2vw;
-    padding-top: 5vh;
+    width: 95vw;
   }
+}
 
-  @media (max-width: 1200px) {
-    .scholarPaper {
-      width: 95vw;
-    }
-  }
+.clear {
+  clear: both;
+}
 
-  .clear {
-    clear: both;
-  }
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
 
-  .el-tag + .el-tag {
-    margin-left: 10px;
-  }
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
-  .button-new-tag {
-    margin-left: 10px;
-    height: 32px;
-    line-height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
 
-  .input-new-tag {
-    width: 90px;
-    margin-left: 10px;
-    vertical-align: bottom;
-  }
+.transparent {
+  background-color: black;
+  color: white;
+  opacity: 1;
+}
 
-  .transparent {
-    background-color: black;
-    color: white;
-    opacity: 1;
-  }
+.infoBox {
+  border-top: 4px solid greenyellow;
+  float: left;
+  background-color: gray;
+  width: 44vw;
+  margin-left: 4vw;
+  margin-right: 1vw;
+  margin-top: 2vh;
+  min-height: 36vh;
+}
 
+@media (max-width: 1200px) {
   .infoBox {
-    border-top: 4px solid greenyellow;
-    float: left;
-    background-color: gray;
-    width: 44vw;
-    margin-left: 4vw;
-    margin-right: 1vw;
-    margin-top: 2vh;
-    min-height: 36vh;
+    width: 65vw;
   }
+}
 
-  @media (max-width: 1200px) {
-    .infoBox {
-      width: 65vw;
-    }
-  }
+.introRadar {
+  float: left;
+  margin-left: 3vw;
+}
 
+@media (max-width: 1200px) {
   .introRadar {
-    float: left;
-    margin-left: 3vw
+    margin-left: 4vw;
   }
+}
+</style>
 
-  @media (max-width: 1200px) {
-    .introRadar{
-      margin-left: 4vw;
-    }
-  }
-
+<style>
+.el-collapse-item__header,
+.el-collapse-item__wrap,
+.el-table th,
+.el-table tr {
+  background: none !important;
+}
 </style>

@@ -8,7 +8,11 @@
           id="index--container-search-box-icon"
           :icon="['fas', 'search']"
         />
-        <input type="text" @keyup.enter="placeholder" />
+        <input
+          type="text"
+          @keyup.enter="fetchResults"
+          v-model="spotlightInput"
+        />
       </div>
     </div>
     <div id="index--container-content">
@@ -23,11 +27,36 @@
         />
       </div>
     </div>
+    <el-drawer
+      :loading="loading"
+      title="Spotlight"
+      :visible.sync="drawer"
+      direction="btt"
+      size="95%"
+      :with-header="false"
+    >
+      <p style="color: white; margin-left: 20px;">
+        为您找到 {{ spotlightLength }} 条结果<span v-if="spotlightLength > 10"
+          >，仅显示前 10 条。</span
+        ><span v-else>。</span>
+      </p>
+      <el-table
+        v-if="spotlightResults.length"
+        :show-header="false"
+        :data="spotlightResults"
+      >
+        <el-table-column prop="title" />
+      </el-table>
+    </el-drawer>
   </div>
 </template>
 
 <script>
 import Card from "./Card";
+import { spotlightSearch } from "../graphql/spotlight";
+import { Loading } from "element-ui";
+
+const TEMPORARY_LENGTH_UNDERBOUND = 3;
 
 export default {
   name: "Index",
@@ -36,6 +65,11 @@ export default {
   },
   data() {
     return {
+      timer: null,
+      drawer: false,
+      spotlightInput: "",
+      spotlightResults: [],
+      spotlightLength: 0,
       news: [
         {
           title: "最新发布",
@@ -61,8 +95,28 @@ export default {
     };
   },
   methods: {
-    placeholder() {
-      this.$message.warning("我们正在开发此功能。");
+    async fetchResults() {
+      if (this.spotlightInput.length < TEMPORARY_LENGTH_UNDERBOUND) {
+        this.$message.info("您提供的关键词过短。请至少提供 3 个字符。");
+        return;
+      }
+      const loadingInstance = Loading.service({
+        fullscreen: true,
+        background: "rgba(0, 0, 0, 0.8)",
+        text: "我们正在加载内容"
+      });
+      try {
+        const results = await spotlightSearch(this.spotlightInput);
+        this.drawer = true;
+        this.spotlightResults = results.result;
+        this.spotlightLength = results.length;
+      } catch (err) {
+        this.$message.error(
+          "我们遇到了一些问题，因此 Spotlight 目前无法为您提供服务。"
+        );
+      } finally {
+        loadingInstance.close();
+      }
     }
   }
 };
