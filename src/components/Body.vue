@@ -1,5 +1,5 @@
 <template>
-  <div class="body bodyScholar">
+  <div class="body bodyScholar" style="width: 100%;">
     <div id="reasearchFields" style="display: flex;width: 100%">
       <h4 style="display: inline"><b style="color: white">研究方向：</b></h4>
       <el-tag
@@ -27,17 +27,16 @@
       </el-button
       >
     </div>
-    <div>
-      <div style="margin-top: 3%;float: left;">
-        <div>
-          <div style="display: flex; padding: 0 1vw 0 1vw">
+      <div style="margin-top: 3%;float: left; width: 100%">
+        <div style="width: 100%;">
+          <div style="display: flex; padding: 0 1vw 0 1vw; width: 100%;">
             <Card
               v-for="(_, ind) in 4"
               :key="ind"
               :title="news[ind].title"
               :description="news[ind].desc"
               :pic="news[ind].keyword"
-              style="margin: 0 1vw 0 1vw;"
+              style="margin: 0 1vw 0 1vw; width: 100%"
             />
           </div>
         </div>
@@ -60,7 +59,6 @@
           <p class="selfIntroTime">2019 年 5 月 31 日, 9:30 a.m.</p>
         </div>
       </div>
-    </div>
 
     <div class="scholarPaper clear">
       <el-collapse v-model="activeNames">
