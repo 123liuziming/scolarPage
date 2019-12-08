@@ -26,6 +26,14 @@
           style="margin: 0 10px 0 10px;"
         />
       </div>
+      <div style="width: 100%; padding-top: 20px; text-align: right;">
+        <el-button type="primary"
+          ><font-awesome-icon
+            :icon="['fas', 'sync-alt']"
+            style="margin-right: 8px;"
+          />换一组</el-button
+        >
+      </div>
     </div>
     <el-drawer
       :loading="loading"
@@ -182,6 +190,7 @@ export default {
   background: #000000;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.3),
     0px 16px 24px 2px rgba(0, 0, 0, 0.18), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
 }
 
 @media (max-width: 1200px) {

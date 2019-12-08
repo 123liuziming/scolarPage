@@ -13,7 +13,6 @@
     <el-image v-else style="width: 100%;" :src="pic" :fit="fit" />
     <p
       style="color: white; margin-top: 3%; font-family: 'Consolas', monospace; font-weight: bold;"
-      class="hideWhenOverflow"
     >
       {{ description }}
     </p>
@@ -31,13 +30,3 @@ export default {
 };
 </script>
 
-<style>
-  .hideWhenOverflow{
-    display: -webkit-box;
-    width: 16vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
-  }
-</style>
