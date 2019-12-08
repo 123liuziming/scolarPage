@@ -59,7 +59,7 @@
         <el-input
           placeholder="输入关键词…"
           v-model="globalSearchUserInput"
-          @keyup.enter.native="placeholder"
+          @keyup.enter.native="search"
           id="search-everything--input"
           type="text"
         />
@@ -153,6 +153,13 @@ export default {
         message: "我们正在开发此功能。",
         type: "warning",
         showClose: true
+      });
+    },
+    search() {
+      this.isSearchDialogVisible = false;
+      this.$router.push({
+        name: "Search",
+        query: { w: this.globalSearchUserInput }
       });
     },
     async login() {
