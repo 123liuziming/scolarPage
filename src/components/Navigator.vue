@@ -72,7 +72,7 @@
         mode="horizontal"
         background-color="#000000"
         text-color="#ffffff"
-        active-text-color="#ACEE18"
+        active-text-color="#52e38a"
         :router="true"
       >
         <el-menu-item
