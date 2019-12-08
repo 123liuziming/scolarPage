@@ -1,6 +1,7 @@
 <template>
-  <div class="body bodyArticle" id="body">
-    <el-col :span="18">
+  <div class="body bodyArticle">
+    <el-row>
+      <el-col :span="18">
       <div id="content">
         <div style="margin:2%">
           <div style="color:white">文章信息</div>
@@ -31,6 +32,7 @@
       </div>
       <div id="comment">评论区<el-divider ></el-divider></div>
     </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -71,6 +73,7 @@ export default {
   margin-right: 0;
   margin-left: 5%;
   font-size: 25px;
+  margin-bottom: 1% ;
 }
 #yinyong {
   width: 80%;
