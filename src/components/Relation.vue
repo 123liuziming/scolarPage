@@ -18,9 +18,7 @@ export default {
         trigger: "item",
         formatter: function(params) {
           if (params.data.target) {
-            return (
-                params.data.articles[0] + params.data.articles[1]
-            );
+            return params.data.articles[0] + params.data.articles[1];
           } else {
             return (
               "<img src = " + '"https://source.unsplash.com/400x200/"' + ">"
@@ -32,7 +30,7 @@ export default {
         normal: {
           show: true,
           textStyle: {
-            fontSize: 12
+            fontSize: 18
           }
         }
       },
@@ -40,7 +38,7 @@ export default {
         {
           type: "graph",
           layout: "force",
-          symbolSize: 45,
+          symbolSize: 34,
           zoomOnMouseWheel: false,
           categories: [
             {
@@ -64,7 +62,7 @@ export default {
             normal: {
               show: true,
               textStyle: {
-                fontSize: 12
+                fontSize: 10
               }
             }
           },
@@ -78,7 +76,7 @@ export default {
               info: {
                 university: "BUAA",
                 age: 15
-              },
+              }
             },
             {
               name: "冯可梁",
@@ -105,41 +103,6 @@ export default {
               name: "赵英杰",
               category: 1,
               draggable: true
-            },
-            {
-              name: "王承军",
-              category: 1,
-              draggable: true
-            },
-            {
-              name: "陈卫东",
-              category: 1,
-              draggable: true
-            },
-            {
-              name: "邹劲松",
-              category: 1,
-              draggable: true
-            },
-            {
-              name: "赵成",
-              category: 1,
-              draggable: true
-            },
-            {
-              name: "陈现忠",
-              category: 1,
-              draggable: true
-            },
-            {
-              name: "陶泳",
-              category: 1,
-              draggable: true
-            },
-            {
-              name: "王德福",
-              category: 1,
-              draggable: true
             }
           ],
           links: [
@@ -147,13 +110,10 @@ export default {
               source: 0,
               target: 1,
               value: "",
-              lineStyle:{
-                  width:5
+              lineStyle: {
+                width: 5
               },
-              articles:[
-                  "AI",
-                  "BI"
-              ]
+              articles: ["AI", "BI"]
             },
             {
               source: 0,
@@ -171,58 +131,8 @@ export default {
               value: ""
             },
             {
-              source: 1,
-              target: 2,
-              value: ""
-            },
-            {
               source: 0,
               target: 5,
-              value: ""
-            },
-            {
-              source: 4,
-              target: 5,
-              value: ""
-            },
-            {
-              source: 2,
-              target: 8,
-              value: ""
-            },
-            {
-              source: 0,
-              target: 12,
-              value: ""
-            },
-            {
-              source: 6,
-              target: 11,
-              value: ""
-            },
-            {
-              source: 6,
-              target: 3,
-              value: ""
-            },
-            {
-              source: 7,
-              target: 5,
-              value: ""
-            },
-            {
-              source: 9,
-              target: 10,
-              value: ""
-            },
-            {
-              source: 3,
-              target: 10,
-              value: ""
-            },
-            {
-              source: 2,
-              target: 11,
               value: ""
             }
           ],
@@ -236,8 +146,11 @@ export default {
         }
       ]
     };
-    const chartObj = echarts.init(document.getElementById("relation"));
+    var chartObj = echarts.init(document.getElementById("relation"));
     chartObj.setOption(option);
+    window.onresize = function() {
+      chartObj.resize();
+    };
   }
 };
 </script>

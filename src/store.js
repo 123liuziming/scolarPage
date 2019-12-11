@@ -29,6 +29,9 @@ const store = new Vuex.Store({
   getters: {
     usersName: state => {
       return state.user.name;
+    },
+    userId: state => {
+      return state.user.id;
     }
   }
 });

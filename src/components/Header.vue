@@ -2,18 +2,18 @@
   <div class="headAnimate">
     <div style="float: left">
       <div style="display: flex">
-        <div style="width: 47vw">
-          <h1 style="color: white" class="h1"><b>Feifei Li</b></h1>
+        <div style="width: 47vw;margin-top:5vh">
+          <h1 style="color: white" class="h1"><b>{{scholarInfo.name}}</b></h1>
           <h4 style="color: white" class="h4">
-            StandFord University (2016 - now)
+            <a>{{scholarInfo.orgs[0]}}</a>
           </h4>
-          <h5 class="h5"><a>ffl@standford.edu</a></h5>
           <p class="button" style="margin-top: 3vh">
             <el-button
               class="co"
               type="success"
               round
               size="mini"
+              :disabled="isSelf"
               @click="$emit('sendprivatemsg')"
               ><font color="black"><strong>发送私信</strong></font>
             </el-button>
@@ -23,9 +23,20 @@
               round
               size="mini"
               @click="followScholar"
-              :disabled="isFollowDisabled"
+              :disabled="followDisalbeFlag"
               ><font color="black"
                 ><strong>{{ followBtnVal }}</strong></font
+              >
+            </el-button>
+            <el-button
+              class="co"
+              :type="isFollowed"
+              round
+              size="mini"
+              @click="followScholar"
+              :disabled="followDisalbeFlag"
+              ><font color="black"
+                ><strong>认领</strong></font
               >
             </el-button>
           </p>
@@ -39,9 +50,15 @@
 </template>
 
 <script>
+import {isFollowing} from "../graphql/scholar"
 export default {
-  name: "Main",
+  name: "Header",
   components: {},
+  props:["scholarInfo", "isSelf"],
+  async mounted(){
+    const isFollowing = isFollowing();
+    this.isFollowed = isFollowing.data["isFollowing"] ? "success":"info";
+  },
   data() {
     return {
       msg: "good",
@@ -50,9 +67,14 @@ export default {
       // 是否已关注
       isFollowed: "success",
       isFollowDisabled: false,
-      followBtnVal: "关注 +"
+      followBtnVal: "关注 +",
       // 私信内容
     };
+  },
+  computed:{
+    followDisalbeFlag(){
+      return this.isSelf && this.isFollowDisabled;
+    }
   },
   methods: {
     followScholar: function() {
@@ -86,7 +108,7 @@ a:focus {
 
 .h1 {
   font-family: "Consolas", "Microsoft YaHei", monospace;
-  font-size: 100px;
+  font-size: 60px;
 }
 
 .h4 {

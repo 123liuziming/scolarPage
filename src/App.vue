@@ -44,7 +44,7 @@ export default {
 
 .body {
   min-height: 125vh;
-  margin-top: 330px;
+  margin-top: 300px;
   background-color: black;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
     0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
@@ -84,7 +84,7 @@ export default {
 }
 
 .eChartContainer.relation {
-  width: 75vw;
-  height: 85vh;
+  width: 35vw;
+  height: 300px;
 }
 </style>
