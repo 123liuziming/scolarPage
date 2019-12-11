@@ -1,7 +1,7 @@
 import ApolloClient from "apollo-boost";
 
 const defaultClient = new ApolloClient({
-  uri: "https://vian.im/gql",
+  uri: "http://192.144.174.132/gql",
   fetchOptions: { credentials: 'include' },
   request: operation => {
     const token = localStorage.getItem("token");

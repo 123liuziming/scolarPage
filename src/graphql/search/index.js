@@ -1,5 +1,3 @@
-// @ts-check
-
 import gql from "graphql-tag";
 import client from "../client";
 
@@ -36,8 +34,8 @@ async function spotlight(keyword, page, perPage) {
   const paperQueryResults = await client.query({ query: paperQuery, variables: { keyword, page, perPage } });
   const scholarQueryResults = await client.query({ query: scholarQuery, variables: { name: keyword, page, perPage } });
   return {
-    papers: paperQueryResults,
-    scholars: scholarQueryResults
+    papers: paperQueryResults.data.Papers,
+    scholars: scholarQueryResults.data.Scholars
   };
 }
 

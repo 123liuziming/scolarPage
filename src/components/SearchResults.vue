@@ -13,7 +13,16 @@
           <input type="text" @keyup.enter="search" v-model="keyword" />
         </div>
       </div>
-      <div id="search-results--results"></div>
+      <div id="search-results--results">
+        <div v-for="(item, ind) in papers" :key="`paper${ind}`">
+          <p>{{ item.title }}</p>
+        </div>
+        <el-pagination
+          :hide-on-single-page="true"
+          :page-count="3"
+          layout="prev, pager, next"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -120,6 +129,8 @@ export default {
   min-height: 90vh;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.3),
     0px 16px 24px 2px rgba(0, 0, 0, 0.18), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+  padding: 0 40px 0 40px;
+  color: white;
 }
 
 @media screen and (max-width: 1200px) {
