@@ -21,21 +21,37 @@
 </template>
 
 <script>
+import { spotlight } from "@/graphql/search";
+import { Loading } from "element-ui";
+
 export default {
   name: "SearchResults",
   data() {
     return {
-      keyword: ""
+      keyword: "",
+      papers: [],
+      scholars: []
     };
   },
   mounted() {
     this.keyword = this.$route.query.w || "";
+    this.search();
   },
   methods: {
-    search() {
+    async search() {
       this.$router.push({
         query: { w: this.keyword }
       });
+      const loadingInstance = Loading.service({ fullscreen: true });
+      try {
+        const { papers, scholars } = await spotlight(this.keyword);
+        this.papers = papers;
+        this.scholars = scholars;
+      } catch (err) {
+        this.$message.error("在完成您请求的过程中发生了问题。请稍后重试。");
+      } finally {
+        loadingInstance.close();
+      }
     }
   },
   watch: {

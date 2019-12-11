@@ -13,7 +13,8 @@ export default {
   name: "App",
   components: {
     Navigator
-  }
+  },
+  mounted() {}
 };
 </script>
 

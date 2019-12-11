@@ -100,7 +100,11 @@
           <font-awesome-icon
             class="global-nav-buttons--icon"
             :icon="['fa', 'user']"
-            @click="isLoginFormVisible = true"
+            @click="
+              $store.getters.hasLoggedIn
+                ? logout()
+                : (isLoginFormVisible = true)
+            "
           />
         </a>
       </div>
@@ -111,10 +115,12 @@
 <script>
 import {
   login,
+  register,
   checkLoginFormValidity,
   checkRegisterFormValidity
 } from "../graphql/user";
 import { updateUser } from "../store";
+import { Loading } from "element-ui";
 
 export default {
   name: "Navigator",
@@ -188,12 +194,39 @@ export default {
         this.loading = false;
       }
     },
-    register() {
+    async register() {
       const validity = checkRegisterFormValidity(this.userInfo);
       if (!validity.valid) {
         this.$message.error(validity.message);
         return;
       }
+      try {
+        this.loading = true;
+        const response = await register(
+          this.userInfo.email,
+          this.userInfo.name,
+          this.userInfo.password
+        );
+        this.$store.dispatch(updateUser, response.data.register);
+        this.$message.success("欢迎加入 Scholarly！");
+        this.isLoginFormVisible = false;
+      } catch (err) {
+        console.error(err);
+        if (err.graphQLErrors[0].extensions.code === "BAD_USER_INPUT")
+          this.$message.error("您提供的 E-Mail 不正确。");
+        else this.$message.error("我们暂时无法处理您的请求。");
+      } finally {
+        this.loading = false;
+      }
+    },
+    logout() {
+      this.$confirm("确定要注销吗？", "Scholarly", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => this.$store.dispatch(updateUser))
+        .catch(() => {});
     }
   }
 };
