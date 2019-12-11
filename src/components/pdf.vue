@@ -23,6 +23,7 @@ export default {
 .pdfs {
   text-align: center;
   width: 100%;
-  height: 45vw;
+  min-height: 55vw;
+  margin-bottom: 2%;
 }
 </style>
