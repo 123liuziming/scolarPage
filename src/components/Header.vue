@@ -107,17 +107,17 @@ a:focus {
 }
 
 .h1 {
-  font-family: "Consolas", "Microsoft YaHei", monospace;
-  font-size: 60px;
+  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-size: 100px;
 }
 
 .h4 {
-  font-family: "Consolas", "Microsoft YaHei", monospace;
+  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
   font-size: 30px;
 }
 
 .h5 {
-  font-family: "Consolas", "Microsoft YaHei", monospace;
+  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
   font-size: 20px;
 }
 

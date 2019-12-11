@@ -185,15 +185,13 @@ export default {
   padding-top: 3vh;
 }
 
-.selfIntro {
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  font-size: x-large;
-  color: white;
-  padding-top: 5vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-}
+  .selfIntro {
+    font-size: x-large;
+    color: white;
+    padding-top: 5vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
 
 .selfIntroTime {
   color: #9d9d9d;

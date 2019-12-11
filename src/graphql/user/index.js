@@ -23,7 +23,7 @@ const loginQuery = gql`
 function login(email, password) {
   return client.query({
     query: loginQuery,
-    variables: {email, password},
+    variables: { email, password },
     fetchPolicy: "network-only"
   });
 }
@@ -33,9 +33,9 @@ function login(email, password) {
  * @returns {{valid: boolean, message?: string}}
  */
 function checkLoginFormValidity(form) {
-  if (!!form.email && !!form.password) return {valid: true};
-  if (!form.email) return {valid: false, message: "E-Mail 不能为空。"};
-  if (!form.password) return {valid: false, message: "密码不能为空。"};
+  if (!!form.email && !!form.password) return { valid: true };
+  if (!form.email) return { valid: false, message: "E-Mail 不能为空。" };
+  if (!form.password) return { valid: false, message: "密码不能为空。" };
 }
 
 const registerMutation = gql`
@@ -53,8 +53,8 @@ const registerMutation = gql`
 function register(email, name, password) {
   return client.mutate({
     mutation: registerMutation,
-    variables: {email, name, password},
-    fetchPolicy: "network-only"
+    variables: { email, name, password },
+    fetchPolicy: "no-cache"
   });
 }
 
@@ -65,15 +65,10 @@ function register(email, name, password) {
 function checkRegisterFormValidity(form) {
   const emailAndPasswordValidity = checkLoginFormValidity(form);
   if (!emailAndPasswordValidity.valid) return emailAndPasswordValidity;
-  if (!form.name) return {valid: false, message: "您必须提供姓名。"};
+  if (!form.name) return { valid: false, message: "您必须提供姓名。" };
   if (form.confirmedPassword != form.password)
-    return {valid: false, message: "您提供的两个密码不一致。"};
-  return {valid: true};
+    return { valid: false, message: "您提供的两个密码不一致。" };
+  return { valid: true };
 }
 
-
-
-
-
-export {login, checkLoginFormValidity, register, checkRegisterFormValidity};
-
+export { login, checkLoginFormValidity, register, checkRegisterFormValidity };

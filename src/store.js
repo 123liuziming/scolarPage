@@ -19,20 +19,32 @@ const store = new Vuex.Store({
       for (const key of Object.keys(state.user))
         if (payload[key] !== null && payload[key] !== undefined)
           state.user[key] = payload[key];
+      if (payload.token)
+        localStorage.setItem("token", payload.token);
+    },
+    clearUser(state) {
+      state.user = {
+        name: "",
+        avatar: "",
+        role: 0,
+        id: "",
+      };
+      localStorage.setItem("token", "");
     }
   },
   actions: {
     updateUser(context, userInfo) {
-      context.commit("updateUser", userInfo);
+      if (!userInfo) context.commit("clearUser");
+      else context.commit("updateUser", userInfo);
     }
   },
   getters: {
-    usersName: state => {
-      return state.user.name;
-    },
     userId: state => {
       return state.user.id;
     }
+    usersName: state => state.user.name,
+    hasLoggedIn: state => !!state.user.id,
+    isAdmin: state => !!state.user.role,
   }
 });
 

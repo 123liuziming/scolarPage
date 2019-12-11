@@ -35,27 +35,6 @@
         >
       </div>
     </div>
-    <el-drawer
-      :loading="loading"
-      title="Spotlight"
-      :visible.sync="drawer"
-      direction="btt"
-      size="95%"
-      :with-header="false"
-    >
-      <p style="color: white; margin-left: 20px;">
-        为您找到 {{ spotlightLength }} 条结果<span v-if="spotlightLength > 10"
-          >，仅显示前 10 条。</span
-        ><span v-else>。</span>
-      </p>
-      <el-table
-        v-if="spotlightResults.length"
-        :show-header="false"
-        :data="spotlightResults"
-      >
-        <el-table-column prop="title" />
-      </el-table>
-    </el-drawer>
   </div>
 </template>
 
@@ -76,8 +55,6 @@ export default {
       timer: null,
       drawer: false,
       spotlightInput: "",
-      spotlightResults: [],
-      spotlightLength: 0,
       news: [
         {
           title: "最新发布",
@@ -103,28 +80,15 @@ export default {
     };
   },
   methods: {
-    async fetchResults() {
+    fetchResults() {
       if (this.spotlightInput.length < TEMPORARY_LENGTH_UNDERBOUND) {
         this.$message.info("您提供的关键词过短。请至少提供 3 个字符。");
         return;
       }
-      const loadingInstance = Loading.service({
-        fullscreen: true,
-        background: "rgba(0, 0, 0, 0.8)",
-        text: "我们正在加载内容"
+      this.$router.push({
+        name: "Search",
+        query: { w: this.spotlightInput }
       });
-      try {
-        const results = await spotlightSearch(this.spotlightInput);
-        this.drawer = true;
-        this.spotlightResults = results.result;
-        this.spotlightLength = results.length;
-      } catch (err) {
-        this.$message.error(
-          "我们遇到了一些问题，因此 Spotlight 目前无法为您提供服务。"
-        );
-      } finally {
-        loadingInstance.close();
-      }
     }
   }
 };
@@ -135,7 +99,7 @@ export default {
   padding: 20vh 14vw 0 14vw;
   height: 80vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
-    url("https://source.unsplash.com/1600x900/?book");
+    url("../../static/image/bg.jpg");
   background-size: cover;
   min-height: 400px;
 }
@@ -170,7 +134,7 @@ export default {
 }
 
 #index--container-search-box > input {
-  font-family: "Menlo", "Consolas", "Microsoft YaHei", monospace;
+  font-family: "Menlo", "IBM Plex Mono", "Microsoft YaHei", monospace;
   background: none;
   border: none;
   color: white;

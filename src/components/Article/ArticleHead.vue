@@ -67,7 +67,6 @@ export default {
 
 <style scoped>
 h3.article-header {
-  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 36px;
   color: #fff;
@@ -78,7 +77,6 @@ h3.article-header {
 }
 
 a.search-tag-line {
-  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 20px;
   line-height: 28px;
   color: #fff;

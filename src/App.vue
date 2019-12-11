@@ -13,7 +13,8 @@ export default {
   name: "App",
   components: {
     Navigator
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -62,7 +63,7 @@ export default {
   padding: 15vh 10vw 0 10vw;
   height: 80vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
-    url("https://source.unsplash.com/1600x900/?book");
+    url("../static/image/bg.jpg");
   background-size: cover;
   min-height: 400px;
 }

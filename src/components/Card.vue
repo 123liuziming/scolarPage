@@ -12,7 +12,7 @@
     />
     <el-image v-else style="width: 100%;" :src="pic" :fit="fit" />
     <p
-      style="color: white; margin-top: 3%; font-family: 'Consolas', monospace; font-weight: bold;"
+      style="color: white; margin-top: 3%; font-family: 'IBM Plex Mono', monospace; font-weight: bold;"
       class="hideWhenOverflow"
     >
       {{ description }}
