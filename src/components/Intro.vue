@@ -1,16 +1,12 @@
 <template>
   <div class="introBox">
-    <el-table
-      :show-header="false"
-      :data="tableData"
-      style="width: 100%; background: none;"
-    >
+    <el-table :show-header="false" :data="tableData" style="width: 100%; background: none;">
       <el-table-column width="100%">
         <template slot-scope="scope">
           <strong>{{ scope.row.date }}</strong>
         </template>
       </el-table-column>
-      <el-table-column prop="name"> </el-table-column>
+      <el-table-column prop="name"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -18,24 +14,36 @@
 <script>
 export default {
   name: "Intro",
+  props:["scholarInfo"],
+  mounted() {
+    this.tableData[0].name = this.scholarInfo.name;
+    //this.tableData[1].name = this.scholarInfo.researchField;
+    this.tableData[2].name = this.scholarInfo.hIndex;
+    this.tableData[3].name = this.scholarInfo.nPubs;
+    this.tableData[4].name = this.scholarInfo.nCitations;
+  },
   data() {
     return {
       tableData: [
         {
           date: "姓名",
-          name: "老刘"
+          name: ""
         },
         {
           date: "擅长领域",
-          name: "机器学习"
+          name: ""
         },
         {
-          date: "个人简介",
-          name: "擅长唱，跳，rap，篮球"
+          date: "H-index",
+          name: 0
         },
         {
-          date: "教育经历",
-          name: "本科毕业于北京航空航天大学软件学院，"
+          date: "发表论文数",
+          name: 0
+        },
+        {
+          date: "引用总数",
+          name: 0
         }
       ]
     };
@@ -47,6 +55,7 @@ export default {
 .introBox {
   width: 40vw;
   margin-top: 2vh;
+  margin-left: 2vw
 }
 @media (max-width: 1200px) {
   .introBox {

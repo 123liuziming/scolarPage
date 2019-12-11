@@ -4,15 +4,16 @@
       <el-button :type="yearSel" size="mini" @click="sortByYear">按年份排序</el-button>
       <el-button :type="refSel" size="mini" @click="sortByRef">按引用量排序</el-button>
     </el-button-group>
-    <div style="width: 65vw;margin-left: 1vw">
-      <ul class="articles" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)">
-        <li class="article-entry standard">
+    <div style="width: 74vw;margin-left: 1vw;text-align:justify">
+      <el-card class="articles" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)">
+        <div class="article-entry standard">
           <h4>
             <a class="title">{{ article.title }}({{article.year}})</a>
           </h4>
-          <div>
-            <a class="other" v-for="author in article.authors">{{ author.name }}</a>
+          <div style="text-align:justify;white-space:normal;
+         word-break:break-all;margin-left:1vw">
             <a>lzm</a>
+            <a class="other align alignNobottom" v-for="author in article.authors">{{ author.name }}</a>
           </div>
           <el-button
             size="mini"
@@ -20,7 +21,7 @@
             v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index">
             {{ tag }}
           </el-button>
-          <span>{{article.doi}}</span>
+          <div class="doi align">{{article.doi}}</div>
           <div>
             <span
             ><el-button type="warning" size="mini" class="align">{{
@@ -43,10 +44,10 @@
               </el-popover>
             </span>
             <el-divider direction="vertical"></el-divider>
-            <span style="color: yellow">已被引{{ article.nCititation === null ? 0 : article.nCititation }}次</span>
+            <span style="color: yellow">已被引{{ article.nCitation === null ? 0 : article.nCitation }}次</span>
           </div>
-        </li>
-      </ul>
+        </div>
+      </el-card>
     </div>
     <el-pagination
       style="padding-left: 4.5vw;padding-top: 3vh"
@@ -113,7 +114,6 @@
     -webkit-transition: 0.5s;
     -o-transition: 0.5s;
     transition: 0.5s;
-    margin-left: 2%;
   }
 
   a:hover,
@@ -130,6 +130,7 @@
 
   a.title {
     color: white;
+    margin-left: 1vw
   }
 
   a.nav {
@@ -154,11 +155,18 @@
   }
 
   .align {
-    margin-left: 1.5vh;
-    margin-bottom: 2vh;
+    margin-left: 1vh;
+    margin-bottom: 1.5vh;
+  }
+  .align.alignNobottom{
+    margin-bottom: 0.5vh
   }
 
   .conference {
     margin-top: 1%;
+  }
+
+  .doi{
+    color: yellowgreen;
   }
 </style>
