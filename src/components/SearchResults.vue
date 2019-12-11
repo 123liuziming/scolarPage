@@ -2,9 +2,7 @@
   <div id="search-results--background" key="srb">
     <div id="search-results--container">
       <div id="search-results--header">
-        <h1
-          style="font-family: 'IBM Plex Sans'; font-weight: bold; color: white;"
-        >
+        <h1 style="font-weight: bold; color: white;">
           Dive into your sea of creativeness<br />from here.
         </h1>
         <div id="search-results--search-box">

@@ -220,12 +220,19 @@ export default {
       }
     },
     logout() {
-      this.$confirm("确定要注销吗？", "Scholarly", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => this.$store.dispatch(updateUser))
+      this.$confirm(
+        `确定要从 ${this.$store.getters.usersName} 注销吗？`,
+        "Scholarly",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "info"
+        }
+      )
+        .then(() => {
+          this.$store.dispatch(updateUser);
+          this.$message.success("您退出了当前登录。");
+        })
         .catch(() => {});
     }
   }
