@@ -5,7 +5,7 @@
       <el-button :type="refSel" size="mini" @click="sortByRef">按引用量排序</el-button>
     </el-button-group>
     <div class = "bigDiv">
-      <el-card class="articlesCard" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh">
+      <el-card class="articlesCard" v-for="(article, ind) in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh" :key="`ar${ind}`">
         <div class="article-entry standard">
           <h4>
             <a class="title">{{ article.title }}({{article.year}})</a>
@@ -13,7 +13,7 @@
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:1vw">
             <a>{{userName}}</a>
-            <a class="other align alignNobottom" v-for="author in article.authors" @click="goToAuthor(author.id)">{{ author.name }}</a>
+            <a class="other align alignNobottom" v-for="(author,ind) in article.authors" @click="goToAuthor(author.id)" :key="`ar${ind}`">{{ author.name }}</a>
           </div>
           <el-button
             size="mini"
