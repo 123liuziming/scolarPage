@@ -1,18 +1,18 @@
 <template>
   <div>
-    <el-button-group style="padding-left: 28vw;margin-bottom: 3vh">
+    <el-button-group id="btnGroup">
       <el-button :type="yearSel" size="mini" @click="sortByYear">按年份排序</el-button>
       <el-button :type="refSel" size="mini" @click="sortByRef">按引用量排序</el-button>
     </el-button-group>
-    <div style="width: 74vw;margin-left: 1vw;text-align:justify">
-      <el-card class="articles" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh">
+    <div class = "bigDiv">
+      <el-card class="articlesCard" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh">
         <div class="article-entry standard">
           <h4>
             <a class="title">{{ article.title }}({{article.year}})</a>
           </h4>
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:1vw">
-            <a>lzm</a>
+            <a>{{userName}}</a>
             <a class="other align alignNobottom" v-for="author in article.authors" @click="goToAuthor(author.id)">{{ author.name }}</a>
           </div>
           <el-button
@@ -71,7 +71,11 @@
                 pageNow: 1,
                 yearSel:"primary",
                 refSel:"",
+                userName:""
             };
+        },
+        mounted(){
+          this.userName = this.$store.getters.usersName;
         },
         methods: {
             handleCurrentChange: function (currentPage) {
@@ -170,5 +174,32 @@
 
   .doi{
     color: yellowgreen;
+  }
+
+  .articlesCard{
+      width: 100%;
+  }
+  @media (max-width: 1200px) {
+    .articlesCard{
+      width: 75vw;
+    }
+  }
+  .bigDiv{
+    width: 73vw;margin-left: 1vw;text-align:justify
+  }
+  #btnGroup{
+    padding-left: 28vw;margin-bottom: 3vh
+  }
+
+  @media (max-width: 1200px) {
+    .bigDiv{
+      width: 80vw;
+    }
+    .el-card{
+      width:92vw;
+    }
+    #btnGroup{
+      padding-left: 40vw;
+    }
   }
 </style>

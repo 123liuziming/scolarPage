@@ -30,19 +30,23 @@
           发布于
         </div>
       </div>
-      <div id="comment">评论区<el-divider ></el-divider></div>
+      <div id="infoScolar">作者信息<el-divider ></el-divider></div>
     </el-col>
+    </el-row>
+    <el-row>
+      <comment style="margin-left:10%;margin-right:10%;margin-top:5%"></comment>
     </el-row>
   </div>
 </template>
 
 <script>
 import PDF from "../pdf";
+import comment from "./comment"
 import Article_Detail from "./ArticleDetail"
 export default {
   name: "article_body",
   components: {
-    PDF,Article_Detail
+    PDF,Article_Detail,comment
   },
   data() {
     return {
@@ -86,7 +90,7 @@ export default {
   height: 12%;
   margin-top: 8%;
   background: gray;
-  margin-bottom: 33%
+  margin-bottom: 12%
 }
 #fonter {
   margin-bottom: 0px;
@@ -108,11 +112,10 @@ export default {
     font-size: 4vmax;
   }
 }
-#comment{
+#infoScolar{
   width: 80%;
-  margin-top: 20%;
+  margin-top: 1%;
   font-size: 30px;
   color:grey;
-  margin-top:5%
 }
 </style>

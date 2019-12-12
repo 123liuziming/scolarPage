@@ -4,7 +4,7 @@ import Main from "../components/Scholar/Main";
 import Article from "@/components/Article";
 import Index from "@/components/Index";
 import Relation from "../components/Scholar/Relation";
-import Search from "../components/Search";
+import Plupload from "../components/Scholar/Plupload";
 
 Vue.use(Router);
 
@@ -31,9 +31,9 @@ export default new Router({
       component: Article,
     },
     {
-      path: "/search",
-      name: "Search",
-      component: Search,
+      path: "/upload",
+      name : "upload",
+      component: Plupload,
     }
   ],
   mode: "history"
