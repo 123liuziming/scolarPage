@@ -23,7 +23,7 @@
           :title="news[ind].title"
           :description="news[ind].desc"
           :pic="news[ind].keyword"
-          style="margin: 0 10px 0 10px;"
+          style="margin: 0 10px 0 10px; width: 25%;"
         />
       </div>
       <div style="width: 100%; padding-top: 20px; text-align: right;">
@@ -40,10 +40,7 @@
 
 <script>
 import Card from "./Scholar/Card";
-import { spotlightSearch } from "../graphql/spotlight";
 import { Loading } from "element-ui";
-
-const TEMPORARY_LENGTH_UNDERBOUND = 3;
 
 export default {
   name: "Index",
@@ -81,14 +78,12 @@ export default {
   },
   methods: {
     fetchResults() {
-      if (this.spotlightInput.length < TEMPORARY_LENGTH_UNDERBOUND) {
-        this.$message.info("您提供的关键词过短。请至少提供 3 个字符。");
-        return;
-      }
-      this.$router.push({
-        name: "Search",
-        query: { w: this.spotlightInput }
-      });
+      this.$router
+        .push({
+          name: "Search",
+          query: { w: this.spotlightInput }
+        })
+        .catch(() => {});
     }
   }
 };
@@ -101,7 +96,6 @@ export default {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
     url("../../static/image/bg.jpg");
   background-size: cover;
-  min-height: 400px;
 }
 
 #index--container > * {
@@ -134,7 +128,7 @@ export default {
 }
 
 #index--container-search-box > input {
-  font-family: "Menlo", "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   background: none;
   border: none;
   color: white;
@@ -148,13 +142,13 @@ export default {
 
 #index--container-content {
   padding-top: 30px;
-  padding-bottom: 15px;
-  min-height: 100vh;
+  padding-bottom: 40px;
   margin-top: 30px;
   background: #000000;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.3),
     0px 16px 24px 2px rgba(0, 0, 0, 0.18), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
   overflow: hidden;
+  width: 100%;
 }
 
 @media (max-width: 1200px) {
