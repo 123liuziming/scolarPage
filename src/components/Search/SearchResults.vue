@@ -40,7 +40,7 @@ export default {
       currentPage: 1,
       keyword: "",
       results: [],
-      nResultOfResults: 0,
+      nResultOfResults: 0
     };
   },
   mounted() {
@@ -51,7 +51,10 @@ export default {
     async loadAnotherPage() {
       if (!this.keyword) return;
       this.$router.push({ query: { w: this.keyword, p: this.currentPage } });
-      const loadingInstance = Loading.service({ fullscreen: true, background: "#000000" });
+      const loadingInstance = Loading.service({
+        fullscreen: true,
+        background: "#000000"
+      });
       try {
         const { papersResponse } = await spotlight(
           this.keyword,
@@ -85,7 +88,7 @@ export default {
   background-size: cover;
   min-height: 400px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
-    url("../../static/image/bg.jpg");
+    url("../../../static/image/bg.jpg");
 }
 
 #search-results--container {
