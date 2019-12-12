@@ -16,7 +16,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import defaultClient from "./graphql/client";
 import VueApollo from "vue-apollo";
 
-
 library.add(faSearch, faUser, faSyncAlt);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
@@ -29,6 +28,8 @@ Vue.use(VueApollo);
 
 Vue.config.productionTip = false;
 
+window.router=router;
+
 new Vue({
   el: "#app",
   router,
@@ -36,9 +37,4 @@ new Vue({
   apolloProvider,
   components: { App },
   template: "<App/>"
-});
-
-new Vue({
-  el: 'body',
-  components: { VueGitComment } 
 });

@@ -2,20 +2,25 @@
   <div class="headAnimate">
     <div style="float: left">
       <div style="display: flex">
-        <div style="width: 47vw">
-          <h1 style="color: white" class="h1"><b>Feifei Li</b></h1>
+        <div style="width: 50vw;margin-top:5vh">
+          <h1 style="color: white" class="h1">
+            <b>{{scholarInfo.name}}</b>
+          </h1>
           <h4 style="color: white" class="h4">
-            StandFord University (2016 - now)
+            <a class="lineLimit">{{scholarInfo.orgs[0]}}</a>
           </h4>
-          <h5 class="h5"><a>ffl@standford.edu</a></h5>
           <p class="button" style="margin-top: 3vh">
             <el-button
               class="co"
               type="success"
               round
               size="mini"
+              :disabled="isSelf"
               @click="$emit('sendprivatemsg')"
-              ><font color="black"><strong>发送私信</strong></font>
+            >
+              <font color="black">
+                <strong>发送私信</strong>
+              </font>
             </el-button>
             <el-button
               class="co"
@@ -23,14 +28,27 @@
               round
               size="mini"
               @click="followScholar"
-              :disabled="isFollowDisabled"
-              ><font color="black"
-                ><strong>{{ followBtnVal }}</strong></font
-              >
+              :disabled="followDisalbeFlag"
+            >
+              <font color="black">
+                <strong>{{ followBtnVal }}</strong>
+              </font>
+            </el-button>
+            <el-button
+              class="co"
+              type="success"
+              round
+              size="mini"
+              :disabled="isSelf"
+              @click="$emit('auth')"
+            >
+              <font color="black">
+                <strong>认领</strong>
+              </font>
             </el-button>
           </p>
         </div>
-        <div style="padding-top: 3vh; padding-left: 14vw">
+        <div style="padding-top: 5vh; padding-left: 10vw">
           <el-avatar class="avatarSize" :src="bigAvatar" />
         </div>
       </div>
@@ -39,9 +57,16 @@
 </template>
 
 <script>
+import { followScholarOp } from "../../graphql/scholar"
 export default {
-  name: "Main",
+  name: "Header",
   components: {},
+  props: ["scholarInfo", "isSelf", "isFollowing"],
+  mounted() {
+    this.isFollowed = this.isFollowing === false ? "success" : "info";
+    this.followBtnVal = this.isFollowing === true ? "已关注" : "关注 +";
+    this.isFollowDisabled = this.isFollowing;
+  },
   data() {
     return {
       msg: "good",
@@ -54,12 +79,19 @@ export default {
       // 私信内容
     };
   },
+  computed: {
+    followDisalbeFlag() {
+      return this.isSelf || this.isFollowDisabled;
+    }
+  },
   methods: {
-    followScholar: function() {
+    async followScholar(){
+      //var that = this;
       this.$message({
         type: "success",
         message: "成功关注该学者"
       });
+      const re = await followScholarOp(this.$route.query.ID);
       this.isFollowed = "info";
       this.followBtnVal = "已关注";
       this.isFollowDisabled = true;
@@ -85,17 +117,19 @@ a:focus {
 }
 
 .h1 {
-  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
-  font-size: 100px;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1.1;
 }
 
 .h4 {
-  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   font-size: 30px;
 }
 
 .h5 {
-  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   font-size: 20px;
 }
 
@@ -127,5 +161,12 @@ a:focus {
     width: 150px;
     height: 150px;
   }
+}
+
+.lineLimit {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 </style>

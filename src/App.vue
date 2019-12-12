@@ -8,13 +8,18 @@
 <script>
 import Navigator from "./components/Navigator";
 import gql from "graphql-tag";
+import { fetchUserInfo } from "@/store";
 
 export default {
   name: "App",
   components: {
     Navigator
   },
-  mounted() {}
+  mounted() {
+    if (!this.$store.getters.hasLoggedIn && !!localStorage.getItem("token")) {
+      this.$store.dispatch(fetchUserInfo);
+    }
+  }
 };
 </script>
 
@@ -45,7 +50,7 @@ export default {
 
 .body {
   min-height: 125vh;
-  margin-top: 330px;
+  margin-top: 300px;
   background-color: black;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
     0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
@@ -62,7 +67,7 @@ export default {
 .scholarPg {
   padding: 15vh 10vw 0 10vw;
   height: 80vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8)),
     url("../static/image/bg.jpg");
   background-size: cover;
   min-height: 400px;
@@ -85,7 +90,14 @@ export default {
 }
 
 .eChartContainer.relation {
-  width: 75vw;
-  height: 85vh;
+  width: 35vw;
+  height: 300px;
+}
+
+@media (max-width: 1200px) {
+  .eChartContainer.relation {
+    margin-left: 45vw;
+    width: 30vw;
+  }
 }
 </style>

@@ -1,10 +1,11 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Main from "@/components/Main";
+import Main from "../components/Scholar/Main";
 import Article from "@/components/Article";
 import Index from "@/components/Index";
-import Relation from "../components/Relation";
-import SearchResults from "@/components/SearchResults";
+import Relation from "../components/Scholar/Relation";
+import SearchResults from "../components/Search/SearchResults";
+import Plupload from "../components/Scholar/Plupload";
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
       path: "/search",
       name: "Search",
       component: SearchResults,
+    },
+    {
+      path: "/upload",
+      name : "upload",
+      component: Plupload,
     }
   ],
   mode: "history"

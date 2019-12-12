@@ -4,16 +4,19 @@ import client from "../client";
 const paperQuery = gql`
   query Papers($keyword: String!, $page: Int, $perPage: Int) {
     Papers(params: $keyword, page: $page, perPage: $perPage) {
-      id
-      title
-      authors {
+      papers {
         id
-        name
+        title
+        authors {
+          id
+          name
+        }
+        keywords
+        nCitation
+        year
+        abstract
       }
-      keywords
-      nCitation
-      year
-      abstract
+      numOfPages
     }
   }
 `
@@ -21,22 +24,27 @@ const paperQuery = gql`
 const scholarQuery = gql`
   query Scholars($name: String!, $page: Int, $perPage: Int) {
     Scholars(params: $name, page: $page, perPage: $perPage) {
-      id
-      name
-      avatar
-      userId
-      researchField
+      scholars {
+        id
+        name
+        avatar
+        userId
+        nPubs
+        nCitations
+      }
+      numOfPages
     }
   }
 `
 
-async function spotlight(keyword, page, perPage) {
-  const paperQueryResults = await client.query({ query: paperQuery, variables: { keyword, page, perPage } });
-  const scholarQueryResults = await client.query({ query: scholarQuery, variables: { name: keyword, page, perPage } });
-  return {
-    papers: paperQueryResults.data.Papers,
-    scholars: scholarQueryResults.data.Scholars
-  };
+async function searchPapers(keyword, page, perPage) {
+  const response = await client.query({ query: paperQuery, variables: { keyword, page, perPage } });
+  return response.data.Papers;
 }
 
-export { spotlight };
+async function searchScholars(name, page, perPage) {
+  const response = await client.query({ query: scholarQuery, variables: { name, page, perPage } });
+  return response.data.Scholars;
+}
+
+export { searchPapers, searchScholars };

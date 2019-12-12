@@ -2,16 +2,17 @@
 
 import Vue from "vue";
 import Vuex from "vuex";
+import { getCurrentUser } from "./graphql/user";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     user: {
-      name: "",
+      name: "lzm",
       avatar: "",
       role: 0,
-      id: ""
+      id: "53f31b9edabfae9a84437e2d"
     }
   },
   mutations: {
@@ -36,9 +37,17 @@ const store = new Vuex.Store({
     updateUser(context, userInfo) {
       if (!userInfo) context.commit("clearUser");
       else context.commit("updateUser", userInfo);
+    },
+
+    async fetchUserInfo(context) {
+      const response = await getCurrentUser();
+      context.commit("updateUser", response.data.currentUser);
     }
   },
   getters: {
+    userId: state => {
+      return state.user.id;
+    },
     usersName: state => state.user.name,
     hasLoggedIn: state => !!state.user.id,
     isAdmin: state => !!state.user.role,
@@ -50,5 +59,6 @@ export default store;
 /* available actions */
 
 const updateUser = "updateUser";
+const fetchUserInfo = "fetchUserInfo";
 
-export { updateUser };
+export { updateUser, fetchUserInfo };
