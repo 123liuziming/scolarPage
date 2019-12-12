@@ -41,7 +41,7 @@ const store = new Vuex.Store({
   getters: {
     userId: state => {
       return state.user.id;
-    }
+    },
     usersName: state => state.user.name,
     hasLoggedIn: state => !!state.user.id,
     isAdmin: state => !!state.user.role,
