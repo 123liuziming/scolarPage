@@ -2,6 +2,7 @@
 
 import Vue from "vue";
 import Vuex from "vuex";
+import { getCurrentUser } from "./graphql/user";
 
 Vue.use(Vuex);
 
@@ -36,6 +37,11 @@ const store = new Vuex.Store({
     updateUser(context, userInfo) {
       if (!userInfo) context.commit("clearUser");
       else context.commit("updateUser", userInfo);
+    },
+
+    async fetchUserInfo(context) {
+      const response = await getCurrentUser();
+      context.commit("updateUser", response.data.currentUser);
     }
   },
   getters: {
@@ -53,5 +59,6 @@ export default store;
 /* available actions */
 
 const updateUser = "updateUser";
+const fetchUserInfo = "fetchUserInfo";
 
-export { updateUser };
+export { updateUser, fetchUserInfo };

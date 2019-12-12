@@ -72,21 +72,18 @@ function checkRegisterFormValidity(form) {
 }
 
 const currentUserQuery = gql`
-  query currentUser{
-    currentUser{
-        name,
-        id,
-        avatar,
-        email
+  query currentUser {
+    currentUser {
+      name
+      id
+      avatar
+      email
     }
   }
 `;
 
 function getCurrentUser() {
-  return client.query({
-    query: currentUserQuery,
-    variables: {},
-  });
+  return client.query({ query: currentUserQuery });
 }
 
 

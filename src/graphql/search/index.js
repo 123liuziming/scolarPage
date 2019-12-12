@@ -4,16 +4,19 @@ import client from "../client";
 const paperQuery = gql`
   query Papers($keyword: String!, $page: Int, $perPage: Int) {
     Papers(params: $keyword, page: $page, perPage: $perPage) {
-      id
-      title
-      authors {
+      papers {
         id
-        name
+        title
+        authors {
+          id
+          name
+        }
+        keywords
+        nCitation
+        year
+        abstract
       }
-      keywords
-      nCitation
-      year
-      abstract
+      numOfPages
     }
   }
 `
@@ -21,11 +24,15 @@ const paperQuery = gql`
 const scholarQuery = gql`
   query Scholars($name: String!, $page: Int, $perPage: Int) {
     Scholars(params: $name, page: $page, perPage: $perPage) {
-      id
-      name
-      avatar
-      userId
-      researchField
+      scholars {
+        id
+        name
+        avatar
+        userId
+        nPubs
+        nCitations
+      }
+      numOfPages
     }
   }
 `
@@ -34,8 +41,8 @@ async function spotlight(keyword, page, perPage) {
   const paperQueryResults = await client.query({ query: paperQuery, variables: { keyword, page, perPage } });
   const scholarQueryResults = await client.query({ query: scholarQuery, variables: { name: keyword, page, perPage } });
   return {
-    papers: paperQueryResults.data.Papers,
-    scholars: scholarQueryResults.data.Scholars
+    papersResponse: paperQueryResults.data.Papers,
+    scholarsResponse: scholarQueryResults.data.Scholars
   };
 }
 

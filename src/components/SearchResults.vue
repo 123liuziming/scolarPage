@@ -14,13 +14,15 @@
         </div>
       </div>
       <div id="search-results--results">
-        <div v-for="(item, ind) in papers" :key="`paper${ind}`">
+        <div v-for="(item, ind) in results" :key="`paper${ind}`">
           <p>{{ item.title }}</p>
         </div>
         <el-pagination
           :hide-on-single-page="true"
-          :page-count="3"
+          :page-count="nResultOfResults"
           layout="prev, pager, next"
+          @current-change="loadAnotherPage"
+          :current-page.sync="currentPage"
         />
       </div>
     </div>
@@ -35,9 +37,10 @@ export default {
   name: "SearchResults",
   data() {
     return {
+      currentPage: 1,
       keyword: "",
-      papers: [],
-      scholars: []
+      results: [],
+      nResultOfResults: 0,
     };
   },
   mounted() {
@@ -45,20 +48,26 @@ export default {
     this.search();
   },
   methods: {
-    async search() {
-      this.$router.push({
-        query: { w: this.keyword }
-      });
-      const loadingInstance = Loading.service({ fullscreen: true });
+    async loadAnotherPage() {
+      if (!this.keyword) return;
+      this.$router.push({ query: { w: this.keyword, p: this.currentPage } });
+      const loadingInstance = Loading.service({ fullscreen: true, background: "#000000" });
       try {
-        const { papers, scholars } = await spotlight(this.keyword);
-        this.papers = papers;
-        this.scholars = scholars;
+        const { papersResponse } = await spotlight(
+          this.keyword,
+          this.currentPage
+        );
+        this.results = papersResponse.papers;
+        this.nResultOfResults = papersResponse.numOfPages;
       } catch (err) {
         this.$message.error("在完成您请求的过程中发生了问题。请稍后重试。");
       } finally {
         loadingInstance.close();
       }
+    },
+
+    search() {
+      this.loadAnotherPage();
     }
   },
   watch: {
@@ -83,6 +92,7 @@ export default {
   padding-top: 80px;
   width: 80%;
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 #search-results--header {
@@ -129,8 +139,9 @@ export default {
   min-height: 90vh;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.3),
     0px 16px 24px 2px rgba(0, 0, 0, 0.18), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
-  padding: 0 40px 0 40px;
+  padding: 0 40px 40px 40px;
   color: white;
+  border-radius: 0 0 20px 20px;
 }
 
 @media screen and (max-width: 1200px) {
