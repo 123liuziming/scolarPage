@@ -68,12 +68,11 @@
     <nav id="global-nav">
       <el-menu
         id="global-nav--menu"
-        default-active="0"
         mode="horizontal"
         background-color="#000000"
         text-color="#ffffff"
         active-text-color="#52e38a"
-        :router="true"
+        router
       >
         <el-menu-item
           class="global-nav--menu-item"

@@ -29,8 +29,13 @@ const scholarQuery = gql`
         name
         avatar
         userId
-        nPubs
         nCitations
+        tags {
+          t
+        }
+        hIndex
+        orgs
+        bulletin
       }
       numOfPages
     }
