@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { followScholarOp } from "../graphql/scholar"
+import { followScholarOp } from "../../graphql/scholar"
 export default {
   name: "Header",
   components: {},
