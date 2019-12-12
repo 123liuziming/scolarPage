@@ -53,8 +53,8 @@ export default {
 }
 
 .paper-item--title {
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: bold !important;
+  font-size: 18px !important;
 }
 
 .paper-item--hide-overflow {
