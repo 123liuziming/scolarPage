@@ -13,9 +13,14 @@
           <input type="text" @keyup.enter="search" v-model="keyword" />
         </div>
       </div>
-      <div id="search-results--results">
-        <div v-for="(item, ind) in results" :key="`paper${ind}`">
-          <p>{{ item.title }}</p>
+      <div id="search-results--results" v-if="$route.query.w && results.length">
+        <div
+          v-for="(item, ind) in results"
+          :key="`paper${ind}`"
+          style="margin-bottom: 20px;"
+        >
+          <PaperItem :item="item" />
+          <el-divider v-if="ind !== results.length - 1" />
         </div>
         <el-pagination
           :hide-on-single-page="true"
@@ -25,6 +30,13 @@
           :current-page.sync="currentPage"
         />
       </div>
+      <div
+        style="color:white; background: #000000; width: 100%; text-align: center; padding-bottom: 40px; border-radius: 0 0 20px 20px;"
+        v-else
+      >
+        <span v-if="!$route.query.w">输入关键词，键入回车以开始。</span
+        ><span v-else>暂无结果。</span>
+      </div>
     </div>
   </div>
 </template>
@@ -32,9 +44,11 @@
 <script>
 import { spotlight } from "@/graphql/search";
 import { Loading } from "element-ui";
+import PaperItem from "./PaperItem";
 
 export default {
-  name: "SearchResults",
+  name: "Results",
+  components: { PaperItem },
   data() {
     return {
       currentPage: 1,
@@ -87,7 +101,7 @@ export default {
   height: 80vh;
   background-size: cover;
   min-height: 400px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8)),
     url("../../../static/image/bg.jpg");
 }
 
@@ -119,7 +133,7 @@ export default {
 }
 
 #search-results--search-box input {
-  font-family: "IBM Plex Mono", "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Roboto Mono", "Microsoft YaHei", monospace;
   background: none;
   border: none;
   color: white;

@@ -154,13 +154,6 @@ export default {
     };
   },
   methods: {
-    placeholder() {
-      this.$message({
-        message: "我们正在开发此功能。",
-        type: "warning",
-        showClose: true
-      });
-    },
     search() {
       this.isSearchDialogVisible = false;
       this.$router.push({
@@ -179,7 +172,11 @@ export default {
         this.loading = true;
         const result = await login(this.userInfo.email, this.userInfo.password);
         this.$store.dispatch(updateUser, result.data.login);
-        this.$message.success(`欢迎回来，${this.$store.getters.usersName}。`);
+        this.$notify({
+          type: "success",
+          title: "欢迎回来",
+          message: `您现在以 ${this.$store.getters.usersName} 的身份登录。`
+        });
         this.isLoginFormVisible = false;
       } catch (err) {
         // A temporary implementation. DON'T IMITATE.
@@ -208,7 +205,11 @@ export default {
           this.userInfo.password
         );
         this.$store.dispatch(updateUser, response.data.register);
-        this.$message.success("欢迎加入 Scholarly！");
+        this.$notify({
+          title: "成功",
+          message: `欢迎加入 Scholarly！您现在将以 ${this.$store.getters.usersName} 的身份登录。`,
+          type: "success"
+        });
         this.isLoginFormVisible = false;
       } catch (err) {
         console.error(err);
