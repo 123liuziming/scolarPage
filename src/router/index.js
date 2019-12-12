@@ -5,6 +5,7 @@ import Article from "@/components/Article";
 import Index from "@/components/Index";
 import Relation from "../components/Relation";
 import Search from "@/components/Search";
+import PersonalPage from "../components/personal/PersonalPage"
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
       path: "/search",
       name: "Search",
       component: Search,
+    },
+    {
+      path: '/personalPage',
+      name: 'personalPage',
+      component: PersonalPage
     }
   ],
   mode: "history"

@@ -64,6 +64,10 @@ export default {
   margin-top: 100px;
 }
 
+.body.bodyPerson {
+  margin-top: 100px;
+}
+
 .scholarPg {
   padding: 15vh 10vw 0 10vw;
   height: 80vh;
