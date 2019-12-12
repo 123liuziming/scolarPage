@@ -71,7 +71,7 @@ export default {
 .scholarPg {
   padding: 15vh 10vw 0 10vw;
   height: 80vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8)),
     url("../static/image/bg.jpg");
   background-size: cover;
   min-height: 400px;

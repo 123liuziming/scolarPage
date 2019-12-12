@@ -26,7 +26,7 @@
 <script>
 import Header from "./Header";
 import Body from "./Body";
-import { findScholarById, sendMessage } from "../graphql/scholar";
+import { findScholarById, sendMessage } from "../../graphql/scholar";
 export default {
   name: "Main",
   components: {

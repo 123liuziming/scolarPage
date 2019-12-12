@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Main from "@/components/Main";
+import Main from "@/components/Scholar/Main";
 import Article from "@/components/Article";
 import Index from "@/components/Index";
-import Relation from "../components/Relation";
-import Search from "@/components/Search";
+import Relation from "../components/Scholar/Relation";
+import Search from "../components/Search";
 import PersonalPage from "../components/personal/PersonalPage"
 import chatPage from "../components/chat/Chat"
 

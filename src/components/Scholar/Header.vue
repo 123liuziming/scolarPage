@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { followScholarOp } from "../graphql/scholar"
+import { followScholarOp } from "../../graphql/scholar"
 export default {
   name: "Header",
   components: {},
@@ -116,19 +116,19 @@ a:focus {
 }
 
 .h1 {
-  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   font-size: 60px;
   font-weight: 900;
   line-height: 1.1;
 }
 
 .h4 {
-  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   font-size: 30px;
 }
 
 .h5 {
-  font-family: "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   font-size: 20px;
 }
 

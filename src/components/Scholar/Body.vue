@@ -90,7 +90,7 @@ import Radar from "./Radar";
 import Relation from "./Relation";
 import Intro from "./Intro";
 import ClienderGraph from "./ClinderGraph";
-import { getPaperById } from "../graphql/scholar";
+import { getPaperById } from "../../graphql/scholar";
 
 export default {
   name: "Body",
@@ -162,7 +162,7 @@ export default {
       });
     },
     goToSearchTag(str) {
-      this.$router.push({path:'/search',query:{w:str}}); 
+      this.$router.push({path:'/search',query:{w:str}});
     }
   },
   async mounted() {

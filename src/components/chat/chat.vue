@@ -20,10 +20,8 @@
       :showTypingIndicator="showTypingIndicator"
       :titleImageUrl="titleImageUrl"
       @onType="handleOnType"
-      @edit="editMessage"
-      @remove="removeMessage"
     >
-      <template v-slot:text-message-toolbox="scopedProps">
+      <!-- <template v-slot:text-message-toolbox="scopedProps">
         <button v-if="!scopedProps.me && scopedProps.message.type==='text'" @click.prevent="like(scopedProps.message.id)">
           👍
         </button>
@@ -35,6 +33,9 @@
           <template v-if="scopedProps.message.isEdited">✎</template>
           <template v-if="scopedProps.message.liked">👍</template>
         </p>
+      </template> -->
+      <template v-slot:header> 
+        🤔 Good chat between {{participants.map(m=>m.name).join(' & ')}} 
       </template>
     </beautiful-chat>
     <p class="text-center toggle">

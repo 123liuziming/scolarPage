@@ -39,11 +39,8 @@
 </template>
 
 <script>
-import Card from "./Card";
-import { spotlightSearch } from "../graphql/spotlight";
+import Card from "./Scholar/Card";
 import { Loading } from "element-ui";
-
-const TEMPORARY_LENGTH_UNDERBOUND = 3;
 
 export default {
   name: "Index",
@@ -81,14 +78,12 @@ export default {
   },
   methods: {
     fetchResults() {
-      if (this.spotlightInput.length < TEMPORARY_LENGTH_UNDERBOUND) {
-        this.$message.info("您提供的关键词过短。请至少提供 3 个字符。");
-        return;
-      }
-      this.$router.push({
-        name: "Search",
-        query: { w: this.spotlightInput }
-      });
+      this.$router
+        .push({
+          name: "Search",
+          query: { w: this.spotlightInput }
+        })
+        .catch(() => {});
     }
   }
 };
@@ -134,7 +129,7 @@ export default {
 }
 
 #index--container-search-box > input {
-  font-family: "Menlo", "IBM Plex Mono", "Microsoft YaHei", monospace;
+  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
   background: none;
   border: none;
   color: white;
