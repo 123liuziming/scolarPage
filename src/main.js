@@ -16,6 +16,11 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import defaultClient from "./graphql/client";
 import VueApollo from "vue-apollo";
 
+import Chat from 'vue-beautiful-chat'
+import vmodal from 'vue-js-modal'
+Vue.use(vmodal , { dialog: true })
+Vue.use(Chat, {})
+
 library.add(faSearch, faUser, faSyncAlt);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
