@@ -8,7 +8,11 @@
       "
     />
     <div style="margin-left: 20px;">
-      <el-link style="font-weight: bold; font-size: 18px;" :underline="false">
+      <el-link
+        style="font-weight: bold; font-size: 18px;"
+        :underline="false"
+        @click="$router.push({ name: 'Main', query: { ID: item.id } })"
+      >
         {{ item.name }}
       </el-link>
       <p>
