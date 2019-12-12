@@ -17,7 +17,6 @@ export default {
   props:["scholarInfo"],
   mounted() {
     this.tableData[0].name = this.scholarInfo.name;
-    //this.tableData[1].name = this.scholarInfo.researchField;
     this.tableData[2].name = this.scholarInfo.hIndex;
     this.tableData[3].name = this.scholarInfo.nPubs;
     this.tableData[4].name = this.scholarInfo.nCitations;
@@ -59,7 +58,7 @@ export default {
 }
 @media (max-width: 1200px) {
   .introBox {
-    width: 60vw;
+    width: 48vw;
   }
 }
 </style>

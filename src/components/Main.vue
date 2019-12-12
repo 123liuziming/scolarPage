@@ -1,16 +1,10 @@
 <template>
   <div class="scholarPg">
-    <Header v-on:sendprivatemsg="privateMsgFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Header>
+    <Header v-on:sendprivatemsg="privateMsgFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf" :isFollowing="isFollowing"></Header>
     <Body :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
     <!-- 对话框，发送私信用 -->
     <el-dialog title="发送私信" :visible.sync="privateMsgFlag" :modal-append-to-body="false">
       <el-form :model="privateMsgForm" :ref="privateMsgForm" label-position="left">
-        <el-form-item label="主题">
-          <el-select v-model="privateMsgForm.subject" placeholder="请选择私信主题">
-            <el-option label="专利转让" value="shanghai"></el-option>
-            <el-option label="合作论文" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="内容">
           <el-input
             type="textarea"
@@ -32,7 +26,7 @@
 <script>
 import Header from "./Header";
 import Body from "./Body";
-import { findScholarById } from "../graphql/scholar";
+import { findScholarById, sendMessage } from "../graphql/scholar";
 export default {
   name: "Main",
   components: {
@@ -40,12 +34,13 @@ export default {
     Body
   },
   async mounted() {
+    //const curUser = await getCurrentUser();
     let that = this;
     const id = that.$route.query.ID;
-    if(id === this.$store.getters.id)
-      this.isSelf = true;
+    if (id === this.$store.getters.id) this.isSelf = true;
     const scholar = await findScholarById(id);
     this.scholarInfo = scholar.data["findScholarById"].scholar;
+    this.isFollowing = scholar.data["findScholarById"].isFollowing;
   },
   computed: {
     username() {
@@ -57,6 +52,7 @@ export default {
   },
   data() {
     return {
+      isFollowing:false,
       isSelf: false,
       privateMsgFlag: false,
       privateMsgForm: {
@@ -68,6 +64,7 @@ export default {
   },
   methods: {
     sendPrivateMsg: function() {
+      sendMessage(this.$route.query.ID, this.privateMsgForm.privateMsgVal);
       this.privateMsgFlag = false;
       this.$message({
         type: "success",
@@ -75,7 +72,7 @@ export default {
       });
     },
     openPrivateMsgDialog: function() {}
-  }
+  },
 };
 </script>
 

@@ -88,4 +88,11 @@ export default {
   width: 35vw;
   height: 300px;
 }
+
+@media (max-width: 1200px) {
+  .eChartContainer.relation {
+    margin-left: 45vw;
+    width:30vw;
+  }
+}
 </style>

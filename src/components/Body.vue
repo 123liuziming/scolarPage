@@ -11,6 +11,7 @@
         :closable="isSelf"
         :disable-transitions="false"
         @close="handleClose(tag)"
+        v-on:click="goToSearchTag(tag.t)"
       >{{ tag.t }}</el-tag>
       <el-input
         class="input-new-tag"
@@ -159,6 +160,9 @@ export default {
         let y = b[key];
         return x > y ? -1 : x < y ? 1 : 0;
       });
+    },
+    goToSearchTag(str) {
+      this.$router.push({path:'/search',query:{w:str}}); 
     }
   },
   async mounted() {
@@ -185,13 +189,13 @@ export default {
   padding-top: 3vh;
 }
 
-  .selfIntro {
-    font-size: x-large;
-    color: white;
-    padding-top: 5vh;
-    padding-left: 2vw;
-    padding-right: 2vw;
-  }
+.selfIntro {
+  font-size: x-large;
+  color: white;
+  padding-top: 5vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
 
 .selfIntroTime {
   color: #9d9d9d;

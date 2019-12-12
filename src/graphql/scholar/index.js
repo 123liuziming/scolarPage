@@ -22,12 +22,6 @@ const paperQuery = gql`
   }
 }`;
 
-const isFollowingQuery = gql`
-  query isFollowing($scholarId:ID){
-    isFollowing(scholarId:$scholarId)
-  }
-`;
-
 const findScholarQuery = gql`
   query findScholarById($scholarId:ID){
     findScholarById(scholarId:$scholarId){
@@ -52,6 +46,36 @@ const findScholarQuery = gql`
   }
 `;
 
+const followScholarMutation = gql`
+  mutation followScholarMutation($scholarId:ID){
+    follow(scholarId:$scholarId){
+      id
+    }
+  }
+`;
+
+const sendMessageMutation = gql`
+  mutation sendMessageMutation($receiverId:ID, $content:String){
+    sendAMessage(params:{receiverId:$receiverId, content:$content}){
+      id
+    }
+  }
+`;
+
+function sendMessage(receiverId, content){
+  return client.mutate({
+    mutation:sendMessageMutation,
+    variables:{receiverId, content},
+  });
+}
+
+function followScholarOp(scholarId){
+  return client.mutate({
+    mutation:followScholarMutation,
+    variables:{ scholarId },
+  });
+}
+
 function findScholarById(scholarId){
   return client.query({
     query: findScholarQuery,
@@ -66,11 +90,4 @@ function getPaperById(scholarId) {
   });
 }
 
-function isFollowing(scholarId){
-  return client.query({
-    query:isFollowingQuery,
-    variables:{scholarId},
-  });
-}
-
-export { getPaperById, isFollowing, findScholarById }
+export { getPaperById, findScholarById, followScholarOp, sendMessage }

@@ -71,4 +71,23 @@ function checkRegisterFormValidity(form) {
   return { valid: true };
 }
 
-export { login, checkLoginFormValidity, register, checkRegisterFormValidity };
+const currentUserQuery = gql`
+  query currentUser{
+    currentUser{
+        name,
+        id,
+        avatar,
+        email
+    }
+  }
+`;
+
+function getCurrentUser() {
+  return client.query({
+    query: currentUserQuery,
+    variables: {},
+  });
+}
+
+
+export { login, checkLoginFormValidity, register, checkRegisterFormValidity, getCurrentUser };

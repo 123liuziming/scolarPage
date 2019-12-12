@@ -156,4 +156,10 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 1200px) {
+  #relation {
+    margin-left: 10vw;
+    width:30vw;
+  }
+}
 </style>

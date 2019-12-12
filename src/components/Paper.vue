@@ -5,7 +5,7 @@
       <el-button :type="refSel" size="mini" @click="sortByRef">按引用量排序</el-button>
     </el-button-group>
     <div style="width: 74vw;margin-left: 1vw;text-align:justify">
-      <el-card class="articles" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)">
+      <el-card class="articles" v-for="article in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh">
         <div class="article-entry standard">
           <h4>
             <a class="title">{{ article.title }}({{article.year}})</a>
@@ -13,12 +13,12 @@
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:1vw">
             <a>lzm</a>
-            <a class="other align alignNobottom" v-for="author in article.authors">{{ author.name }}</a>
+            <a class="other align alignNobottom" v-for="author in article.authors" @click="goToAuthor(author.id)">{{ author.name }}</a>
           </div>
           <el-button
             size="mini"
             class="conference align"
-            v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index">
+            v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index" @click="goToSearch(tag)">
             {{ tag }}
           </el-button>
           <div class="doi align">{{article.doi}}</div>
@@ -73,10 +73,6 @@
                 refSel:"",
             };
         },
-
-        mounted() {
-
-        },
         methods: {
             handleCurrentChange: function (currentPage) {
                 this.pageNow = currentPage;
@@ -98,6 +94,12 @@
                 this.sortKey(this.articles, "nCititation");
                 this.refSel = "primary";
                 this.yearSel = "";
+            },
+            goToSearch(str){
+              this.$router.push({path:"/search",query:{w:str}}); 
+            },
+            goToAuthor(id){
+              window.location.href = "/main?ID=" + id;
             }
         },
         watch: {
@@ -140,7 +142,7 @@
 
   ul.articles {
     list-style: none;
-    margin: 0;
+    margin-top:2vh;
   }
 
   ul.articles .article-entry {
