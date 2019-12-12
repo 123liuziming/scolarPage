@@ -78,10 +78,12 @@ export default {
   },
   methods: {
     fetchResults() {
-      this.$router.push({
-        name: "Search",
-        query: { w: this.spotlightInput }
-      });
+      this.$router
+        .push({
+          name: "Search",
+          query: { w: this.spotlightInput }
+        })
+        .catch(() => {});
     }
   }
 };

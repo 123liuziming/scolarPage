@@ -156,10 +156,12 @@ export default {
   methods: {
     search() {
       this.isSearchDialogVisible = false;
-      this.$router.push({
-        name: "Search",
-        query: { w: this.globalSearchUserInput }
-      });
+      this.$router
+        .push({
+          name: "Search",
+          query: { w: this.globalSearchUserInput, t: "a", p: 1 }
+        })
+        .catch(() => {});
     },
     async login() {
       const validity = checkLoginFormValidity(this.userInfo);

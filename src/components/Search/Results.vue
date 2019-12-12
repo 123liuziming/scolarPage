@@ -5,6 +5,14 @@
         <h1 style="font-weight: bold; color: white;">
           Dive into your sea of creativeness<br />from here.
         </h1>
+        <el-tabs
+          v-model="activeTab"
+          style="padding: 20px 0 0 20px;"
+          @tab-click="changeTab"
+        >
+          <el-tab-pane label="文献" name="a" />
+          <el-tab-pane label="学者" name="s" />
+        </el-tabs>
         <div id="search-results--search-box">
           <font-awesome-icon
             id="search-results--search-box-icon"
@@ -13,26 +21,32 @@
           <input type="text" @keyup.enter="search" v-model="keyword" />
         </div>
       </div>
-      <div id="search-results--results" v-if="$route.query.w && results.length">
+      <template v-if="activeTab === 'a'">
         <div
-          v-for="(item, ind) in results"
-          :key="`paper${ind}`"
-          style="margin-bottom: 20px;"
+          id="search-results--results"
+          v-if="$route.query.w && results.length"
         >
-          <PaperItem :item="item" />
-          <el-divider v-if="ind !== results.length - 1" />
+          <div
+            v-for="(item, ind) in results"
+            :key="`paper${ind}`"
+            style="margin-bottom: 20px;"
+          >
+            <PaperItem :item="item" />
+            <el-divider v-if="ind !== results.length - 1" />
+          </div>
+          <el-pagination
+            :hide-on-single-page="true"
+            :page-count="nPagesOfResults"
+            layout="prev, pager, next"
+            @current-change="loadAnotherPage"
+            :current-page.sync="currentPage"
+          />
         </div>
-        <el-pagination
-          :hide-on-single-page="true"
-          :page-count="nResultOfResults"
-          layout="prev, pager, next"
-          @current-change="loadAnotherPage"
-          :current-page.sync="currentPage"
-        />
-      </div>
+      </template>
+      <template v-else> </template>
       <div
         style="color:white; background: #000000; width: 100%; text-align: center; padding-bottom: 40px; border-radius: 0 0 20px 20px;"
-        v-else
+        v-if="!$route.query.w || !results.length"
       >
         <span v-if="!$route.query.w">输入关键词，键入回车以开始。</span
         ><span v-else>暂无结果。</span>
@@ -51,40 +65,63 @@ export default {
   components: { PaperItem },
   data() {
     return {
+      activeTab: "a",
       currentPage: 1,
       keyword: "",
       results: [],
-      nResultOfResults: 0
+      nPagesOfResults: 0
     };
   },
   mounted() {
     this.keyword = this.$route.query.w || "";
+    this.currentPage = parseInt(this.$route.query.p) || 1;
+    this.activeTab = this.$route.query.t || "a";
     this.search();
   },
   methods: {
-    async loadAnotherPage() {
+    getQueries() {
+      this.$router
+        .push({
+          query: { w: this.keyword, p: this.currentPage, t: this.activeTab }
+        })
+        .catch(() => {});
+    },
+
+    async loadAnotherPage(noLoadingInstance) {
       if (!this.keyword) return;
-      this.$router.push({ query: { w: this.keyword, p: this.currentPage } });
-      const loadingInstance = Loading.service({
-        fullscreen: true,
-        background: "#000000"
-      });
+      this.getQueries();
+      let loadingInstance;
+      if (!noLoadingInstance)
+        loadingInstance = Loading.service({
+          fullscreen: true,
+          background: "#000000"
+        });
       try {
-        const { papersResponse } = await spotlight(
-          this.keyword,
-          this.currentPage
-        );
-        this.results = papersResponse.papers;
-        this.nResultOfResults = papersResponse.numOfPages;
+        if (this.activeTab === "a") {
+          const { papersResponse } = await spotlight(
+            this.keyword,
+            this.currentPage
+          );
+          this.results = papersResponse.papers;
+          this.nPagesOfResults = papersResponse.numOfPages;
+        } else {
+          // TODO
+        }
       } catch (err) {
         this.$message.error("在完成您请求的过程中发生了问题。请稍后重试。");
       } finally {
-        loadingInstance.close();
+        if (loadingInstance) loadingInstance.close();
       }
     },
 
     search() {
+      this.getQueries();
       this.loadAnotherPage();
+    },
+
+    changeTab() {
+      this.results = [];
+      this.loadAnotherPage(true);
     }
   },
   watch: {
@@ -124,10 +161,10 @@ export default {
 #search-results--search-box {
   width: 100%;
   background: #000000;
-  margin: 30px 0 40px 0;
+  margin: 0 0 40px 0;
   padding-right: 10px;
   height: 40px;
-  border: 1px #aaaaaa solid;
+  border: 1px #2f2f2f solid;
   overflow-x: hidden;
   display: flex;
 }
@@ -169,5 +206,9 @@ export default {
   #search-results--header {
     margin-top: 0;
   }
+}
+
+.el-tabs__header {
+  margin-bottom: 0;
 }
 </style>
