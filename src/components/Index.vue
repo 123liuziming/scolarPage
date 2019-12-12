@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Card from "./Card";
+import Card from "./Scholar/Card";
 import { Loading } from "element-ui";
 
 export default {

@@ -4,7 +4,7 @@ import Main from "../components/Scholar/Main";
 import Article from "@/components/Article";
 import Index from "@/components/Index";
 import Relation from "../components/Scholar/Relation";
-import SearchResults from "../components/Search/SearchResults";
+import Search from "../components/Search";
 
 Vue.use(Router);
 
@@ -33,7 +33,7 @@ export default new Router({
     {
       path: "/search",
       name: "Search",
-      component: SearchResults,
+      component: Search,
     }
   ],
   mode: "history"
