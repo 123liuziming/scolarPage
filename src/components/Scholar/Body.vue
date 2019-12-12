@@ -12,7 +12,8 @@
         :disable-transitions="false"
         @close="handleClose(tag)"
         v-on:click="goToSearchTag(tag.t)"
-      >{{ tag.t }}</el-tag>
+      >{{ tag.t }}
+      </el-tag>
       <el-input
         class="input-new-tag"
         v-if="inputVisible"
@@ -28,7 +29,8 @@
         size="small"
         @click="showInput"
         v-show="isSelf"
-      >+ New Tag</el-button>
+      >+ New Tag
+      </el-button>
     </div>
     <div style="margin-top: 3%;float: left; width: 100%">
       <div style="width: 100%;">
@@ -46,7 +48,7 @@
       <div style="padding-left: 1vw;float: left;width: 29vw">
         <div style="padding-left: 1vw">
           <h4 style="color: white;">相关学者</h4>
-          <el-divider />
+          <el-divider/>
         </div>
         <el-carousel :interval="4000" type="card" height="30vh">
           <el-carousel-item v-for="item in 6" :key="item">
@@ -55,10 +57,11 @@
         </el-carousel>
       </div>
       <div class="infoBox">
-        <el-input type="textarea" class="selfIntro" v-show="isSelf" v-model="infoVal"></el-input>
-        <p class="selfIntro" v-show="!isSelf">
-          I am recruiting some students to help me with a project.If you are interested in it, please
-          contact me via the email
+        <div id="editBtn">
+          <el-button v-show="isSelf" class="el-icon-edit" @click="$emit('editBulletin')"></el-button>
+        </div>
+        <p class="selfIntro">
+          {{scholarInfo.bulletin}}
         </p>
         <p class="selfIntroTime">2019 年 5 月 31 日, 9:30 a.m.</p>
       </div>
@@ -68,7 +71,7 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item title="个人简介" name="1">
           <div style="display:flex">
-            <Intro :scholarInfo="scholarInfo" />
+            <Intro :scholarInfo="scholarInfo"/>
             <Relation></Relation>
           </div>
           <div style="height:100%;margin-left:2vw">
@@ -76,7 +79,7 @@
           </div>
         </el-collapse-item>
         <el-collapse-item title="论文列表" name="3">
-          <Paper :articles="articles" :totalArticles="articles.length" />
+          <Paper :articles="articles" :totalArticles="articles.length"/>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -84,202 +87,209 @@
 </template>
 
 <script>
-import Card from "./Card";
-import Paper from "./Paper";
-import Radar from "./Radar";
-import Relation from "./Relation";
-import Intro from "./Intro";
-import ClienderGraph from "./ClinderGraph";
-import { getPaperById } from "../../graphql/scholar";
+    import Card from "./Card";
+    import Paper from "./Paper";
+    import Radar from "./Radar";
+    import Relation from "./Relation";
+    import Intro from "./Intro";
+    import ClienderGraph from "./ClinderGraph";
+    import {getPaperById} from "../../graphql/scholar";
 
-export default {
-  name: "Body",
-  props: ["scholarInfo", "isSelf"],
-  components: {
-    Intro,
-    Relation,
-    Paper,
-    Card,
-    Radar,
-    ClienderGraph
-  },
-  data() {
-    return {
-      dynamicTags: ["标签一", "标签二", "标签三"],
-      inputVisible: false,
-      inputValue: "",
-      infoVal: "",
-      value: false,
-      activeNames: ["1", "2", "3", "4"],
-      articles: [],
-      src:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      news: [
-        {
-          title: "最新发布",
-          desc: ""
+    export default {
+        name: "Body",
+        props: ["scholarInfo", "isSelf"],
+        components: {
+            Intro,
+            Relation,
+            Paper,
+            Card,
+            Radar,
+            ClienderGraph
         },
-        {
-          title: "编辑推荐",
-          desc: ""
+        data() {
+            return {
+                dynamicTags: ["标签一", "标签二", "标签三"],
+                inputVisible: false,
+                inputValue: "",
+                infoVal: "",
+                value: false,
+                activeNames: ["1", "2", "3", "4"],
+                articles: [],
+                src:
+                    "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+                news: [
+                    {
+                        title: "最新发布",
+                        desc: ""
+                    },
+                    {
+                        title: "编辑推荐",
+                        desc: ""
+                    },
+                    {
+                        title: "近期热门",
+                        desc: ""
+                    },
+                    {
+                        title: "最新发布",
+                        desc: ""
+                    }
+                ]
+            };
         },
-        {
-          title: "近期热门",
-          desc: ""
+        methods: {
+            handleClose(tag) {
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+
+            },
+
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.dynamicTags.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = "";
+            },
+            sortKey(array, key) {
+                return array.sort(function (a, b) {
+                    let x = a[key];
+                    let y = b[key];
+                    return x > y ? -1 : x < y ? 1 : 0;
+                });
+            },
+            goToSearchTag(str) {
+                this.$router.push({path: '/search', query: {w: str}});
+            }
         },
-        {
-          title: "最新发布",
-          desc: ""
+        async mounted() {
+            let that = this;
+            const id = that.$route.query.ID;
+            if (id === this.$store.getters.id) this.isSelf = true;
+            const result = await getPaperById(id);
+            this.articles = this.sortKey(
+                result.data["searchPapersByScholarId"],
+                "year"
+            );
+            for (let i = 0; i < this.articles.length; i++) {
+                if (this.articles[i].authors.name === this.$store.getters.usersName) {
+                    this.articles.splice(i, 1);
+                }
+            }
+
+            for (let i = 0; i < 4; i++) {
+                this.news[i].desc =
+                    i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
+            }
+            this.sortKey(this.scholarInfo.tags, "w");
         }
-      ]
     };
-  },
-  methods: {
-    handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
-
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = "";
-    },
-    sortKey(array, key) {
-      return array.sort(function(a, b) {
-        let x = a[key];
-        let y = b[key];
-        return x > y ? -1 : x < y ? 1 : 0;
-      });
-    },
-    goToSearchTag(str) {
-      this.$router.push({path:'/search',query:{w:str}});
-    }
-  },
-  async mounted() {
-    let that = this;
-    const id = that.$route.query.ID;
-    if (id === this.$store.getters.id) this.isSelf = true;
-    const result = await getPaperById(id);
-    this.articles = this.sortKey(
-      result.data["searchPapersByScholarId"],
-      "year"
-    );
-    for (let i = 0; i < 4; i++) {
-      this.news[i].desc =
-        i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
-    }
-    this.sortKey(this.scholarInfo.tags, "w");
-  }
-};
 </script>
 
 <style scoped>
-#reasearchFields {
-  padding-left: 2vw;
-  padding-top: 3vh;
-}
+  #reasearchFields {
+    padding-left: 2vw;
+    padding-top: 3vh;
+  }
 
-.selfIntro {
-  font-size: x-large;
-  color: white;
-  padding-top: 5vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-}
+  .selfIntro {
+    font-size: x-large;
+    color: white;
+    padding-top: 5vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
 
-.selfIntroTime {
-  color: #9d9d9d;
-  padding-top: 2vh;
-  padding-left: 2vw;
-}
+  .selfIntroTime {
+    color: #9d9d9d;
+    padding-top: 2vh;
+    padding-left: 2vw;
+  }
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+  }
 
-.scholarPaper {
-  width: 75vw;
-  margin-left: 2vw;
-  padding-top: 5vh;
-}
-
-@media (max-width: 1200px) {
   .scholarPaper {
-    width: 95vw;
+    width: 75vw;
+    margin-left: 2vw;
+    padding-top: 5vh;
   }
-}
 
-.clear {
-  clear: both;
-}
+  @media (max-width: 1200px) {
+    .scholarPaper {
+      width: 95vw;
+    }
+  }
 
-.el-tag + .el-tag {
-  margin-left: 10px;
-}
+  .clear {
+    clear: both;
+  }
 
-.button-new-tag {
-  margin-left: 10px;
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
 
-.input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
-}
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
-.transparent {
-  background-color: black;
-  color: white;
-  opacity: 1;
-}
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
 
-.infoBox {
-  border-top: 4px solid greenyellow;
-  float: left;
-  background-color: gray;
-  width: 44vw;
-  margin-left: 4vw;
-  margin-right: 1vw;
-  margin-top: 2vh;
-  min-height: 36vh;
-}
+  .transparent {
+    background-color: black;
+    color: white;
+    opacity: 1;
+  }
 
-@media (max-width: 1200px) {
   .infoBox {
-    width: 63vw;
+    border-top: 4px solid greenyellow;
+    float: left;
+    background-color: gray;
+    width: 44vw;
+    margin-left: 4vw;
+    margin-right: 1vw;
+    margin-top: 2vh;
+    height: 37vh;
   }
-}
 
-@media (max-width: 1200px) {
-  .introRadar {
-    width: 10vw;
+  @media (max-width: 1200px) {
+    .infoBox {
+      width: 63vw;
+    }
   }
-}
+
+  @media (max-width: 1200px) {
+    .introRadar {
+      width: 10vw;
+    }
+  }
 </style>
 
 <style>
-.el-collapse-item__header,
-.el-collapse-item__wrap,
-.el-table th,
-.el-table tr {
-  background: none !important;
-}
+  .el-collapse-item__header,
+  .el-collapse-item__wrap,
+  .el-table th,
+  .el-table tr {
+    background: none !important;
+  }
 </style>

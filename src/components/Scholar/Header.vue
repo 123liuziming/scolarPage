@@ -40,6 +40,7 @@
               round
               size="mini"
               :disabled="isSelf"
+              @click="$emit('auth')"
             >
               <font color="black">
                 <strong>认领</strong>
@@ -47,7 +48,7 @@
             </el-button>
           </p>
         </div>
-        <div style="padding-top: 3vh; padding-left: 10vw">
+        <div style="padding-top: 5vh; padding-left: 10vw">
           <el-avatar class="avatarSize" :src="bigAvatar" />
         </div>
       </div>
@@ -64,7 +65,7 @@ export default {
   mounted() {
     this.isFollowed = this.isFollowing === false ? "success" : "info";
     this.followBtnVal = this.isFollowing === true ? "已关注" : "关注 +";
-    this.isFollowDisabled = this.isFollowing === true ? true : false;
+    this.isFollowDisabled = this.isFollowing;
   },
   data() {
     return {
