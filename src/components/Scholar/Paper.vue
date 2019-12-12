@@ -96,7 +96,7 @@
                 this.yearSel = "";
             },
             goToSearch(str){
-              this.$router.push({path:"/search",query:{w:str}}); 
+              this.$router.push({path:"/search",query:{w:str}});
             },
             goToAuthor(id){
               window.location.href = "/main?ID=" + id;
@@ -149,11 +149,11 @@
     position: relative;
     border-bottom: 1px solid #f2f2f2;
     padding: 0 0 0 24px;
-    background: url("../../static/image/standard.png") no-repeat 0 3px;
+    background: url("../../../static/image/standard.png") no-repeat 0 3px;
   }
 
   ul.articles .article-entry.standard {
-    background: url("../../static/image/standard.png") no-repeat 0 3px;
+    background: url("../../../static/image/standard.png") no-repeat 0 3px;
   }
 
   .align {
