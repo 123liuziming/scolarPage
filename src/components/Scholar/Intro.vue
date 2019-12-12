@@ -17,19 +17,15 @@ export default {
   props:["scholarInfo"],
   mounted() {
     this.tableData[0].name = this.scholarInfo.name;
-    this.tableData[2].name = this.scholarInfo.hIndex;
-    this.tableData[3].name = this.scholarInfo.nPubs;
-    this.tableData[4].name = this.scholarInfo.nCitations;
+    this.tableData[1].name = this.scholarInfo.hIndex;
+    this.tableData[2].name = this.scholarInfo.nPubs;
+    this.tableData[3].name = this.scholarInfo.nCitations;
   },
   data() {
     return {
       tableData: [
         {
           date: "姓名",
-          name: ""
-        },
-        {
-          date: "擅长领域",
           name: ""
         },
         {
