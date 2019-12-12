@@ -9,10 +9,10 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     user: {
-      name: "lzm",
+      name: "",
       avatar: "",
       role: 0,
-      id: "53f31b9edabfae9a84437e2d"
+      id: ""
     }
   },
   mutations: {
