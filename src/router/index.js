@@ -4,7 +4,7 @@ import Main from "../components/Scholar/Main";
 import Article from "@/components/Article";
 import Index from "@/components/Index";
 import Relation from "../components/Scholar/Relation";
-import SearchResults from "@/components/SearchResults";
+import SearchResults from "../components/Search/SearchResults";
 
 Vue.use(Router);
 

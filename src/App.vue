@@ -8,13 +8,18 @@
 <script>
 import Navigator from "./components/Navigator";
 import gql from "graphql-tag";
+import { fetchUserInfo } from "@/store";
 
 export default {
   name: "App",
   components: {
     Navigator
   },
-  mounted() {}
+  mounted() {
+    if (!this.$store.getters.hasLoggedIn && !!localStorage.getItem("token")) {
+      this.$store.dispatch(fetchUserInfo);
+    }
+  }
 };
 </script>
 
@@ -92,7 +97,7 @@ export default {
 @media (max-width: 1200px) {
   .eChartContainer.relation {
     margin-left: 45vw;
-    width:30vw;
+    width: 30vw;
   }
 }
 </style>
