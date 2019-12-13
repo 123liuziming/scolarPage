@@ -16,12 +16,12 @@
       :open="openChat"
       :participants="participants"
       :showEmoji="true"
-      :showFile="true"
       :showTypingIndicator="showTypingIndicator"
-      :titleImageUrl="titleImageUrl"
       @onType="handleOnType"
+      @edit="editMessage"
+      @remove="removeMessage"
     >
-      <!-- <template v-slot:text-message-toolbox="scopedProps">
+      <template v-slot:text-message-toolbox="scopedProps">
         <button v-if="!scopedProps.me && scopedProps.message.type==='text'" @click.prevent="like(scopedProps.message.id)">
           👍
         </button>
@@ -33,9 +33,6 @@
           <template v-if="scopedProps.message.isEdited">✎</template>
           <template v-if="scopedProps.message.liked">👍</template>
         </p>
-      </template> -->
-      <template v-slot:header> 
-        🤔 Good chat between {{participants.map(m=>m.name).join(' & ')}} 
       </template>
     </beautiful-chat>
     <p class="text-center toggle">
@@ -103,12 +100,11 @@
 </template>
 
 <script>
-import messageHistory from './messageHistory'
-import chatParticipants from './chatProfiles'
 import Header from './Header.vue'
 import Footer from './Footer.vue'
 import TestArea from './TestArea.vue'
 import availableColors from './colors'
+import { gql_getAllContacts,gql_getAllMessage } from "@/graphql/social";
 
 export default {
   name: 'chat',
@@ -119,10 +115,10 @@ export default {
   },
   data() {
     return {
-      participants: chatParticipants,
+      participants: [],
       titleImageUrl:
         'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png',
-      messageList: messageHistory,
+      messageList: [],
       newMessagesCount: 0,
       isChatOpen: false,
       showTypingIndicator: '',
@@ -138,6 +134,32 @@ export default {
     this.setColor('blue')
   },
   methods: {
+    async getAllContacts() {
+      try {
+        const response = await gql_getAllContacts()
+        this.participants = response.data.recentContacts.map(e => {
+          return{
+            id:e.id,
+            name:e.name,
+            imageUrl:e.avatar
+          }
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async getAllMessages(){
+      try {
+        const response = await gql_getAllMessage()
+        this.participants = response.data.recentContacts.map(e => ({
+            ...e,
+            imageUrl:e.avatar
+          })
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    },
     sendMessage(text) {
       if (text.length > 0) {
         this.newMessagesCount = this.isChatOpen
@@ -216,6 +238,7 @@ export default {
   },
   mounted(){
     this.messageList.forEach(x=>x.liked = false);
+    this.getAllContacts();
   }
 }
 </script>
