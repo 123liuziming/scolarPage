@@ -32,9 +32,8 @@
       >+ New Tag
       </el-button>
     </div>
-    <div style="margin-top: 3%;float: left; width: 100%">
-      <div style="width: 100%;">
-        <div style="display: flex; padding: 0 1vw 0 1vw; width: 100%;">
+    <div style="margin-top: 3%;">
+        <div style="display: flex; padding: 0 1vw 0 1vw;">
           <Card
             v-for="(_, ind) in 4"
             :key="ind"
@@ -43,27 +42,6 @@
             :pic="news[ind].keyword"
             style="margin: 0 1vw 0 1vw; width: 100%"
           />
-        </div>
-      </div>
-      <div style="padding-left: 1vw;float: left;width: 29vw">
-        <div style="padding-left: 1vw">
-          <h4 style="color: white;">相关学者</h4>
-          <el-divider/>
-        </div>
-        <el-carousel :interval="4000" type="card" height="30vh">
-          <el-carousel-item v-for="item in 6" :key="item">
-            <h3 class="medium">{{ item }}</h3>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-      <div class="infoBox">
-        <div id="editBtn">
-          <el-button v-show="isSelf" class="el-icon-edit" @click="$emit('editBulletin')"></el-button>
-        </div>
-        <p class="selfIntro">
-          {{scholarInfo.bulletin}}
-        </p>
-        <p class="selfIntroTime">2019 年 5 月 31 日, 9:30 a.m.</p>
       </div>
     </div>
 
@@ -71,14 +49,23 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item title="个人简介" name="1">
           <div style="display:flex">
-            <Intro :scholarInfo="scholarInfo"/>
+            <Intro :scholarinfo="scholarInfo" :hasbox="isInfoBox"/>
+            <div class="infoBox" v-show="isInfoBox">
+              <div id="editBtn">
+                <el-button v-show="isSelf" class="el-icon-edit" @click="$emit('editBulletin')"></el-button>
+              </div>
+              <p class="selfIntro">
+                {{scholarInfo.bulletin}}
+              </p>
+              <p class="selfIntroTime">2019 年 5 月 31 日, 9:30 a.m.</p>
+            </div>
           </div>
           <div style="height:100%;margin-left:2vw">
             <ClienderGraph :Data="scholarInfo.tags.slice(0, 20)"></ClienderGraph>
           </div>
         </el-collapse-item>
-        <el-collapse-item title="相关学者">
-            <Relation :coAuthors="scholarInfo.coauthors"></Relation>
+        <el-collapse-item title="相关学者" name="2">
+          <Relation :coAuthors="scholarInfo.coauthors"></Relation>
         </el-collapse-item>
         <el-collapse-item title="论文列表" name="3">
           <Paper v-if="asyncFlag" :selfnames="selfName" :articles="articles" :totalArticles="articles.length"/>
@@ -115,28 +102,33 @@
                 inputValue: "",
                 infoVal: "",
                 value: false,
-                asyncFlag:false,
+                asyncFlag: false,
                 activeNames: ["1", "2", "3", "4"],
-                selfName:[],
+                selfName: "",
                 articles: [],
+                isInfoBox:false,
                 src:
                     "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
                 news: [
                     {
                         title: "最新发布",
-                        desc: ""
+                        desc: "",
+                        keyword:"computer"
                     },
                     {
                         title: "编辑推荐",
-                        desc: ""
+                        desc: "",
+                        keyword:"book"
                     },
                     {
                         title: "近期热门",
-                        desc: ""
+                        desc: "",
+                        keyword:"student"
                     },
                     {
                         title: "最新发布",
-                        desc: ""
+                        desc: "",
+                        keyword:"bool"
                     }
                 ]
             };
@@ -182,21 +174,25 @@
                 result.data["searchPapersByScholarId"],
                 "year"
             );
-              for (let i = 0; i < that.articles.length; i++){
-                for(let j = 0; j < that.articles[i].authors.length; j++){
-                    if (that.articles[i].authors[j].id === that.$route.query.ID)
-                    that.selfName.push(that.articles[i].authors[j].name);
+            let flag = false;
+            for (let i = 0; i < that.articles.length; i++) {
+                for (let j = 0; j < that.articles[i].authors.length; j++) {
+                    if (that.articles[i].authors[j].id === that.$route.query.ID) {
+                        that.selfName = that.articles[i].authors[j].name;
+                        flag = true;
+                        break;
+                    }
+                    if (flag)
+                        break;
                 }
             }
-            //alert("dsfsdfa");
-            //alert(that.selfName[0]);
             that.asyncFlag = true;
             for (let i = 0; i < 4; i++) {
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
             }
             this.sortKey(this.scholarInfo.tags, "w");
-            }
+        }
     };
 </script>
 
@@ -272,11 +268,11 @@
     border-top: 4px solid greenyellow;
     float: left;
     background-color: gray;
-    width: 44vw;
+    width: 50vw;
     margin-left: 4vw;
     margin-right: 1vw;
     margin-top: 2vh;
-    height: 37vh;
+    height: 190px;
   }
 
   @media (max-width: 1200px) {

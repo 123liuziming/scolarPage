@@ -97,7 +97,8 @@
                                 info: {
                                     university: "BUAA",
                                     age: 15
-                                }
+                                },
+                                symbolSize: 100
                             },
 
                         ],
@@ -134,9 +135,9 @@
             }
             var chartObj = echarts.init(document.getElementById("relation"));
             chartObj.setOption(option);
-            window.onresize = function () {
+            window.addEventListener("resize", () => {
                 chartObj.resize();
-            };
+            });
         }
     };
 </script>

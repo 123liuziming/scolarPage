@@ -78,12 +78,11 @@
             if (id === this.$store.getters.userId) this.isSelf = true;
             const scholar = await findScholarById(id);
             this.scholarInfo = scholar.data["findScholarById"].scholar;
+            if(this.scholarInfo.orgs.length === 0)
+                this.scholarInfo.orgs.push("No research institute");
             this.isFollowing = scholar.data["findScholarById"].isFollowing;
         },
         computed: {
-            username() {
-                return this.$store.getters.usersName;
-            },
             id() {
                 return this.$store.getters.id;
             }
@@ -115,8 +114,6 @@
                     type: "success",
                     message: "已成功发送私信"
                 });
-            },
-            openPrivateMsgDialog: function () {
             },
             updateBul() {
                 alert(this.$store.getters.userId);
