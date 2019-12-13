@@ -48,13 +48,8 @@ export default {
 
 <style scoped>
 .introBox {
-  width: 40vw;
+  width: 62vw;
   margin-top: 2vh;
-  margin-left: 2vw
-}
-@media (max-width: 1200px) {
-  .introBox {
-    width: 48vw;
-  }
+  margin-left: 5vw
 }
 </style>
