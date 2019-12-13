@@ -72,14 +72,16 @@
         <el-collapse-item title="个人简介" name="1">
           <div style="display:flex">
             <Intro :scholarInfo="scholarInfo"/>
-            <Relation></Relation>
           </div>
           <div style="height:100%;margin-left:2vw">
-            <ClienderGraph :Data="scholarInfo.tags"></ClienderGraph>
+            <ClienderGraph :Data="scholarInfo.tags.slice(0, 20)"></ClienderGraph>
           </div>
         </el-collapse-item>
+        <el-collapse-item title="相关学者">
+            <Relation :coAuthors="scholarInfo.coauthors"></Relation>
+        </el-collapse-item>
         <el-collapse-item title="论文列表" name="3">
-          <Paper :articles="articles" :totalArticles="articles.length"/>
+          <Paper v-if="asyncFlag" :selfnames="selfName" :articles="articles" :totalArticles="articles.length"/>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -113,7 +115,9 @@
                 inputValue: "",
                 infoVal: "",
                 value: false,
+                asyncFlag:false,
                 activeNames: ["1", "2", "3", "4"],
+                selfName:[],
                 articles: [],
                 src:
                     "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
@@ -174,22 +178,25 @@
             const id = that.$route.query.ID;
             if (id === this.$store.getters.id) this.isSelf = true;
             const result = await getPaperById(id);
-            this.articles = this.sortKey(
+            this.articles = await this.sortKey(
                 result.data["searchPapersByScholarId"],
                 "year"
             );
-            for (let i = 0; i < this.articles.length; i++) {
-                if (this.articles[i].authors.name === this.$store.getters.usersName) {
-                    this.articles.splice(i, 1);
+              for (let i = 0; i < that.articles.length; i++){
+                for(let j = 0; j < that.articles[i].authors.length; j++){
+                    if (that.articles[i].authors[j].id === that.$route.query.ID)
+                    that.selfName.push(that.articles[i].authors[j].name);
                 }
             }
-
+            //alert("dsfsdfa");
+            //alert(that.selfName[0]);
+            that.asyncFlag = true;
             for (let i = 0; i < 4; i++) {
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
             }
             this.sortKey(this.scholarInfo.tags, "w");
-        }
+            }
     };
 </script>
 

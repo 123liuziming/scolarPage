@@ -12,8 +12,8 @@
           </h4>
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:1vw">
-            <a>{{userName}}</a>
-            <a class="other align alignNobottom" v-for="(author,ind) in article.authors" @click="goToAuthor(author.id)" :key="`ar${ind}`">{{ author.name }}</a>
+            <a v-for="self in selfnames">{{self}}</a>
+            <a class="other align alignNobottom" v-for="(author,ind) in article.authors" v-if="ind < 20" @click="goToAuthor(author.id)" :key="`ar${ind}`">{{ author.name }}</a>
           </div>
           <el-button
             size="mini"
@@ -50,7 +50,7 @@
       </el-card>
     </div>
     <el-pagination
-      style="padding-left: 4.5vw;padding-top: 3vh"
+      style="padding-left: 1vw;padding-top: 3vh"
       layout="prev, pager, next"
       :total="totalArticles"
       :page-size="5"
@@ -64,19 +64,22 @@
 
     export default {
         name: "Paper",
-        props:["articles","totalArticles"],
+        props:{
+            articles : Array,
+            totalArticles: Number,
+            selfnames: Array
+        },
         data() {
             return {
                 tabPosition: "right",
                 pageNow: 1,
                 yearSel:"primary",
                 refSel:"",
-                userName:""
             };
         },
         mounted(){
-          this.userName = this.$store.getters.usersName;
         },
+
         methods: {
             handleCurrentChange: function (currentPage) {
                 this.pageNow = currentPage;
@@ -100,7 +103,7 @@
                 this.yearSel = "";
             },
             goToSearch(str){
-                this.$router.push({path:"/search",query:{w:str}});
+                this.$router.push({path:"/search",query:{w:str.substr(0,20)}});
             },
             goToAuthor(id){
                 window.location.href = "/main?ID=" + id;

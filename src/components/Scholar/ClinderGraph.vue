@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="main" style="width: 100%;height:400px;clear:both"></div>
+    <div id="clinder" style="width: 100%;height:400px;clear:both"></div>
   </div>
 </template>
 
@@ -110,7 +110,7 @@ export default {
   methods: {
     drawBar: function() {
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById("main"));
+      var myChart = this.$echarts.init(document.getElementById("clinder"));
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(this.option);
       window.onresize = function() {
