@@ -118,14 +118,15 @@ a:focus {
 
 .h1 {
   font-family: "Roboto Mono", "Microsoft YaHei", monospace;
-  font-size: 60px;
+  font-size: 70px;
   font-weight: 900;
   line-height: 1.1;
 }
 
 .h4 {
   font-family: "Roboto Mono", "Microsoft YaHei", monospace;
-  font-size: 30px;
+  font-size: 20px;
+  padding-top: 1vh;
 }
 
 .h5 {
