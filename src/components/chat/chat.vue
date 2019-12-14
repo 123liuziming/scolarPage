@@ -16,7 +16,7 @@
       :open="openChat"
       :participants="participants"
       :showEmoji="true"
-      :showTypingIndicator="showTypingIndicator"
+      :showFile="true"
       @onType="handleOnType"
       @edit="editMessage"
       @remove="removeMessage"
@@ -121,7 +121,6 @@ export default {
       messageList: [],
       newMessagesCount: 0,
       isChatOpen: false,
-      showTypingIndicator: '',
       colors: null,
       availableColors,
       chosenColor: null,
