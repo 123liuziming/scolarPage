@@ -17,11 +17,20 @@
       <el-input
         class="input-new-tag"
         v-if="inputVisible"
-        v-model="inputValue"
+        v-model="tagToken"
         ref="saveTagInput"
         size="small"
         @keyup.enter.native="handleInputConfirm"
-        @blur="handleInputConfirm"
+        placeholder="标签名"
+      ></el-input>
+      <el-input
+        class="input-new-tag"
+        v-if="inputVisible"
+        v-model="tagWeight"
+        ref="saveTagInput"
+        size="small"
+        @keyup.enter.native="handleInputConfirm"
+        placeholder="标签权重"
       ></el-input>
       <el-button
         v-else
@@ -33,15 +42,15 @@
       </el-button>
     </div>
     <div style="margin-top: 3%;">
-        <div style="display: flex; padding: 0 1vw 0 1vw;">
-          <Card
-            v-for="(_, ind) in 4"
-            :key="ind"
-            :title="news[ind].title"
-            :description="news[ind].desc"
-            :pic="news[ind].keyword"
-            style="margin: 0 1vw 0 1vw; width: 100%"
-          />
+      <div style="display: flex; padding: 0 1vw 0 1vw;">
+        <Card
+          v-for="(_, ind) in 4"
+          :key="ind"
+          :title="news[ind].title"
+          :description="news[ind].desc"
+          :pic="news[ind].keyword"
+          style="margin: 0 1vw 0 1vw; width: 100%"
+        />
       </div>
     </div>
 
@@ -97,6 +106,8 @@
         },
         data() {
             return {
+                tagToken: "",
+                tagWeight: "",
                 dynamicTags: ["标签一", "标签二", "标签三"],
                 inputVisible: false,
                 inputValue: "",
@@ -106,37 +117,36 @@
                 activeNames: ["1", "2", "3", "4"],
                 selfName: "",
                 articles: [],
-                isInfoBox:false,
+                isInfoBox: false,
                 src:
                     "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
                 news: [
                     {
                         title: "最新发布",
                         desc: "",
-                        keyword:"computer"
+                        keyword: "computer"
                     },
                     {
                         title: "编辑推荐",
                         desc: "",
-                        keyword:"book"
+                        keyword: "book"
                     },
                     {
                         title: "近期热门",
                         desc: "",
-                        keyword:"student"
+                        keyword: "student"
                     },
                     {
                         title: "最新发布",
                         desc: "",
-                        keyword:"bool"
+                        keyword: "bool"
                     }
                 ]
             };
         },
         methods: {
             handleClose(tag) {
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-
+                this.scholarInfo.tags.splice(this.scholarInfo.tags.indexOf(tag), 1);
             },
 
             showInput() {
@@ -147,12 +157,16 @@
             },
 
             handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-                    this.dynamicTags.push(inputValue);
+                let inputValue1 = this.tagToken;
+                let inputValue2 = this.tagWeight;
+                if (inputValue1){
+                    this.scholarInfo.tags.push({id:"", w:inputValue2, t:inputValue1});
+                    this.inputVisible = false;
+                    this.tagToken = "";
+                    this.tagWeight = "";
                 }
-                this.inputVisible = false;
-                this.inputValue = "";
+                else
+                    this.$message.error("token不能为空");
             },
             sortKey(array, key) {
                 return array.sort(function (a, b) {
