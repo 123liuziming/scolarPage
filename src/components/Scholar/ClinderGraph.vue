@@ -39,9 +39,9 @@
                         }
                     },
                     grid: { // 控制图的大小，调整下面这些值就可以，
-                        x: 50,
-                        x2:20,
-                        y2: 120,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                        x: 35,
+                        x2: 65,
+                        y2: 130,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
                     },
                     yAxis: {
                         type: "value",
@@ -51,7 +51,8 @@
                                 color: "#c3dbff", //更改坐标轴文字颜色
                                 fontSize: 14 //更改坐标轴文字大小
                             }
-                        }
+                        },
+                        minInterval: 1
                     },
                     series: [
                         {
@@ -107,7 +108,7 @@
             this.option.xAxis.data = this.Data.map((dt, index) => {
                 if (index === 0)
                     return dt.t.substr(0, 10) + "...";
-                else if(index ===1)
+                else if (index === 1)
                     return dt.t.substr(0, 15) + "...";
                 else if (dt.t.length >= 25)
                     return dt.t.substr(0, 25) + "...";
