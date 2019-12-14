@@ -50,12 +50,12 @@
   .introBox.hasbox {
     width: 40vw;
     margin-top: 2vh;
-    margin-left: 5vw
+    margin-left: 2vw
   }
 
   .introBox.nobox {
     width: 69vw;
     margin-top: 2vh;
-    margin-left: 5vw
+    margin-left: 2vw
   }
 </style>
