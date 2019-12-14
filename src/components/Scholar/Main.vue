@@ -1,9 +1,9 @@
 <template>
   <div class="scholarPg">
-    <Header v-on:auth="authFlag = true" v-on:sendprivatemsg="privateMsgFlag = true" :scholarInfo="scholarInfo"
-            :isSelf="isSelf"
-            :isFollowing="isFollowing"></Header>
-    <Body v-on:editBulletin="bulletinFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
+    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:sendprivatemsg="privateMsgFlag = true" :scholarinfo="scholarInfo"
+            :isself="isSelf"
+            :isfollowing="isFollowing"></Header>
+    <Body v-if="bodyFlag" v-on:editBulletin="bulletinFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
     <!-- 对话框，发送私信用 -->
     <el-dialog title="发送私信" :visible.sync="privateMsgFlag" :modal-append-to-body="false">
       <el-form :model="privateMsgForm" :ref="privateMsgForm" label-position="left">
@@ -72,7 +72,6 @@
             Body
         },
         async mounted() {
-            //const curUser = await getCurrentUser();
             let that = this;
             const id = that.$route.query.ID;
             if (id === this.$store.getters.userId) this.isSelf = true;
@@ -81,6 +80,8 @@
             if(this.scholarInfo.orgs.length === 0)
                 this.scholarInfo.orgs.push("No research institute");
             this.isFollowing = scholar.data["findScholarById"].isFollowing;
+            this.headerFlag = true;
+            this.bodyFlag = true;
         },
         computed: {
             id() {
@@ -89,7 +90,9 @@
         },
         data() {
             return {
-                isFollowing: false,
+                bodyFlag:false,
+                headerFlag:false,
+                isFollowing: "",
                 isSelf: false,
                 privateMsgFlag: false,
                 bulletinFlag: false,
@@ -116,8 +119,8 @@
                 });
             },
             updateBul() {
-                alert(this.$store.getters.userId);
-                alert(this.scholarBulletin);
+                //alert(this.$store.getters.userId);
+                //alert(this.scholarBulletin);
                 updateBulletin(this.$store.getters.userId, this.scholarBulletin);
                 this.$notify({
                     title: "已成功更新",
