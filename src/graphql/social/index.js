@@ -20,8 +20,8 @@ const getAllContactsQuery = gql`
 `;
 
 const getAllMessage = gql`
-  query messages($idA:ID,$idB:ID,$page:Int,$perpage:Int){
-    messages(idA:$idA,idB:$idB,page:$page,perpage:$perpage){
+  query messages($idA:ID,$idB:ID,$page:Int,$perPage:Int){
+    messages(idA:$idA,idB:$idB,page:$page,perPage:$perPage){
       id,
       content,
       createdAt,
@@ -38,16 +38,18 @@ function gql_sendMessage(receiverId, content){
   });
 }
 
-function gql_getAllContacts(){
+async function gql_getAllContacts(){
   return client.query({
     query:getAllContactsQuery,
   });
 }
 
-function gql_getAllMessage(){
+async function gql_getAllMessage(idA,idB,page,perPage){
   return client.query({
-    query:getAllContactsQuery,
+    query:getAllMessage,
+    variables:{ idA,idB,page,perPage },
+    fetchPolicy: "network-only",
   });
 }
 
-export { gql_getAllContacts,gql_getAllMessage }
+export { gql_getAllContacts,gql_getAllMessage,gql_sendMessage }

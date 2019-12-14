@@ -1,13 +1,14 @@
 <template>
   <div :style="{background: backgroundColor}">
-    <Header
-      :chosenColor="chosenColor"
-      :colors="colors"
-    />
-    <beautiful-chat 
+    <Header :chosenColor="chosenColor" :colors="colors" />
+    <Launcher
+      v-model="$store.getters.userId"
+      ref="launcher"
+      @changeParticipant="changeParticipant"
       :alwaysScrollToBottom="alwaysScrollToBottom"
       :close="closeChat"
       :colors="colors"
+      :titleImageUrl="titleImageUrl"
       :isOpen="isChatOpen"
       :messageList="messageList"
       :messageStyling="messageStyling"
@@ -15,6 +16,7 @@
       :onMessageWasSent="onMessageWasSent"
       :open="openChat"
       :participants="participants"
+      :contacts="contacts"
       :showEmoji="true"
       :showFile="true"
       @onType="handleOnType"
@@ -22,19 +24,27 @@
       @remove="removeMessage"
     >
       <template v-slot:text-message-toolbox="scopedProps">
-        <button v-if="!scopedProps.me && scopedProps.message.type==='text'" @click.prevent="like(scopedProps.message.id)">
-          👍
-        </button>
+        <button
+          v-if="!scopedProps.me && scopedProps.message.type==='text'"
+          @click.prevent="like(scopedProps.message.id)"
+        >👍</button>
       </template>
-      <template v-slot:text-message-body="scopedProps"> 
+      <template v-slot:text-message-body="scopedProps">
         <p class="sc-message--text-content" v-html="scopedProps.messageText"></p>
-        <p v-if="scopedProps.message.data.meta" class='sc-message--meta' :style="{color: scopedProps.messageColors.color}">{{scopedProps.message.data.meta}}</p>
-        <p v-if="scopedProps.message.isEdited || scopedProps.message.liked" class='sc-message--edited'>
+        <p
+          v-if="scopedProps.message.data.meta"
+          class="sc-message--meta"
+          :style="{color: scopedProps.messageColors.color}"
+        >{{scopedProps.message.data.meta}}</p>
+        <p
+          v-if="scopedProps.message.isEdited || scopedProps.message.liked"
+          class="sc-message--edited"
+        >
           <template v-if="scopedProps.message.isEdited">✎</template>
           <template v-if="scopedProps.message.liked">👍</template>
         </p>
       </template>
-    </beautiful-chat>
+    </Launcher>
     <p class="text-center toggle">
       <a
         :style="{color: linkColor}"
@@ -71,19 +81,14 @@
         href="#"
       >Dark</a>
     </p>
-    <v-dialog/>
+    <v-dialog />
+
     <p class="text-center messageStyling">
-      <label>Message styling enabled?
-        <input
-          @change="messageStylingToggled"
-          checked
-          type="checkbox"
-        >
+      <label>
+        Message styling enabled?
+        <input @change="messageStylingToggled" checked type="checkbox" />
       </label>
-      <a
-        @click.prevent="showStylingInfo()"
-        href="#"
-      >info</a>
+      <a @click.prevent="showStylingInfo()" href="#">info</a>
     </p>
     <TestArea
       :chosenColor="chosenColor"
@@ -92,133 +97,185 @@
       :onMessage="sendMessage"
       :onTyping="handleTyping"
     />
-    <Footer
-      :chosenColor="chosenColor"
-      :colors="colors"
-    />
+    <Footer :chosenColor="chosenColor" :colors="colors" />
   </div>
 </template>
 
 <script>
-import Header from './Header.vue'
-import Footer from './Footer.vue'
-import TestArea from './TestArea.vue'
-import availableColors from './colors'
-import { gql_getAllContacts,gql_getAllMessage } from "@/graphql/social";
+import Header from "./Header.vue";
+import Footer from "./Footer.vue";
+import TestArea from "./TestArea.vue";
+import availableColors from "./colors";
+import {
+  gql_getAllContacts,
+  gql_getAllMessage,
+  gql_sendMessage
+} from "@/graphql/social";
+import Launcher from "./chatComponent/Launcher";
 
 export default {
-  name: 'chat',
+  name: "chat",
   components: {
     Header,
     Footer,
-    TestArea
+    TestArea,
+    Launcher
   },
   data() {
     return {
       participants: [],
       titleImageUrl:
-        'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png',
+        "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
       messageList: [],
+      contacts: [],
       newMessagesCount: 0,
       isChatOpen: false,
       colors: null,
       availableColors,
       chosenColor: null,
-      alwaysScrollToBottom: true,
+      alwaysScrollToBottom: false,
       messageStyling: true,
-      userIsTyping: false
-    }
+      userIsTyping: false,
+      timer: null,
+    };
   },
   created() {
-    this.setColor('blue')
+    this.setColor("blue");
   },
   methods: {
+    scrollDown(){
+      this.$refs.launcher.handleScrollDown()
+    },
     async getAllContacts() {
       try {
-        const response = await gql_getAllContacts()
-        this.participants = response.data.recentContacts.map(e => {
-          return{
-            id:e.id,
-            name:e.name,
-            imageUrl:e.avatar
-          }
-        })
+        const response = await gql_getAllContacts();
+        this.contacts = response.data.recentContacts.map(e => ({
+          ...e,
+          imageUrl: e.avatar? e.avatar : "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
+        }));
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     },
-    async getAllMessages(){
+    async getAllMessages() {
+      if (!this.participants.length) return;
       try {
-        const response = await gql_getAllMessage()
-        this.participants = response.data.recentContacts.map(e => ({
-            ...e,
-            imageUrl:e.avatar
-          })
-        )
+        const response = await gql_getAllMessage(
+          this.$store.getters.userId,
+          this.participants[0].id,
+          0,
+          99
+        );
+        // console.log(response.data);
+        this.messageList = response.data.messages.map(e => ({
+          type: "text",
+          author:
+            e.senderId === this.$store.getters.userId
+              ? "me"
+              : this.participants[0].name,
+          id: e.id,
+          data: {
+            text: e.content
+          }
+        }));
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
+    },
+    async handleSendMessage(message) {
+      // message got format like this:
+      // {
+      //   author:...
+      //   type:
+      //   data:{
+      //     text:'...'
+      //   }
+      // }
+      try {
+        await gql_sendMessage(this.participants[0].id, message.data.text);
+        this.scrollDown()
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async changeParticipant(userId) {
+      if(this.participants.length && this.participants[0].id == userId)
+        return
+      this.participants = this.contacts.filter(x => x.id === userId);
+      await this.getAllMessages();
+      // update messages every 10s
+      if (this.timer) clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        this.getAllMessages();
+      }, 10000);
+      // console.log(userId);
+      this.scrollDown();
     },
     sendMessage(text) {
       if (text.length > 0) {
         this.newMessagesCount = this.isChatOpen
           ? this.newMessagesCount
-          : this.newMessagesCount + 1
+          : this.newMessagesCount + 1;
         this.onMessageWasSent({
-          author: 'support',
-          type: 'text',
+          author: "support",
+          type: "text",
           id: Math.random(),
           data: { text }
-        })
+        });
       }
     },
     handleTyping(text) {
       this.showTypingIndicator =
         text.length > 0
           ? this.participants[this.participants.length - 1].id
-          : ''
+          : "";
     },
     onMessageWasSent(message) {
-      this.messageList = [...this.messageList, Object.assign({}, message, {id: Math.random()})]
+      this.messageList = [
+        ...this.messageList,
+        Object.assign({}, message, { id: Math.random() })
+      ];
+      this.handleSendMessage(message);
     },
     openChat() {
-      this.isChatOpen = true
-      this.newMessagesCount = 0
+      this.isChatOpen = true;
+      this.newMessagesCount = 0;
+      this.getAllContacts();
     },
     closeChat() {
-      this.isChatOpen = false
+      this.isChatOpen = false;
     },
     setColor(color) {
-      this.colors = this.availableColors[color]
-      this.chosenColor = color
+      this.colors = this.availableColors[color];
+      this.chosenColor = color;
     },
     showStylingInfo() {
-      this.$modal.show('dialog', {
-        title: 'Info',
+      this.$modal.show("dialog", {
+        title: "Info",
         text:
-          'You can use *word* to <strong>boldify</strong>, /word/ to <em>emphasize</em>, _word_ to <u>underline</u>, `code` to <code>write = code;</code>, ~this~ to <del>delete</del> and ^sup^ or ¡sub¡ to write <sup>sup</sup> and <sub>sub</sub>'
-      })
+          "You can use *word* to <strong>boldify</strong>, /word/ to <em>emphasize</em>, _word_ to <u>underline</u>, `code` to <code>write = code;</code>, ~this~ to <del>delete</del> and ^sup^ or ¡sub¡ to write <sup>sup</sup> and <sub>sub</sub>"
+      });
     },
     messageStylingToggled(e) {
-      this.messageStyling = e.target.checked
+      this.messageStyling = e.target.checked;
     },
     handleOnType() {
-      this.$root.$emit('onType')
-      this.userIsTyping = true
+      this.$root.$emit("onType");
+      this.userIsTyping = true;
     },
-    editMessage(message){
+    editMessage(message) {
       const m = this.messageList.find(m => m.id === message.id);
       m.isEdited = true;
       m.data.text = message.data.text;
     },
-    removeMessage(message){
-      if (confirm('Delete?')){
+    removeMessage(message) {
+      if (confirm("Delete?")) {
         const m = this.messageList.find(m => m.id === message.id);
-        m.type = 'system';
-        m.data.text = 'This message has been removed';
+        m.type = "system";
+        m.data.text = "This message has been removed";
       }
     },
-    like(id){
+    like(id) {
       const m = this.messageList.findIndex(m => m.id === id);
       var msg = this.messageList[m];
       msg.liked = !msg.liked;
@@ -227,19 +284,27 @@ export default {
   },
   computed: {
     linkColor() {
-      return this.chosenColor === 'dark'
+      return this.chosenColor === "dark"
         ? this.colors.sentMessage.text
-        : this.colors.launcher.bg
+        : this.colors.launcher.bg;
     },
     backgroundColor() {
-      return this.chosenColor === 'dark' ? this.colors.messageList.bg : '#fff'
-    }
+      return this.chosenColor === "dark" ? this.colors.messageList.bg : "#fff";
+    },
   },
-  mounted(){
-    this.messageList.forEach(x=>x.liked = false);
-    this.getAllContacts();
-  }
-}
+  async mounted() {
+    this.messageList.forEach(x => (x.liked = false));
+    await this.getAllContacts();
+    this.changeParticipant(this.contacts[0].id);
+  },
+  // watch: {
+  //   participants(newVal, oldVal) {
+  //     if (newVal !== oldVal) {
+        
+  //     }
+  //   }
+  // }
+};
 </script>
 
 <style>
