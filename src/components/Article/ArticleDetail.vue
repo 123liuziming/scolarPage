@@ -3,9 +3,8 @@
     <el-table
       :show-header="false"
       :data="tableData"
-      style="width: 100%; background: none;  table-layout: fixed"
     >
-      <el-table-column width="100%">
+      <el-table-column width="80%">
         <template slot-scope="scope">
           <strong>{{ scope.row.date }}</strong>
         </template>
@@ -71,7 +70,7 @@ export default {
 
 <style scoped>
 .introBox {
-  width: 100%;
+  width: 30vw;
   margin-top: 1vh;
 }
 @media (max-width: 1200px) {

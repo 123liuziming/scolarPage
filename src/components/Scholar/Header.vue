@@ -4,10 +4,10 @@
       <div style="display: flex">
         <div style="width: 50vw;margin-top:5vh">
           <h1 style="color: white" class="h1">
-            <b>{{scholarInfo.name}}</b>
+            <b>{{scholarinfo.name}}</b>
           </h1>
           <h4 style="color: white" class="h4">
-            <a class="lineLimit">{{scholarInfo.orgs[0]}}</a>
+            <a class="lineLimit">{{scholarinfo.orgs[0]}}</a>
           </h4>
           <p class="button" style="margin-top: 3vh">
             <el-button
@@ -15,7 +15,7 @@
               type="success"
               round
               size="mini"
-              :disabled="isSelf"
+              :disabled="isself"
               @click="$emit('sendprivatemsg')"
             >
               <font color="black">
@@ -39,7 +39,7 @@
               type="success"
               round
               size="mini"
-              :disabled="isSelf"
+              :disabled="isself"
               @click="$emit('auth')"
             >
               <font color="black">
@@ -49,7 +49,7 @@
           </p>
         </div>
         <div style="padding-top: 5vh; padding-left: 10vw">
-          <el-avatar class="avatarSize" :src="bigAvatar" />
+          <el-avatar class="avatarSize" :src="bigAvatar"/>
         </div>
       </div>
     </div>
@@ -57,116 +57,118 @@
 </template>
 
 <script>
-import { followScholarOp } from "../../graphql/scholar"
-export default {
-  name: "Header",
-  components: {},
-  props: ["scholarInfo", "isSelf", "isFollowing"],
-  mounted() {
-    this.isFollowed = this.isFollowing === false ? "success" : "info";
-    this.followBtnVal = this.isFollowing === true ? "已关注" : "关注 +";
-    this.isFollowDisabled = this.isFollowing;
-  },
-  data() {
-    return {
-      msg: "good",
-      bigAvatar: "../static/image/is1.jpg",
-      bigAvatarSize: 190,
-      // 是否已关注
-      isFollowed: "success",
-      isFollowDisabled: false,
-      followBtnVal: "关注 +"
-      // 私信内容
+    import {followScholarOp} from "../../graphql/scholar"
+
+    export default {
+        name: "Header",
+        components: {},
+        props: ["scholarinfo", "isself", "isfollowing"],
+        mounted() {
+            this.isFollowed = this.isfollowing === false ? "success" : "info";
+            this.followBtnVal = this.isfollowing === true ? "取消关注" : "关注 +";
+            this.isFollowDisabled = this.isfollowing;
+        },
+        data() {
+            return {
+                msg: "good",
+                bigAvatar: "../static/image/is1.jpg",
+                bigAvatarSize: 190,
+                // 是否已关注
+                isFollowed: "success",
+                isFollowDisabled: false,
+                followBtnVal: ""
+                // 私信内容
+            };
+        },
+        computed: {
+            followDisalbeFlag() {
+                return this.isself || this.isFollowDisabled;
+            }
+        },
+        methods: {
+            async followScholar() {
+                //var that = this;
+                this.$message({
+                    type: "success",
+                    message: "成功关注该学者"
+                });
+                const re = await followScholarOp(this.$route.query.ID);
+                this.isFollowed = "info";
+                this.followBtnVal = "取消关注";
+                this.isFollowDisabled = true;
+            }
+        }
     };
-  },
-  computed: {
-    followDisalbeFlag() {
-      return this.isSelf || this.isFollowDisabled;
-    }
-  },
-  methods: {
-    async followScholar(){
-      //var that = this;
-      this.$message({
-        type: "success",
-        message: "成功关注该学者"
-      });
-      const re = await followScholarOp(this.$route.query.ID);
-      this.isFollowed = "info";
-      this.followBtnVal = "已关注";
-      this.isFollowDisabled = true;
-    }
-  }
-};
 </script>
 
 <style scoped>
-a {
-  color: #ea9215;
-  -webkit-transition: 0.5s;
-  -o-transition: 0.5s;
-  transition: 0.5s;
-}
+  a {
+    color: #ea9215;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+  }
 
-a:hover,
-a:active,
-a:focus {
-  color: #ea9215;
-  outline: none;
-  text-decoration: none;
-}
+  a:hover,
+  a:active,
+  a:focus {
+    color: #ea9215;
+    outline: none;
+    text-decoration: none;
+  }
 
-.h1 {
-  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
-  font-size: 60px;
-  font-weight: 900;
-  line-height: 1.1;
-}
-
-.h4 {
-  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
-  font-size: 30px;
-}
-
-.h5 {
-  font-family: "Roboto Mono", "Microsoft YaHei", monospace;
-  font-size: 20px;
-}
-
-.avatarSize {
-  width: 190px;
-  height: 190px;
-}
-
-@media (max-width: 1200px) {
   .h1 {
-    font-size: 50px;
+    font-family: "Roboto Mono", "Microsoft YaHei", monospace;
+    font-size: 70px;
+    font-weight: 900;
+    line-height: 1.1;
   }
-}
 
-@media (max-width: 1200px) {
-  .h2 {
-    font-size: 30px;
+  .h4 {
+    font-family: "Roboto Mono", "Microsoft YaHei", monospace;
+    font-size: 20px;
+    padding-top: 1vh;
   }
-}
 
-@media (max-width: 1200px) {
-  .h3 {
+  .h5 {
+    font-family: "Roboto Mono", "Microsoft YaHei", monospace;
     font-size: 20px;
   }
-}
 
-@media (max-width: 1200px) {
   .avatarSize {
-    width: 150px;
-    height: 150px;
+    width: 190px;
+    height: 190px;
   }
-}
 
-.lineLimit {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
+  @media (max-width: 1200px) {
+    .h1 {
+      font-size: 50px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .h2 {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .h3 {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .avatarSize {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .lineLimit {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 </style>

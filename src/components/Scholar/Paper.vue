@@ -11,17 +11,18 @@
             <a class="title" @click="goToPaper(article.id)">{{ article.title }}({{article.year}})</a>
           </h4>
           <div style="text-align:justify;white-space:normal;
-         word-break:break-all;margin-left:1vw">
-            <a>{{userName}}</a>
-            <a class="other align alignNobottom" v-for="(author,ind) in article.authors" @click="goToAuthor(author.id)" :key="`ar${ind}`">{{ author.name }}</a>
+         word-break:break-all;margin-left:0.5vw">
+            <a>{{selfnames}}</a>
+            <a class="other align alignNobottom" v-for="(author,ind) in article.authors" v-if="ind < 20" @click="goToAuthor(author.id)" :key="`ar${ind}`">{{ author.name }}</a>
           </div>
-          <el-button
-            size="mini"
-            class="conference align"
-            v-for="(tag, index) in article.keywords" :v-if="index < 3" :key="index" @click="goToSearch(tag)">
-            {{ tag }}
-          </el-button>
-          <div class="doi align">{{article.doi}}</div>
+            <el-button
+              size="mini"
+              class="conference align"
+              v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index" @click="goToSearch(tag)">
+              {{ tag }}
+            </el-button>
+          <div class="align" style="color: yellowgreen">doi:{{!article.doi ? "暂无doi": article.doi }}</div>
+          <div class="align" style="color: coral">期刊:{{article.venue}}</div>
           <div>
             <span
             ><el-button type="warning" size="mini" class="align">{{
@@ -50,7 +51,7 @@
       </el-card>
     </div>
     <el-pagination
-      style="padding-left: 4.5vw;padding-top: 3vh"
+      style="padding-left: 1vw;padding-top: 3vh"
       layout="prev, pager, next"
       :total="totalArticles"
       :page-size="5"
@@ -64,19 +65,22 @@
 
     export default {
         name: "Paper",
-        props:["articles","totalArticles"],
+        props:{
+            articles : Array,
+            totalArticles: Number,
+            selfnames: String,
+        },
         data() {
             return {
                 tabPosition: "right",
                 pageNow: 1,
                 yearSel:"primary",
                 refSel:"",
-                userName:""
             };
         },
         mounted(){
-          this.userName = this.$store.getters.usersName;
         },
+
         methods: {
             handleCurrentChange: function (currentPage) {
                 this.pageNow = currentPage;
@@ -100,7 +104,7 @@
                 this.yearSel = "";
             },
             goToSearch(str){
-                this.$router.push({path:"/search",query:{w:str}});
+                this.$router.push({path:"/search",query:{w:str.substr(0,20)}});
             },
             goToAuthor(id){
                 window.location.href = "/main?ID=" + id;
@@ -139,7 +143,7 @@
 
   a.title {
     color: white;
-    margin-left: 1vw
+    margin-left: 0.5vw
   }
 
   a.nav {
@@ -164,8 +168,8 @@
   }
 
   .align {
-    margin-left: 1vh;
     margin-bottom: 1.5vh;
+    margin-left: 0.5vw;
   }
   .align.alignNobottom{
     margin-bottom: 0.5vh
@@ -175,9 +179,6 @@
     margin-top: 1%;
   }
 
-  .doi{
-    color: yellowgreen;
-  }
 
   .articlesCard{
       width: 100%;

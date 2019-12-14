@@ -90,14 +90,8 @@ export default {
 }
 
 .eChartContainer.relation {
-  width: 35vw;
-  height: 300px;
+  width: 75vw;
+  height: 590px;
 }
 
-@media (max-width: 1200px) {
-  .eChartContainer.relation {
-    margin-left: 45vw;
-    width: 30vw;
-  }
-}
 </style>
