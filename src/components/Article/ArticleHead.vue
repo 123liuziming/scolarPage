@@ -1,31 +1,45 @@
 <template>
   <div>
     <div>
-      <h3 class="article-header">
-        {{title}}
-      </h3>
-      <a class="search-tag-line" href="main">{{ author }}</a>
-      <p class="button">
-        <el-button id="b1" class="co" type="success" round
-          @click="CollectIt()"><font color="black"><strong>{{ButtonCollect}}</strong></font></el-button
-        >
-        <el-button id="b2" style="border:0px;color:grey" type="info" round disabled>{{isCollected}}</el-button
-        >
-      </p>
+      <el-row>
+        <el-col :span="16">
+          <div class="article-header">
+            {{title}}
+          </div>
+          <a class="search-tag-line" href="main">{{ author }}</a>
+          <p class="button" style="margin-top: 10%">
+            <el-button id="b1" class="co" type="success" round
+                       @click="CollectIt()"><font color="black"><strong>{{ButtonCollect}}</strong></font></el-button
+            >
+            <el-button id="b2" style="border:0px;color:grey" type="info" round disabled>{{isCollected}}</el-button
+            >
+          </p>
+        </el-col>
+        <el-col :span="8">
+          <el-image
+            style="width: 60%;margin-top:5%"
+            :src="`https://source.unsplash.com/300x400/?${pic}`"
+            fit="fit"
+          />
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
+import {getFavourite,favoriteArticleOp,getPaper} from "../../graphql/Article"
 export default {
   name: "article_head",
   data() {
     return {
-      author: "AD Wade, K Wang",
-      title:"The rise of the machines: Artificial intelligence meets scholarly content",
+      id:'',
+      author: "",
+      title:"",
       isLiked:false,
       isCollected:"",
-      ButtonCollect:""
+      ButtonCollect:"",
+      pic: { required: true, type: String }
     };
   },
   methods:{
@@ -47,6 +61,7 @@ export default {
         type: "success",
         message: "成功收藏"
       });
+        favoriteArticleOp(this.id);
       }
       else {
         this.isCollected="未收藏"
@@ -56,24 +71,36 @@ export default {
         type: "success",
         message: "取消收藏"
       });
+        favoriteArticleOp(this.id);
       }
     }
   },
-  mounted(){
+  async mounted(){
+    this.id = this.$route.query.ID;
+    const paper = (await getFavourite()).data.allFavorites;
+    const item = (await getPaper(this.id)).data.getPaperById;
+    for(let i = 0;i<paper.length;i++){
+      if(paper[i].id === this.id){
+        this.isLiked = true;
+      }
+    }
+    this.title = item.currentPaper.title
+    //初始化是否收藏
     this.Initial();
+    //初始化标题
   }
 };
 </script>
 
 <style scoped>
-h3.article-header {
+.article-header {
   font-weight: bold;
   font-size: 36px;
   color: #fff;
   text-align: left;
   margin-left: 10%;
   margin-top: 3%;
-  width: 50%;
+  width: 80%;
 }
 
 a.search-tag-line {

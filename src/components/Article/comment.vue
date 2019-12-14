@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <p  style="color:white;font-size:40px">COMMENT HERE</p>
-        <comments 
+        <comments
           :comments_wrapper_classes="['custom-scrollbar', 'comments-wrapper']"
           :comments="comments"
           :current_user="current_user"
@@ -12,6 +12,7 @@
 
 <script>
 import Comments from './comments.vue'
+import {getPaper,writeCommentOp} from "../../graphql/Article";
 export default {
   name: 'app',
   components: {
@@ -19,33 +20,54 @@ export default {
   },
   data() {
     return {
+      id:'',
       likes: 15,
       creator: {
         avatar: 'http://via.placeholder.com/100x100/a74848',
         user: 'exampleCreator'
       },
       current_user: {
-        avatar: 'http://via.placeholder.com/100x100/a74848',
-        user: 'exampler'
+        avatar: '',
+        user: ''
       },
       comments: [
-        {
-          id: 1,
-          user: 'example',
-          avatar: 'http://via.placeholder.com/100x100/a74848',
-          text: 'lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor ',
-        }
       ]
     }
   },
+
+  async mounted(){
+    this.id = this.$route.query.ID;
+    const CommentList = (await getPaper(this.id)).data.getPaperById.comments;
+    for(let i = 0; i < CommentList.length;i++){
+      if(CommentList[i].body!==null)
+      {
+        let len = this.comments.length + 1;
+        this.comments.push({
+          id: len,
+          user:CommentList[i].author===null?"无名氏":CommentList[i].author.name,
+          email:CommentList[i].author.email===null?"该用户暂无邮箱":CommentList[i].author.email,
+          avatar:null,
+          text:CommentList[i].body
+        });
+      }
+    }
+    //加载当前用户的信息
+    this.current_user.user = this.$store.getters.usersName;
+
+  },
+
   methods: {
-    submitComment: function(reply) {
+    submitComment: async function (reply) {
       this.comments.push({
         id: this.comments.length + 1,
         user: this.current_user.user,
-        avatar: this.current_user.avatar,
+        avatar: null,
         text: reply
       });
+      await writeCommentOp({
+        paperId:this.id,
+        body:reply
+      })
     }
   }
 }

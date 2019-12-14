@@ -167,7 +167,7 @@
             },
             goToSearchTag(str) {
                 this.$router.push({path: '/search', query: {w: str}});
-            }
+            },
         },
         async mounted() {
             let that = this;

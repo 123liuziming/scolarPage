@@ -8,7 +8,7 @@
       <el-card class="articlesCard" v-for="(article, ind) in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh" :key="`ar${ind}`">
         <div class="article-entry standard">
           <h4>
-            <a class="title">{{ article.title }}({{article.year}})</a>
+            <a class="title" @click="goToPaper(article.id)">{{ article.title }}({{article.year}})</a>
           </h4>
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:1vw">
@@ -18,7 +18,7 @@
           <el-button
             size="mini"
             class="conference align"
-            v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index" @click="goToSearch(tag)">
+            v-for="(tag, index) in article.keywords" :v-if="index < 3" :key="index" @click="goToSearch(tag)">
             {{ tag }}
           </el-button>
           <div class="doi align">{{article.doi}}</div>
@@ -104,6 +104,9 @@
             },
             goToAuthor(id){
                 window.location.href = "/main?ID=" + id;
+            },
+            goToPaper(id){
+              window.location.href = "/article?ID=" + id;
             }
         },
         watch: {

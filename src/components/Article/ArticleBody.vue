@@ -30,7 +30,14 @@
           发布于
         </div>
       </div>
-      <div id="infoScolar">作者信息<el-divider ></el-divider></div>
+      <div id="infoScolar">作者信息<el-divider ></el-divider>
+        <span  style="color:grey;font-size:20px" v-for="a in author.slice(0,5)" @click="toNewPage(a.id)">{{a.name}}<br></span>
+        <p v-show="!author" style="color:grey;font-size:20px">暂无学者</p>
+      </div>
+      <div id="relativeArticle">类似论文推荐<el-divider ></el-divider>
+        <a  v-for="article in RArticles.slice(0,3)">{{article.name}}</a>
+        <p v-show="RArticles" style="color:grey;font-size:20px">暂无相关推荐</p>
+      </div>
     </el-col>
     </el-row>
     <el-row>
@@ -43,17 +50,34 @@
 import PDF from "../pdf";
 import comment from "./comment"
 import Article_Detail from "./ArticleDetail"
+import {getPaper} from "../../graphql/Article";
+
 export default {
   name: "article_body",
   components: {
     PDF,Article_Detail,comment
   },
+  async mounted() {
+    this.id = this.$route.query.ID;
+    const item = (await getPaper(this.id)).data.getPaperById;
+    this.author = item.currentPaper.authors;
+    this.time_cite = item.currentPaper.nCitation===null?0:item.currentPaper.nCitation;
+    this.year_publish = item.currentPaper.year;
+    this.RArticles = item.relatedWorks;
+  },
   data() {
     return {
-      author: "AD Wade, K Wang",
+      author: [],
       time_cite:0,
-      year_publish:2016
+      year_publish:0,
+      id:'',
+      RArticles:[]
     };
+  },
+  methods:{
+    toNewPage(aid){
+      window.location.href = "/main?ID=" + aid;
+    }
   }
 };
 </script>
@@ -116,6 +140,12 @@ export default {
   width: 80%;
   margin-top: 1%;
   font-size: 30px;
-  color:grey;
+  color:greenyellow;
+}
+#relativeArticle{
+  width: 80%;
+  margin-top: 10%;
+  font-size: 30px;
+  color:greenyellow;
 }
 </style>

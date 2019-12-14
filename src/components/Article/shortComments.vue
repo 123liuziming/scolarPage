@@ -4,7 +4,7 @@
             <img :src="comment.avatar" alt="">
         </div>
         <div class="text">
-            <a class="username" href="#">@{{ comment.user }}</a> <span>{{ comment.text }}</span>
+            <a class="username" @click="open">@{{ comment.user }}</a> <span>{{ comment.text }}</span>
         </div>
     </div>
 </template>
@@ -12,7 +12,23 @@
 <script>
     export default {
         name: 'singleComment',
-        props: ['comment']
+        props: ['comment'],
+        methods: {
+        open() {
+          this.$msgbox({
+            title: '联系'+this.comment.user,
+            message: this.comment.email,
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(action => {
+            this.$message({
+              type: 'info',
+              message: this.comment.email==="该用户暂无邮箱"?'操作取消':'已经复制到剪切板'
+            });
+          });
+        }
+      }
     }
 </script>
 
