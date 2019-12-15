@@ -28,12 +28,12 @@ export default new Router({
     },
     {
       path: "/article",
-      name: "article",
+      name: "Article",
       component: Article,
     },
     {
       path: "/upload",
-      name: "upload",
+      name: "Upload",
       component: Plupload,
     },
     {
