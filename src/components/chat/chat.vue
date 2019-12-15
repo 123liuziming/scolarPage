@@ -1,8 +1,8 @@
 <template>
   <div :style="{background: backgroundColor}">
     <Header :chosenColor="chosenColor" :colors="colors" />
-    <Launcher
-      v-model="$store.getters.userId"
+    <!-- <Launcher
+    
       ref="launcher"
       @changeParticipant="changeParticipant"
       :alwaysScrollToBottom="alwaysScrollToBottom"
@@ -44,7 +44,7 @@
           <template v-if="scopedProps.message.liked">👍</template>
         </p>
       </template>
-    </Launcher>
+    </Launcher> -->
     <p class="text-center toggle">
       <a
         :style="{color: linkColor}"
@@ -140,11 +140,11 @@ export default {
     };
   },
   created() {
-    this.setColor("blue");
+    this.setColor("dark");
   },
   methods: {
     scrollDown(){
-      this.$refs.launcher.handleScrollDown()
+      // this.$refs.launcher.handleScrollDown()
     },
     async getAllContacts() {
       try {
@@ -238,6 +238,15 @@ export default {
       this.handleSendMessage(message);
     },
     openChat() {
+      if(!this.$store.getters.userId){
+        this.$notify({
+          type: "info",
+          title: "需要登录",
+          message: `登录以后才可以使用站内信功能`,
+          duration:4000,
+        });
+        return;
+      }
       this.isChatOpen = true;
       this.newMessagesCount = 0;
       this.getAllContacts();
