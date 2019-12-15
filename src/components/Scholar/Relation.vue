@@ -8,7 +8,26 @@
     export default {
         name: "Relation",
         data() {
-            return {};
+            return {
+                tableData: [
+                    {
+                        date: "姓名",
+                        name: ""
+                    },
+                    {
+                        date: "H-index",
+                        name: 0
+                    },
+                    {
+                        date: "发表论文数",
+                        name: 0
+                    },
+                    {
+                        date: "引用总数",
+                        name: 0
+                    }
+                ]
+            };
         },
         props: ["coAuthors"],
         mounted() {
@@ -35,13 +54,35 @@
                 },
                 tooltip: {
                     trigger: "item",
+                    alwaysShowContent:true,
+                    enterable:true,
                     formatter: function (params) {
                         if (params.data.target) {
-                            return params.data.articles[0] + params.data.articles[1];
+                            let tmp = "";
+                            let url = "";
+                            for(let i = 0; i < params.data.articles.length; i++){
+                                url = "'/article?id=" + params.data.articles[i] + "'";
+                                tmp += "<div><a href=" + url + ">" + params.data.articles[i] + "</a></div>"
+                            }
+                            return tmp;
                         } else {
-                            return (
-                                "<img src = " + '"https://source.unsplash.com/400x200/"' + ">"
-                            );
+                            return `
+                            <div style="display: flex"><img src="https://source.unsplash.com/400x200/" style="width: 120px; height: 120px;padding:5px">
+                            <div style="padding-left: 5px; padding-top: 3px ">
+                            <strong>
+                            ${params.data.name}
+                            </strong>
+
+                            <div>
+                            北京航空天大学
+                            </div>
+                            <div style="padding-top: 1px">H-index:1</div>
+                            <div style="padding-top: 1px">发表论文数:1</div>
+                            <div style="padding-top: 1px">引用总数:100000</div>
+                           </div>
+                           </div>
+
+                            `
                         }
                     }
                 },
@@ -102,8 +143,7 @@
                             },
 
                         ],
-                        links: [
-                        ],
+                        links: [],
                         lineStyle: {
                             normal: {
                                 opacity: 0.9,
@@ -115,7 +155,7 @@
                 ]
             };
             option.series[0].categories = [];
-            for(let i = 0; i < colorList.length; i++){
+            for (let i = 0; i < colorList.length; i++) {
                 option.series[0].categories[i] = {};
                 option.series[0].categories[i].name = i;
                 option.series[0].categories[i].itemStyle = {};
@@ -124,13 +164,14 @@
                 option.series[0].categories[i].itemStyle.normal.color = colorList[i % colorList.length]
             }
             console.log(option.series[0].categories);
-            for(let i = 0; i < this.coAuthors.length; i++){
+            for (let i = 0; i < this.coAuthors.length; i++) {
                 option.series[0].data[i + 1] = {};
                 option.series[0].data[i + 1]["name"] = this.coAuthors[i].scholarId;
                 option.series[0].data[i + 1]["category"] = i;
                 option.series[0].links[i] = {};
                 option.series[0].links[i].source = 0;
                 option.series[0].links[i].target = i + 1;
+                option.series[0].links[i].articles = ["ddd", "ccc", "d11"];
                 //option.series.links[i].articles =
             }
             var chartObj = echarts.init(document.getElementById("relation"));
@@ -146,7 +187,7 @@
   @media (max-width: 1200px) {
     #relation {
       margin-left: 10vw;
-      width: 30vw;
+      width: 70vw;
     }
   }
 </style>

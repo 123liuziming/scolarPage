@@ -58,4 +58,14 @@
     margin-top: 2vh;
     margin-left: 2vw
   }
+
+  @media (max-width:1200px) {
+    .introBox.hasbox {
+      width: 40vw;
+    }
+
+    .introBox.nobox {
+      width: 87vw;
+    }
+  }
 </style>

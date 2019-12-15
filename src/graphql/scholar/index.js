@@ -39,7 +39,8 @@ const findScholarQuery = gql`
         }
         nPubs
         nCitations
-        hIndex
+        hIndex,
+        userId
       }
       isFollowing
     }

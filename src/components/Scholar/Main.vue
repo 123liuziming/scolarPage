@@ -74,9 +74,10 @@
         async mounted() {
             let that = this;
             const id = that.$route.query.ID;
-            if (id === this.$store.getters.userId) this.isSelf = true;
             const scholar = await findScholarById(id);
             this.scholarInfo = scholar.data["findScholarById"].scholar;
+            if(this.scholarInfo.userId === this.$store.getters.userId)
+                this.isSelf = true;
             if(this.scholarInfo.orgs.length === 0)
                 this.scholarInfo.orgs.push("No research institute");
             this.isFollowing = scholar.data["findScholarById"].isFollowing;

@@ -59,7 +59,7 @@ export default {
   margin-bottom: 10px;
 }
 .body.bodyScholar{
-  margin-top: 350px;
+  margin-top: 300px;
 }
 
 .body.bodyArticle {

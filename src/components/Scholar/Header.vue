@@ -15,7 +15,7 @@
               type="success"
               round
               size="mini"
-              :disabled="isself"
+              :disabled="sendMsgFlag"
               @click="$emit('sendprivatemsg')"
             >
               <font color="black">
@@ -39,7 +39,7 @@
               type="success"
               round
               size="mini"
-              :disabled="isself"
+              :disabled="authenticateFlag"
               @click="$emit('auth')"
             >
               <font color="black">
@@ -82,7 +82,13 @@
         },
         computed: {
             followDisalbeFlag() {
-                return this.isself || this.isFollowDisabled;
+                return this.isself || this.isFollowDisabled || !this.$store.getters.hasLoggedIn;
+            },
+            sendMsgFlag(){
+                return this.isself || !this.$store.getters.hasLoggedIn;
+            },
+            authenticateFlag(){
+                return this.isself || !this.$store.getters.hasLoggedIn || this.scholarinfo.userId != null;
             }
         },
         methods: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button-group id="btnGroup">
+    <el-button-group id="btnGroup" >
       <el-button :type="yearSel" size="mini" @click="sortByYear">按年份排序</el-button>
       <el-button :type="refSel" size="mini" @click="sortByRef">按引用量排序</el-button>
     </el-button-group>
@@ -21,8 +21,8 @@
               v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index" @click="goToSearch(tag)">
               {{ tag }}
             </el-button>
-          <div class="align" style="color: yellowgreen">doi:{{!article.doi ? "暂无doi": article.doi }}</div>
-          <div class="align" style="color: coral">期刊:{{article.venue}}</div>
+          <div class="align" style="color: yellowgreen" v-if="article.doi">doi:{{ article.doi }}</div>
+          <div class="align" style="color: coral" v-if="article.venue">期刊:{{article.venue}}</div>
           <div>
             <span
             ><el-button type="warning" size="mini" class="align">{{
@@ -129,12 +129,8 @@
     transition: 0.5s;
   }
 
-  a:hover,
-  a:active,
   a:focus {
     color: #ea9215;
-    outline: none;
-    text-decoration: none;
   }
 
   a.other {
@@ -192,7 +188,8 @@
     width: 73vw;margin-left: 1vw;text-align:justify
   }
   #btnGroup{
-    padding-left: 28vw;margin-bottom: 3vh
+    margin-bottom: 3vh;
+    padding-left: 30vw;
   }
 
   @media (max-width: 1200px) {
@@ -203,7 +200,7 @@
       width:92vw;
     }
     #btnGroup{
-      padding-left: 40vw;
+      padding-left: 38vw;
     }
   }
 </style>

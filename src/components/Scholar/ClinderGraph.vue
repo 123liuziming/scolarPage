@@ -15,7 +15,7 @@
                     title: {
                         text: "学者研究兴趣指数",
                         textStyle: {
-                            color: "#B03A5B",
+                            color: "white",
                             fontWeight: "bolder"
                         },
                         left: "center"
