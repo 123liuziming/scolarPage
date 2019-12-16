@@ -143,13 +143,15 @@ function __P_md5blk(s) {
   return md5blks;
 }
 
-var hex_chr = "0123456789abcdef".split("");
+const __P_hex_chr = "0123456789abcdef".split("");
 
 function __P_rhex(n) {
   var s = "",
     j = 0;
   for (; j < 4; j++)
-    s += hex_chr[(n >> (j * 8 + 4)) & 0x0f] + hex_chr[(n >> (j * 8)) & 0x0f];
+    s +=
+      __P_hex_chr[(n >> (j * 8 + 4)) & 0x0f] +
+      __P_hex_chr[(n >> (j * 8)) & 0x0f];
   return s;
 }
 
