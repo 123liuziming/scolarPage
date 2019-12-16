@@ -38,7 +38,6 @@ import {avatarOf} from "../../common"
         data() {
             return {
                 reply: '',
-                isLogin:false,
             }
         },
         methods: {
@@ -49,14 +48,15 @@ import {avatarOf} from "../../common"
                 }
             }
         },
+      computed:{
+        isLogin(){
+          return this.current_user.user.length>0;
+        }
+      },
         async mounted() {
           this.current_user.avatar = avatarOf({
             name:this.$store.getters.usersName,
             avatar:null});
-          console.log(this.$store.getters.usersName);
-          if(this.$store.getters.hasLoggedIn){
-            this.isLogin = true;
-          }
         },
       props: ['comments', 'current_user', 'comments_wrapper_classes']
     }

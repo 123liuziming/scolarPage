@@ -6,7 +6,7 @@
           </div>
           <p class="button" style="margin-top: 10%">
             <el-button id="b1" class="co" type="success" round :disabled=!isLogin
-                       @click="CollectIt()"><font color="black"><strong>{{ButtonCollect}}</strong></font></el-button
+                       @click="CollectIt()"><font color="black"><strong>{{B}}</strong></font></el-button
             >
             <el-button  class="co" type="success" round style="margin-left: 3%"
                        @click="GoToPdf()"><font color="black"><strong>查看PDF</strong></font></el-button
@@ -29,19 +29,10 @@ export default {
       isLiked:false,
       isCollected:"",
       ButtonCollect:"收藏",
-      isLogin:false
+      //isLogin:false
     };
   },
   methods:{
-    Initial(){
-      if(this.isLiked){
-        this.isCollected="已收藏"
-        this.ButtonCollect="取消收藏"
-      }else{
-         this.isCollected="未收藏"
-        this.ButtonCollect="收藏"
-      }
-    },
     CollectIt(){
       if(!this.isLiked){
         this.isCollected="已收藏";
@@ -60,21 +51,33 @@ export default {
       document.documentElement.scrollTop=1000;
     }
   },
+  computed:{
+    isLogin(){
+      return this.$store.getters.hasLoggedIn;
+    },
+    B(){
+      if(!this.isLogin){
+        return "收藏"
+      }
+      if(this.isLiked){
+        return "取消收藏";
+      }else{
+        return "收藏"
+      }
+    }
+  },
   async mounted(){
     this.id = this.$route.query.ID;
     const item = (await getPaper(this.id)).data.getPaperById;
     this.title = item.currentPaper.title;
-    //console.log(this.$store.getters.usersName.length);
-    if(this.$store.getters.hasLoggedIn){
-      this.isLogin = true;
+    if(this.isLogin){
       const paper = (await getFavourite()).data.allFavorites;
       for(let i = 0;i<paper.length;i++){
         if(paper[i].id === this.id){
           this.isLiked = true;
         }
       };
-      //初始化是否收藏
-      this.Initial();
+
     }
 
   }
