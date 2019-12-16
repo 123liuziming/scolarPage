@@ -1,6 +1,10 @@
 <template>
   <div>
-    <el-link :underline="false" class="paper-item--title" @click="goToArticle(item.id)">
+    <el-link
+      :underline="false"
+      class="paper-item--title"
+      @click="goToArticle(item.id)"
+    >
       {{
         item.title.substring(0, 140) + (item.title.length > 140 ? "..." : "")
       }}
@@ -10,9 +14,11 @@
         style="color: #808080;"
         v-for="(author, ind) in item.authors.slice(0, 5)"
         :key="`au${ind}`"
-        ><el-link style="color: #808080;" :underline="false">{{
-          author.name
-        }}</el-link
+        ><el-link
+          style="color: #808080;"
+          :underline="false"
+          @click="goToScholar(author.id)"
+          >{{ author.name }}</el-link
         ><span v-if="ind !== 4 && ind !== item.authors.length - 1"
           >,
         </span> </span
@@ -23,6 +29,7 @@
     <p>
       <el-tag
         color="#666666"
+        @click="$router.push({ name: 'Search', query: { w: keyword } })"
         size="mini"
         style="color: #ffffff; border: none;"
         v-for="(keyword, ind) in item.keywords
@@ -39,7 +46,9 @@
       <span v-else>应版权方要求，我们暂时不能提供此文章的摘要信息。</span>
     </p>
     <p>
-      <span v-if="item.year">{{ item.year }} | </span>被引用
+      <span v-if="item.venue"
+        >{{ item.venue }}<span v-if="item.year">, </span></span
+      ><span v-if="item.year">{{ item.year }} | </span>被引用
       {{ item.nCitation || 0 }} 次
     </p>
   </div>
@@ -54,6 +63,10 @@ export default {
   methods: {
     goToArticle(id) {
       this.$router.push({ name: "Article", query: { ID: id } });
+    },
+
+    goToScholar(id) {
+      this.$router.push({ name: "Main", query: { ID: id } });
     }
   }
 };

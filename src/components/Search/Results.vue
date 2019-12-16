@@ -149,7 +149,10 @@ export default {
   },
   watch: {
     "$route.query.w"(newVal) {
-      if (newVal != this.keyword) this.keyword = newVal;
+      if (newVal != this.keyword) {
+        this.keyword = newVal;
+        this.loadAnotherPage();
+      }
     }
   }
 };

@@ -134,14 +134,6 @@ export default {
         {
           name: "首页",
           to: "Index"
-        },
-        {
-          name: "作者",
-          to: "Main"
-        },
-        {
-          name: "论文",
-          to: "article"
         }
       ],
       userInfo: {
