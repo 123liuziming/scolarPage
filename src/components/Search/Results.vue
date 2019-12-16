@@ -101,7 +101,7 @@ export default {
     this.search();
   },
   methods: {
-    getQueries() {
+    updateRouterQueries() {
       this.$router
         .push({
           query: { w: this.keyword, p: this.currentPage, t: this.activeTab }
@@ -111,12 +111,12 @@ export default {
 
     async loadAnotherPage(noLoadingInstance) {
       if (!this.keyword) return;
-      this.getQueries();
       let loadingInstance;
       if (!noLoadingInstance)
         loadingInstance = Loading.service({
           fullscreen: true,
-          background: "#000000"
+          background: "rgba(0, 0, 0, 0.8)",
+          text: "请稍候"
         });
       try {
         if (this.activeTab === "a") {
@@ -137,14 +137,14 @@ export default {
     },
 
     search() {
-      this.getQueries();
+      this.updateRouterQueries();
       this.loadAnotherPage();
     },
 
     changeTab() {
       this.results = [];
       this.nPagesOfResults = 0;
-      this.loadAnotherPage(true);
+      this.loadAnotherPage();
     }
   },
   watch: {
