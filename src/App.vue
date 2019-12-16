@@ -334,7 +334,6 @@ export default {
   height: 590px;
 }
 
-<<<<<<< HEAD
 @media (max-width: 1200px) {
   .eChartContainer.relation {
     margin-left: 45vw;
@@ -407,6 +406,4 @@ body {
 .messageStyling {
   font-size: small;
 }
-=======
->>>>>>> e7e5f632ed3942599d47f57ded3f6c703b6609d6
 </style>
