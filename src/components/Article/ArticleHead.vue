@@ -1,28 +1,18 @@
 <template>
   <div>
     <div>
-      <el-row>
-        <el-col :span="16">
           <div class="article-header">
             {{title}}
           </div>
-          <a class="search-tag-line" href="main">{{ author }}</a>
           <p class="button" style="margin-top: 10%">
-            <el-button id="b1" class="co" type="success" round
+            <el-button id="b1" class="co" type="success" round :disabled=!isLogin
                        @click="CollectIt()"><font color="black"><strong>{{ButtonCollect}}</strong></font></el-button
             >
-            <el-button id="b2" style="border:0px;color:grey" type="info" round disabled>{{isCollected}}</el-button
+            <el-button  class="co" type="success" round style="margin-left: 3%"
+                       @click="GoToPdf()"><font color="black"><strong>查看PDF</strong></font></el-button
             >
           </p>
-        </el-col>
-        <el-col :span="8">
-          <el-image
-            style="width: 60%;margin-top:5%"
-            :src="`https://source.unsplash.com/300x400/?${pic}`"
-            fit="fit"
-          />
-        </el-col>
-      </el-row>
+
     </div>
   </div>
 </template>
@@ -38,8 +28,8 @@ export default {
       title:"",
       isLiked:false,
       isCollected:"",
-      ButtonCollect:"",
-      pic: { required: true, type: String }
+      ButtonCollect:"收藏",
+      isLogin:false
     };
   },
   methods:{
@@ -54,40 +44,39 @@ export default {
     },
     CollectIt(){
       if(!this.isLiked){
-        this.isCollected="已收藏"
-        this.ButtonCollect="取消收藏"
-        this.isLiked=true
-        this.$message({
-        type: "success",
-        message: "成功收藏"
-      });
+        this.isCollected="已收藏";
+        this.ButtonCollect="取消收藏";
+        this.isLiked=true;
         favoriteArticleOp(this.id);
       }
       else {
-        this.isCollected="未收藏"
-        this.ButtonCollect="收藏"
-        this.isLiked=false
-        this.$message({
-        type: "success",
-        message: "取消收藏"
-      });
+        this.isCollected="未收藏";
+        this.ButtonCollect="收藏";
+        this.isLiked=false;
         favoriteArticleOp(this.id);
       }
+    },
+    GoToPdf(){
+      document.documentElement.scrollTop=1000;
     }
   },
   async mounted(){
     this.id = this.$route.query.ID;
-    const paper = (await getFavourite()).data.allFavorites;
     const item = (await getPaper(this.id)).data.getPaperById;
-    for(let i = 0;i<paper.length;i++){
-      if(paper[i].id === this.id){
-        this.isLiked = true;
-      }
+    this.title = item.currentPaper.title;
+    //console.log(this.$store.getters.usersName.length);
+    if(this.$store.getters.hasLoggedIn){
+      this.isLogin = true;
+      const paper = (await getFavourite()).data.allFavorites;
+      for(let i = 0;i<paper.length;i++){
+        if(paper[i].id === this.id){
+          this.isLiked = true;
+        }
+      };
+      //初始化是否收藏
+      this.Initial();
     }
-    this.title = item.currentPaper.title
-    //初始化是否收藏
-    this.Initial();
-    //初始化标题
+
   }
 };
 </script>
@@ -95,12 +84,12 @@ export default {
 <style scoped>
 .article-header {
   font-weight: bold;
-  font-size: 36px;
+  font-size: 38px;
   color: #fff;
   text-align: left;
-  margin-left: 10%;
+  margin-left: 5%;
   margin-top: 3%;
-  width: 80%;
+  width: 50%;
 }
 
 a.search-tag-line {
@@ -112,9 +101,9 @@ a.search-tag-line {
 }
 
 p.button {
-  margin-top: 1.5%;
   text-align: left;
-  margin-left: 10%;
+  margin-left: 5%;
+
 }
 
 .bg {

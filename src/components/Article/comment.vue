@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <p style="color:white;font-size:40px">COMMENT HERE</p>
+    <p style="color:greenyellow;font-size:30px">评论区</p>
+    <el-divider ></el-divider>
     <comments
       :comments_wrapper_classes="['custom-scrollbar', 'comments-wrapper']"
       :comments="comments"
@@ -13,6 +14,7 @@
 <script>
 import Comments from "./comments.vue";
 import { getPaper, writeCommentOp } from "../../graphql/Article";
+import {avatarOf} from "../../common"
 export default {
   name: "app",
   components: {
@@ -50,13 +52,18 @@ export default {
             CommentList[i].author.email === null
               ? "该用户暂无邮箱"
               : CommentList[i].author.email,
-          avatar: null,
+          avatar: avatarOf({
+            name:CommentList[i].author.name,
+            avatar:null}),
           text: CommentList[i].body
         });
       }
     }
     //加载当前用户的信息
     this.current_user.user = this.$store.getters.usersName;
+    this.current_user.avatar = avatarOf({
+      name:this.$store.getters.usersName,
+      avatar:null});
   },
 
   methods: {
@@ -64,7 +71,7 @@ export default {
       this.comments.push({
         id: this.comments.length + 1,
         user: this.current_user.user,
-        avatar: null,
+        avatar: this.current_user.avatar,
         text: reply
       });
       await writeCommentOp({
