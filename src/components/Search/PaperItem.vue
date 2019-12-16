@@ -27,18 +27,17 @@
       >
     </p>
     <p>
-      <el-tag
+      <el-button
         color="#666666"
         @click="$router.push({ name: 'Search', query: { w: keyword } })"
         size="mini"
-        style="color: #ffffff; border: none;"
+        style="border: none;"
         v-for="(keyword, ind) in item.keywords
           .filter(el => el.length <= 20)
           .slice(0, 5)"
         :key="`kw${ind}`"
-        class="paper-item--tag"
         :disable-transitions="true"
-        >{{ keyword }}</el-tag
+        >{{ keyword }}</el-button
       >
     </p>
     <p class="paper-item--hide-overflow paper-item--abstract">
@@ -73,10 +72,6 @@ export default {
 </script>
 
 <style>
-.paper-item--tag {
-  margin-right: 5px;
-}
-
 .paper-item--title {
   font-weight: bold !important;
   font-size: 18px !important;

@@ -13,12 +13,11 @@
         <el-tag
           color="#666666"
           size="mini"
-          style="color: #ffffff; border: none;"
+          style="color: #ffffff; border: none; margin-right: 5px"
           v-for="(tag, ind) in item.tags
             .filter(el => el.t.length <= 20)
             .slice(0, 5)"
           :key="`kw${ind}`"
-          class="paper-item--tag"
           :disable-transitions="true"
           >{{ tag.t }}</el-tag
         >
@@ -33,7 +32,7 @@
         {{ item.orgs.join(", ") }}
       </p>
       <p style="color: #888888">
-        {{ item.nCitations }} 次被引用&nbsp;&nbsp;&nbsp;h-index:
+        {{ item.nCitations }} 次被引用, h-index:
         {{ item.hIndex }}
       </p>
     </div>
