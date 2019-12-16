@@ -1,12 +1,6 @@
 <template>
   <div style="display: flex;">
-    <el-avatar
-      :src="
-        item.avatar
-          ? item.avatar
-          : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
-      "
-    />
+    <el-avatar :src="avatarOf(item)" />
     <div style="margin-left: 20px;">
       <el-link
         style="font-weight: bold; font-size: 18px;"
@@ -47,10 +41,15 @@
 </template>
 
 <script>
+import { avatarOf } from "@/common";
+
 export default {
   name: "ScholarItem",
   props: {
     item: { type: Object, required: true }
+  },
+  methods: {
+    avatarOf
   }
 };
 </script>
