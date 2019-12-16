@@ -284,7 +284,6 @@ export default {
 
 .body {
   min-height: 125vh;
-  margin-top: 300px;
   background-color: black;
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
     0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
@@ -292,6 +291,9 @@ export default {
   animation-fill-mode: both;
   animation-name: fadeInLeft;
   margin-bottom: 10px;
+}
+.body.bodyScholar{
+  margin-top: 300px;
 }
 
 .body.bodyArticle {
@@ -328,10 +330,11 @@ export default {
 }
 
 .eChartContainer.relation {
-  width: 35vw;
-  height: 300px;
+  width: 75vw;
+  height: 590px;
 }
 
+<<<<<<< HEAD
 @media (max-width: 1200px) {
   .eChartContainer.relation {
     margin-left: 45vw;
@@ -404,4 +407,6 @@ body {
 .messageStyling {
   font-size: small;
 }
+=======
+>>>>>>> e7e5f632ed3942599d47f57ded3f6c703b6609d6
 </style>

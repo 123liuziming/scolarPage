@@ -39,7 +39,8 @@ const findScholarQuery = gql`
         }
         nPubs
         nCitations
-        hIndex
+        hIndex,
+        userId
       }
       isFollowing
     }
@@ -62,32 +63,82 @@ const sendMessageMutation = gql`
   }
 `;
 
-function sendMessage(receiverId, content){
+const updateBulletinMutation = gql`
+  mutation updateBulletin($scholarId:ID, $bulletin:String){
+    updateBulletin(scholarId:$scholarId, bulletin:$bulletin){
+      id
+  }
+ }
+`;
+
+const addTagMutation = gql`
+  mutation addTags($scholarId:ID, $t:String, $w:Float){
+    addTags(params:{scholarId:$scholarId, tags:{t:$t, w:$w}}){
+      id
+    }
+  }
+`;
+
+const removeTagMutation = gql`
+  mutation removeTags($scholarId:ID, $t:String, $w:Float){
+    removeTags(params:{scholarId:$scholarId, tags:{t:$t, w:$w}}){
+      id
+    }
+   }
+`;
+
+//const createAuthMutation = gql`
+  //mutation createAuthentication($manager)
+
+//`;
+
+function addTag(scholarId, t, w){
   return client.mutate({
-    mutation:sendMessageMutation,
-    variables:{receiverId, content},
+    mutation:addTagMutation,
+    variables:{scholarId, t, w}
   });
 }
 
-function followScholarOp(scholarId){
+function removeTag(scholarId, t, w){
   return client.mutate({
-    mutation:followScholarMutation,
-    variables:{ scholarId },
+    mutation:removeTagMutation,
+    variables:{scholarId, t, w}
   });
 }
 
-function findScholarById(scholarId){
+function updateBulletin(scholarId, bulletin){
+  return client.mutate({
+    mutation:updateBulletinMutation,
+    variables:{scholarId, bulletin},
+  })
+}
+
+function sendMessage(receiverId, content) {
+  return client.mutate({
+    mutation: sendMessageMutation,
+    variables: {receiverId, content},
+  });
+}
+
+function followScholarOp(scholarId) {
+  return client.mutate({
+    mutation: followScholarMutation,
+    variables: {scholarId},
+  });
+}
+
+function findScholarById(scholarId) {
   return client.query({
     query: findScholarQuery,
-    variables: { scholarId },
+    variables: {scholarId},
   });
 }
 
 function getPaperById(scholarId) {
   return client.query({
     query: paperQuery,
-    variables: { scholarId },
+    variables: {scholarId},
   });
 }
 
-export { getPaperById, findScholarById, followScholarOp, sendMessage }
+export {getPaperById, findScholarById, followScholarOp, sendMessage, updateBulletin, addTag, removeTag}

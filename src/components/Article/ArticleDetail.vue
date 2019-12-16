@@ -3,9 +3,8 @@
     <el-table
       :show-header="false"
       :data="tableData"
-      style="width: 100%; background: none;  table-layout: fixed"
     >
-      <el-table-column width="100%">
+      <el-table-column width="80%">
         <template slot-scope="scope">
           <strong>{{ scope.row.date }}</strong>
         </template>
@@ -16,6 +15,7 @@
 </template>
 
 <script>
+  import {getPaper} from "../../graphql/Article";
 export default {
   name: "Intro",
   data() {
@@ -27,7 +27,7 @@ export default {
         },
         {
           date: "authors",
-          name: {}
+          name: ""
         },
         {
           date: "issue",
@@ -35,7 +35,7 @@ export default {
         },
         {
           date: "keywords",
-          name: []
+          name: ""
         },
         {
             date: "venue",
@@ -43,17 +43,34 @@ export default {
         },
         {
           date: "abstracts",
-          name: "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+          name: ""
         }
       ]
     };
-  }
+  },
+  async mounted() {
+    this.id = this.$route.query.ID;
+    const item = (await getPaper(this.id)).data.getPaperById.currentPaper;
+    //文章信息初始化
+    this.tableData[0].name = item.title;
+    for(let i =0;i<item.authors.length;i++){
+      this.tableData[1].name+=item.authors[i].name+","
+    }
+    this.tableData[2].name = item.issue!==null?item.issue:"暂无"
+    if(item.keywords.length===0)
+      this.tableData[3].name = '暂无关键词'
+    for(let i =0;i<item.keywords.length;i++){
+      this.tableData[3].name+=item.keywords[i]+","
+    }
+    this.tableData[4].name = item.venue===null?"暂无":item.venue;
+    this.tableData[5].name = item.abstract===null?"应版权方要求，无法显示":item.abstract;
+  },
 };
 </script>
 
 <style scoped>
 .introBox {
-  width: 100%;
+  width: 30vw;
   margin-top: 1vh;
 }
 @media (max-width: 1200px) {

@@ -3,7 +3,12 @@
     <div id="search-results--container">
       <div id="search-results--header">
         <h1 style="font-weight: bold; color: white;">
-          Dive into your sea of creativeness<br />from here.
+          <template v-if="activeTab === 'a'"
+            >Dive into your sea of creativeness<br />from here.</template
+          >
+          <template v-else
+            >Meet creativity right away<br />with just a click.</template
+          >
         </h1>
         <el-tabs
           v-model="activeTab"
@@ -34,16 +39,23 @@
             <PaperItem :item="item" />
             <el-divider v-if="ind !== results.length - 1" />
           </div>
-          <el-pagination
-            :hide-on-single-page="true"
-            :page-count="nPagesOfResults"
-            layout="prev, pager, next"
-            @current-change="loadAnotherPage"
-            :current-page.sync="currentPage"
-          />
         </div>
       </template>
-      <template v-else> </template>
+      <template v-else>
+        <div
+          id="search-results--results"
+          v-if="$route.query.w && results.length"
+        >
+          <div
+            v-for="(item, ind) in results"
+            :key="`scholar${ind}`"
+            style="margin-bottom: 20px;"
+          >
+            <ScholarItem :item="item" />
+            <el-divider v-if="ind !== results.length - 1" />
+          </div>
+        </div>
+      </template>
       <div
         style="color:white; background: #000000; width: 100%; text-align: center; padding-bottom: 40px; border-radius: 0 0 20px 20px;"
         v-if="!$route.query.w || !results.length"
@@ -51,18 +63,28 @@
         <span v-if="!$route.query.w">输入关键词，键入回车以开始。</span
         ><span v-else>暂无结果。</span>
       </div>
+      <el-pagination
+        :hide-on-single-page="true"
+        :page-count="nPagesOfResults"
+        layout="prev, pager, next"
+        @current-change="loadAnotherPage"
+        :current-page.sync="currentPage"
+        style="margin-top: 20px"
+        background
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { spotlight } from "@/graphql/search";
+import { searchPapers, searchScholars } from "@/graphql/search";
 import { Loading } from "element-ui";
 import PaperItem from "./PaperItem";
+import ScholarItem from "./ScholarItem";
 
 export default {
   name: "Results",
-  components: { PaperItem },
+  components: { PaperItem, ScholarItem },
   data() {
     return {
       activeTab: "a",
@@ -98,16 +120,16 @@ export default {
         });
       try {
         if (this.activeTab === "a") {
-          const { papersResponse } = await spotlight(
-            this.keyword,
-            this.currentPage
-          );
-          this.results = papersResponse.papers;
-          this.nPagesOfResults = papersResponse.numOfPages;
+          const response = await searchPapers(this.keyword, this.currentPage);
+          this.results = response.papers;
+          this.nPagesOfResults = response.numOfPages;
         } else {
-          // TODO
+          const response = await searchScholars(this.keyword, this.currentPage);
+          this.results = response.scholars;
+          this.nPagesOfResults = response.numOfPages;
         }
       } catch (err) {
+        if (process.env.NODE_ENV !== "production") console.error(err);
         this.$message.error("在完成您请求的过程中发生了问题。请稍后重试。");
       } finally {
         if (loadingInstance) loadingInstance.close();
@@ -121,6 +143,7 @@ export default {
 
     changeTab() {
       this.results = [];
+      this.nPagesOfResults = 0;
       this.loadAnotherPage(true);
     }
   },

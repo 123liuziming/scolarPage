@@ -1,7 +1,9 @@
 <template>
   <div>
-    <el-link :underline="false" class="paper-item--title">
-      {{ item.title.substring(0, 140) + (item.title.length > 140 ? '...' : '') }}
+    <el-link :underline="false" class="paper-item--title" @click="goToArticle(item.id)">
+      {{
+        item.title.substring(0, 140) + (item.title.length > 140 ? "..." : "")
+      }}
     </el-link>
     <p>
       <span
@@ -23,7 +25,9 @@
         color="#666666"
         size="mini"
         style="color: #ffffff; border: none;"
-        v-for="(keyword, ind) in item.keywords.filter(el => el.length <= 20).slice(0, 5)"
+        v-for="(keyword, ind) in item.keywords
+          .filter(el => el.length <= 20)
+          .slice(0, 5)"
         :key="`kw${ind}`"
         class="paper-item--tag"
         :disable-transitions="true"
@@ -34,7 +38,10 @@
       <span v-if="item.abstract">{{ item.abstract }}</span>
       <span v-else>应版权方要求，我们暂时不能提供此文章的摘要信息。</span>
     </p>
-    <p><span v-if="item.year">{{ item.year }} | </span>被引用 {{ item.nCitation || 0 }} 次</p>
+    <p>
+      <span v-if="item.year">{{ item.year }} | </span>被引用
+      {{ item.nCitation || 0 }} 次
+    </p>
   </div>
 </template>
 
@@ -43,6 +50,11 @@ export default {
   name: "PaperItem",
   props: {
     item: { type: Object, required: true }
+  },
+  methods: {
+    goToArticle(id) {
+      this.$router.push({ name: "Article", query: { ID: id } });
+    }
   }
 };
 </script>

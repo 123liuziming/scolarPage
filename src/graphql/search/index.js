@@ -29,21 +29,27 @@ const scholarQuery = gql`
         name
         avatar
         userId
-        nPubs
         nCitations
+        tags {
+          t
+        }
+        hIndex
+        orgs
+        bulletin
       }
       numOfPages
     }
   }
 `
 
-async function spotlight(keyword, page, perPage) {
-  const paperQueryResults = await client.query({ query: paperQuery, variables: { keyword, page, perPage } });
-  const scholarQueryResults = await client.query({ query: scholarQuery, variables: { name: keyword, page, perPage } });
-  return {
-    papersResponse: paperQueryResults.data.Papers,
-    scholarsResponse: scholarQueryResults.data.Scholars
-  };
+async function searchPapers(keyword, page, perPage) {
+  const response = await client.query({ query: paperQuery, variables: { keyword, page, perPage } });
+  return response.data.Papers;
 }
 
-export { spotlight };
+async function searchScholars(name, page, perPage) {
+  const response = await client.query({ query: scholarQuery, variables: { name, page, perPage } });
+  return response.data.Scholars;
+}
+
+export { searchPapers, searchScholars };

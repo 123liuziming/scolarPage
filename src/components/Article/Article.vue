@@ -2,6 +2,7 @@
   <div class="scholarPg">
     <ArticleHead />
     <ArticleBody />
+
   </div>
 </template>
 

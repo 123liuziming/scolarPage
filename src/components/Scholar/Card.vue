@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="card">
     <div style="color: gray; font-size: 18px; font-weight: bold;">
       {{ title }}
     </div>
