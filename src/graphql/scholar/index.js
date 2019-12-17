@@ -26,6 +26,7 @@ const findScholarQuery = gql`
   query findScholarById($scholarId:ID){
     findScholarById(scholarId:$scholarId){
       scholar{
+        avatar
         name
         orgs
         tags{

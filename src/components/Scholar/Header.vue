@@ -49,7 +49,7 @@
           </p>
         </div>
         <div style="padding-top: 5vh; padding-left: 10vw">
-          <el-avatar class="avatarSize" :src="bigAvatar"/>
+          <el-avatar class="avatarSize" :src="avatarOf(scholarinfo)"/>
         </div>
       </div>
     </div>
@@ -57,7 +57,9 @@
 </template>
 
 <script>
-    import {followScholarOp} from "../../graphql/scholar"
+    import {followScholarOp} from "../../graphql/scholar";
+    import { avatarOf } from "@/common";
+
 
     export default {
         name: "Header",
@@ -92,6 +94,7 @@
             }
         },
         methods: {
+            avatarOf,
             async followScholar() {
                 //var that = this;
                 this.$message({
