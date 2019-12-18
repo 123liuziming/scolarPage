@@ -15,6 +15,7 @@ const paperQuery = gql`
         nCitation
         year
         abstract
+        venue
       }
       numOfPages
     }

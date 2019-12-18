@@ -9,7 +9,7 @@
         </div>
         <div style="margin:2%">
           <div style="color:white;margin-bottom:1%">PDF预览</div>
-          <PDF></PDF>
+          <PDF id="PDF"></PDF>
           </div>
       </div>
     </el-col>
@@ -31,11 +31,11 @@
         </div>
       </div>
       <div id="infoScolar">作者信息<el-divider ></el-divider>
-        <span  style="color:grey;font-size:20px" v-for="a in author.slice(0,5)" @click="toNewPage(a.id)">{{a.name}}<br></span>
-        <p v-show="!author" style="color:grey;font-size:20px">暂无学者</p>
+        <el-link  :underline="false" style="color:#808080;font-size:20px" v-for="a in author.slice(0,5)" @click="toNewPage(a.id)">{{a.name}}<br></el-link>
+        <p v-show="!author" style="color:#808080;font-size:20px">暂无学者</p>
       </div>
       <div id="relativeArticle">类似论文推荐<el-divider ></el-divider>
-        <a  v-for="article in RArticles.slice(0,3)">{{article.name}}</a>
+        <el-link :underline="false" style="color: #808080;" v-for="article in RArticles.slice(0,3)" @click="toNewPage2(article.id)">{{article.name}}</el-link>
         <p v-show="RArticles" style="color:grey;font-size:20px">暂无相关推荐</p>
       </div>
     </el-col>
@@ -62,7 +62,7 @@ export default {
     const item = (await getPaper(this.id)).data.getPaperById;
     this.author = item.currentPaper.authors;
     this.time_cite = item.currentPaper.nCitation===null?0:item.currentPaper.nCitation;
-    this.year_publish = item.currentPaper.year;
+    this.year_publish = item.currentPaper.year===null?'???':item.currentPaper.year;
     this.RArticles = item.relatedWorks;
   },
   data() {
@@ -77,6 +77,9 @@ export default {
   methods:{
     toNewPage(aid){
       window.location.href = "/main?ID=" + aid;
+    },
+    toNewPage2(aid){
+      window.location.href = "/article?ID=" + aid;
     }
   }
 };
@@ -105,13 +108,13 @@ export default {
 }
 #yinyong {
   width: 80%;
-  height: 12%;
+  height: 13%;
   margin-top: 21%;
   background: gray;
 }
 #fabu {
   width: 80%;
-  height: 12%;
+  height: 13%;
   margin-top: 8%;
   background: gray;
   margin-bottom: 12%

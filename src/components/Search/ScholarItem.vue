@@ -1,12 +1,6 @@
 <template>
   <div style="display: flex;">
-    <el-avatar
-      :src="
-        item.avatar
-          ? item.avatar
-          : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
-      "
-    />
+    <el-avatar :src="avatarOf(item)" />
     <div style="margin-left: 20px;">
       <el-link
         style="font-weight: bold; font-size: 18px;"
@@ -19,12 +13,11 @@
         <el-tag
           color="#666666"
           size="mini"
-          style="color: #ffffff; border: none;"
+          style="color: #ffffff; border: none; margin-right: 5px"
           v-for="(tag, ind) in item.tags
             .filter(el => el.t.length <= 20)
             .slice(0, 5)"
           :key="`kw${ind}`"
-          class="paper-item--tag"
           :disable-transitions="true"
           >{{ tag.t }}</el-tag
         >
@@ -39,7 +32,7 @@
         {{ item.orgs.join(", ") }}
       </p>
       <p style="color: #888888">
-        {{ item.nCitations }} 次被引用&nbsp;&nbsp;&nbsp;h-index:
+        {{ item.nCitations }} 次被引用, h-index:
         {{ item.hIndex }}
       </p>
     </div>
@@ -47,10 +40,15 @@
 </template>
 
 <script>
+import { avatarOf } from "@/common";
+
 export default {
   name: "ScholarItem",
   props: {
     item: { type: Object, required: true }
+  },
+  methods: {
+    avatarOf
   }
 };
 </script>

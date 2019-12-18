@@ -1,7 +1,7 @@
 <template>
     <div class="comments">
         <div :class="comments_wrapper_classes">
-            <single-comment 
+            <single-comment
                 v-for="comment in comments"
                 :comment="comment"
                 :key="comment.id"
@@ -12,14 +12,15 @@
             <div class="avatar">
                 <img :src="current_user.avatar" alt="">
             </div>
-            <input 
-                type="text" 
-                v-model.trim="reply" 
-                class="reply--text" 
+            <input
+                type="text"
+                v-model.trim="reply"
+                class="reply--text"
                 placeholder="Leave a comment..."
                 maxlength="250"
                 required
                 @keyup.enter="submitComment"
+                :disabled=!isLogin
             />
             <button class="reply--button" @click.prevent="submitComment"><i class="fa fa-paper-plane"></i> Send</button>
         </div>
@@ -28,6 +29,7 @@
 
 <script>
 import singleComment from './shortComments'
+import {avatarOf} from "../../common"
     export default {
         name: 'comments',
         components: {
@@ -35,7 +37,7 @@ import singleComment from './shortComments'
         },
         data() {
             return {
-                reply: ''
+                reply: '',
             }
         },
         methods: {
@@ -46,7 +48,17 @@ import singleComment from './shortComments'
                 }
             }
         },
-        props: ['comments', 'current_user', 'comments_wrapper_classes']
+      computed:{
+        isLogin(){
+          return this.current_user.user.length>0;
+        }
+      },
+        async mounted() {
+          this.current_user.avatar = avatarOf({
+            name:this.$store.getters.usersName,
+            avatar:null});
+        },
+      props: ['comments', 'current_user', 'comments_wrapper_classes']
     }
 </script>
 

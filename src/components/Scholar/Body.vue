@@ -50,6 +50,7 @@
           :description="news[ind].desc"
           :pic="news[ind].keyword"
           style="margin: 0 1vw 0 1vw; width: 100%"
+          v-on:click.native="gotoArticle(news[ind].id)"
         />
       </div>
     </div>
@@ -91,7 +92,7 @@
     import Relation from "./Relation";
     import Intro from "./Intro";
     import ClienderGraph from "./ClinderGraph";
-    import {getPaperById} from "../../graphql/scholar";
+    import {getPaperById, removeTag} from "../../graphql/scholar";
 
     export default {
         name: "Body",
@@ -124,22 +125,26 @@
                     {
                         title: "最新发布",
                         desc: "",
-                        keyword: "computer"
+                        keyword: "computer",
+                        id:""
                     },
                     {
                         title: "编辑推荐",
                         desc: "",
-                        keyword: "book"
+                        keyword: "book",
+                        id:""
                     },
                     {
                         title: "近期热门",
                         desc: "",
-                        keyword: "student"
+                        keyword: "student",
+                        id:""
                     },
                     {
                         title: "最新发布",
                         desc: "",
-                        keyword: "bool"
+                        keyword: "bool",
+                        id:""
                     }
                 ]
             };
@@ -147,6 +152,7 @@
         methods: {
             handleClose(tag) {
                 this.scholarInfo.tags.splice(this.scholarInfo.tags.indexOf(tag), 1);
+                //removeTag()
             },
 
             showInput() {
@@ -178,6 +184,9 @@
             goToSearchTag(str) {
                 this.$router.push({path: '/search', query: {w: str}});
             },
+            gotoArticle(id){
+                this.$router.push({path: '/article', query: {id: id}});
+            },
         },
         async mounted() {
             let that = this;
@@ -204,9 +213,10 @@
             for (let i = 0; i < 4; i++) {
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
+                this.news[i].id = this.articles[i].id;
             }
             this.sortKey(this.scholarInfo.tags, "w");
-        }
+        },
     };
 </script>
 

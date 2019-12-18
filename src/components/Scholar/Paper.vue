@@ -99,7 +99,7 @@
                 this.refSel = "";
             },
             sortByRef:function () {
-                this.sortKey(this.articles, "nCititation");
+                this.sortKey(this.articles, "nCitation");
                 this.refSel = "primary";
                 this.yearSel = "";
             },

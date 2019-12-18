@@ -4,9 +4,9 @@
       :show-header="false"
       :data="tableData"
     >
-      <el-table-column width="80%">
+      <el-table-column width="95%">
         <template slot-scope="scope">
-          <strong>{{ scope.row.date }}</strong>
+          <strong style="color:darkgrey;font-size:16px">{{ scope.row.date }}</strong>
         </template>
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="name"> </el-table-column>
@@ -70,8 +70,9 @@ export default {
 
 <style scoped>
 .introBox {
-  width: 30vw;
-  margin-top: 1vh;
+  width: 100%;
+  margin-top: 1.5%;
+  font-size: 20px;
 }
 @media (max-width: 1200px) {
   .introBox {
