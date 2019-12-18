@@ -88,10 +88,21 @@ const removeTagMutation = gql`
    }
 `;
 
-//const createAuthMutation = gql`
-  //mutation createAuthentication($manager)
+const createAuthMutation = gql`
+  mutation createAuthentication($scholarId:ID, $content:String){
+    createAuthentication(scholarId:$scholarId, content:$content){
+      id
+  }
+ }
+`;
 
-//`;
+function createAuthentication(scholarId, content) {
+
+  return client.mutate({
+    mutation:createAuthMutation,
+    variables:{scholarId, content}
+  });
+}
 
 function addTag(scholarId, t, w){
   return client.mutate({
@@ -142,4 +153,4 @@ function getPaperById(scholarId) {
   });
 }
 
-export {getPaperById, findScholarById, followScholarOp, sendMessage, updateBulletin, addTag, removeTag}
+export {getPaperById, findScholarById, followScholarOp, sendMessage, updateBulletin, addTag, removeTag, createAuthentication}
