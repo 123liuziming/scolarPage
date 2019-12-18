@@ -2,8 +2,8 @@ import client from "../client";
 import gql from "graphql-tag";
 
 const sendMessageMutation = gql`
-  mutation sendAMessage($receiverId:ID, $content:String){
-    sendAMessage(params:{receiverId:$receiverId, content:$content}){
+  mutation sendAMessage($receiverId:ID, $content:String,$type:String){
+    sendAMessage(params:{receiverId:$receiverId, content:$content,type:$type}){
       id
     }
   }
@@ -26,15 +26,21 @@ const getAllMessage = gql`
       content,
       createdAt,
       senderId,
-      receiverId
+      receiverId,
+      type
     }
   }
 `;
 
-function gql_sendMessage(receiverId, content){
+function gql_sendMessage(receiverId, message){
+  var content,type = message.type;
+  if(type === 'text')
+    content = message.data.text;
+  else if(type === 'emoji')
+    content = message.data.emoji;
   return client.mutate({
     mutation:sendMessageMutation,
-    variables:{receiverId, content},
+    variables:{receiverId, content,type},
   });
 }
 

@@ -2,9 +2,9 @@
   <div>
     <div style="display: flex">
       <div>
-          <el-avatar class="avatarSize" :src="bigAvatar" />
+          <el-avatar class="avatarSize" :src="$store.state.user.avatar || bigAvatar" />
       </div>
-      <h1 style="color: white" class="h3 person-header"><b>Feifei Li</b></h1>
+      <h1 style="color: white" class="h3 person-header"><b>{{$store.getters.usersName}}</b></h1>
     </div>
   </div>
 </template>

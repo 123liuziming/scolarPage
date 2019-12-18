@@ -120,17 +120,25 @@ export default {
           99
         );
         // console.log(response.data);
-        this.messageList = response.data.messages.map(e => ({
-          type: "text",
-          author:
-            e.senderId === this.$store.getters.userId
-              ? "me"
-              : this.participants[0].name,
-          id: e.id,
-          data: {
-            text: e.content
-          }
-        }));
+        this.messageList = response.data.messages.map(e => {
+          const result = {
+            type:e.type || 'text',
+            author:
+              e.senderId === this.$store.getters.userId
+                ? "me"
+                : this.participants[0].name,
+            id: e.id,
+          };
+          if (result.type === 'emoji')
+            result.data = {
+              emoji: e.content,
+            }
+          else if(result.type === 'text')
+            result.data = {
+              text:e.content
+            }
+          return result;
+        });
       } catch (err) {
         console.error(err);
       }
@@ -145,7 +153,7 @@ export default {
       //   }
       // }
       try {
-        await gql_sendMessage(this.participants[0].id, message.data.text);
+        await gql_sendMessage(this.participants[0].id, message);
         this.scrollDown()
       } catch (err) {
         console.error(err);
