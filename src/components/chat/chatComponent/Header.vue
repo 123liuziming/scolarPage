@@ -76,6 +76,8 @@ export default {
   border-radius: 50%;
   align-self: center;
   padding: 10px;
+  max-width: 60px;
+  max-height: 60px;
 }
 
 .sc-header--title {

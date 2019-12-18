@@ -17,8 +17,9 @@
       :open="openChat"
       :participants="participants"
       :contacts="contacts"
+      :placeholder="`写入消息...`"
       :showEmoji="true"
-      :showFile="true"
+      :showFile="false"
       @onType="handleOnType"
       @edit="editMessage"
       @remove="removeMessage"
@@ -69,8 +70,6 @@ export default {
   data() {
     return {
       participants: [],
-      titleImageUrl:
-        "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
       messageList: [],
       contacts: [],
       newMessagesCount: 0,
@@ -81,7 +80,7 @@ export default {
       alwaysScrollToBottom: false,
       messageStyling: true,
       userIsTyping: false,
-      timer: null,
+      timer: null
     };
   },
   created() {
@@ -92,19 +91,23 @@ export default {
       this.$store.dispatch(fetchUserInfo);
     }
     this.messageList.forEach(x => (x.liked = false));
-    await this.getAllContacts();
-    this.changeParticipant(this.contacts[0].id);
+    if (this.$store.getters.userId) {
+      await this.getAllContacts();
+      if (this.contacts.length) this.changeParticipant(this.contacts[0].id);
+    }
   },
-    methods: {
-    scrollDown(){
-      this.$refs.launcher.handleScrollDown()
+  methods: {
+    scrollDown() {
+      this.$refs.launcher.handleScrollDown();
     },
     async getAllContacts() {
       try {
         const response = await gql_getAllContacts();
         this.contacts = response.data.recentContacts.map(e => ({
           ...e,
-          imageUrl: e.avatar? e.avatar : "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
+          imageUrl: e.avatar
+            ? e.avatar
+            : "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
         }));
       } catch (err) {
         console.error(err);
@@ -122,21 +125,21 @@ export default {
         // console.log(response.data);
         this.messageList = response.data.messages.map(e => {
           const result = {
-            type:e.type || 'text',
+            type: e.type || "text",
             author:
               e.senderId === this.$store.getters.userId
                 ? "me"
                 : this.participants[0].name,
-            id: e.id,
+            id: e.id
           };
-          if (result.type === 'emoji')
+          if (result.type === "emoji")
             result.data = {
-              emoji: e.content,
-            }
-          else if(result.type === 'text')
+              emoji: e.content
+            };
+          else if (result.type === "text")
             result.data = {
-              text:e.content
-            }
+              text: e.content
+            };
           return result;
         });
       } catch (err) {
@@ -154,14 +157,13 @@ export default {
       // }
       try {
         await gql_sendMessage(this.participants[0].id, message);
-        this.scrollDown()
+        this.scrollDown();
       } catch (err) {
         console.error(err);
       }
     },
     async changeParticipant(userId) {
-      if(this.participants.length && this.participants[0].id == userId)
-        return
+      if (this.participants.length && this.participants[0].id == userId) return;
       this.participants = this.contacts.filter(x => x.id === userId);
       await this.getAllMessages();
       // update messages every 10s
@@ -199,12 +201,12 @@ export default {
       this.handleSendMessage(message);
     },
     openChat() {
-      if(!this.$store.getters.userId){
+      if (!this.$store.getters.userId) {
         this.$notify({
           type: "info",
           title: "需要登录",
           message: `登录以后才可以使用站内信功能`,
-          duration:4000,
+          duration: 4000
         });
         return;
       }
@@ -253,6 +255,12 @@ export default {
     }
   },
   computed: {
+    titleImageUrl() {
+      if (this.participants.length && this.participants[0].avatar)
+        return this.participants[0].avatar;
+      else
+        return "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png";
+    },
     linkColor() {
       return this.chosenColor === "dark"
         ? this.colors.sentMessage.text
@@ -260,7 +268,15 @@ export default {
     },
     backgroundColor() {
       return this.chosenColor === "dark" ? this.colors.messageList.bg : "#fff";
-    },
+    }
+  },
+  watch: {
+    "$store.getters.hasLoggedIn"(newVal) {
+      if (!newVal) {
+        this.closeChat();
+      }
+      clearInterval(this.timer);
+    }
   }
 };
 </script>
@@ -300,7 +316,7 @@ export default {
   animation-name: fadeInLeft;
   margin-bottom: 10px;
 }
-.body.bodyScholar{
+.body.bodyScholar {
   margin-top: 300px;
 }
 
@@ -309,7 +325,7 @@ export default {
 }
 
 .body.bodyPerson {
-  margin-top: 100px;
+  margin-top: 40px;
 }
 
 .scholarPg {

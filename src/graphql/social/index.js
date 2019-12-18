@@ -44,13 +44,13 @@ function gql_sendMessage(receiverId, message){
   });
 }
 
-async function gql_getAllContacts(){
+function gql_getAllContacts(){
   return client.query({
     query:getAllContactsQuery,
   });
 }
 
-async function gql_getAllMessage(idA,idB,page,perPage){
+function gql_getAllMessage(idA,idB,page,perPage){
   return client.query({
     query:getAllMessage,
     variables:{ idA,idB,page,perPage },

@@ -35,16 +35,61 @@ const getFollows = gql`
   }
 `;
 
-async function gql_getFavoritePapers(){
+const changePwd = gql`
+mutation changePwd($oldPassword: String!,$newPassword:String!){
+  changePassword(oldPassword:$oldPassword,newPassword:$newPassword){
+    id,
+  }
+}
+`;
+
+const updateUserInfo = gql`
+  mutation updateUserInfo($name:String!){
+    updateUserInfo(name:$name){
+      id
+    }
+  }
+`;
+
+const updateUserAvatar = gql`
+  mutation updateUserInfo($avatar:String!){
+    updateUserInfo(avatar:$avatar){
+      id
+    }
+  }
+`;
+
+function gql_getFavoritePapers() {
   return client.query({
-    query:getFavoritePapers,
+    query: getFavoritePapers,
   });
 }
 
-async function gql_getFollows(){
+function gql_getFollows() {
   return client.query({
-    query:getFollows,
+    query: getFollows,
   });
 }
 
-export { gql_getFavoritePapers,gql_getFollows }
+function gql_changePassword(oldPassword, newPassword) {
+  return client.mutate({
+    mutation: changePwd,
+    variables: { oldPassword, newPassword },
+  });
+}
+
+function gql_updateUserInfo(name) {
+  return client.mutate({
+    mutation: updateUserInfo,
+    variables: { name },
+  });
+}
+
+function gql_updateUserAvatar(avatar) {
+  return client.mutate({
+    mutation: updateUserAvatar,
+    variables: { avatar },
+  });
+}
+
+export { gql_getFavoritePapers, gql_getFollows, gql_changePassword, gql_updateUserInfo, gql_updateUserAvatar }

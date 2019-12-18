@@ -1,14 +1,17 @@
 <template>
   <div name="'ddd">
     <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
-    <el-button id="selectfiles" size="mini">选择图片</el-button>
+    <el-button id="selectfiles" size="small">选择图片</el-button>
     <el-button size="small" type="primary" id="postfiles">点击上传</el-button>
     <el-upload
+      disable
       :file-list="fileList"
-      list-type="picture" id="uploadContainer">
+      list-type="picture" 
+      id="uploadContainer"
+      :limit="1"
+      action="#"
+    >
     </el-upload>
-
-
   </div>
 </template>
 
@@ -33,7 +36,7 @@
         mounted() {
             document.title = "上传视频";
             this.initPlUploader();
-            document.getElementsByName('file')[0].replaceWith("预览图:");
+            document.getElementsByName('file')[0].replaceWith("");
         },
         methods: {
             initPlUploader() {
@@ -101,7 +104,7 @@
                                 name: `${file.name}`,
                                 url: 'https://lzmmmmm.oss-cn-beijing.aliyuncs.com/' + that.g_object_name
                             });
-                            that.$emit("fun", that.g_object_name, 1);
+                            that.$emit("castImage", 'https://lzmmmmm.oss-cn-beijing.aliyuncs.com/' + that.g_object_name);
                         },
                         Error(up, err) {
                             console.log("Error----------------------------------");

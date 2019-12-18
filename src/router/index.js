@@ -6,7 +6,6 @@ import Index from "@/components/Index";
 import Relation from "../components/Scholar/Relation";
 import Search from "../components/Search";
 import PersonalPage from "../components/personal/PersonalPage"
-import chatPage from "../components/chat/Chat"
 
 Vue.use(Router);
 
@@ -42,11 +41,6 @@ export default new Router({
       name: 'personalPage',
       component: PersonalPage
     },
-    {
-      path: '/chat',
-      name: 'chat',
-      component: chatPage
-    }
   ],
   mode: "history"
 });
