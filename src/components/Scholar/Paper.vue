@@ -30,21 +30,6 @@
               }}</el-button></span
             >
             <el-divider direction="vertical"></el-divider>
-            <span style="color: greenyellow">
-              <el-popover
-                placement="top-start"
-                width="200"
-                trigger="hover"
-                content="
-                  [1] 王海粟.浅议会计信息披露模式[J].财政研究，2004,21(1)：56-58.
-                "
-              >
-                <el-button slot="reference" size="mini" type="success"
-                >引用</el-button
-                >
-              </el-popover>
-            </span>
-            <el-divider direction="vertical"></el-divider>
             <span style="color: yellow">已被引{{ article.nCitation === null ? 0 : article.nCitation }}次</span>
           </div>
         </div>
