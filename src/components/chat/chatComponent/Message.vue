@@ -16,8 +16,7 @@
           :style="{
             backgroundImage: chatImageUrl ? `url(${chatImageUrl})` : ''
           }"
-          v-tooltip="authorName"
-        ></div>
+        />
       </slot>
 
       <TextMessage
