@@ -1,6 +1,7 @@
 <template>
   <div class="scholarPg">
-    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:sendprivatemsg="privateMsgFlag = true" :scholarinfo="scholarInfo"
+    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:sendprivatemsg="privateMsgFlag = true"
+            :scholarinfo="scholarInfo"
             :isself="isSelf"
             :isfollowing="isFollowing"></Header>
     <Body v-if="bodyFlag" v-on:editBulletin="bulletinFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
@@ -38,11 +39,7 @@
     </el-dialog>
     <el-dialog title="认领主页" :visible.sync="authFlag" :modal-append-to-body="false">
       <el-form :model="authForm" :ref="authForm" label-position="right">
-        <el-form-item label="Email">
-          <el-input v-model="authForm.email" style="width: 90%">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="原因">
+        <el-form-item label="内容">
           <el-input
             type="textarea"
             :rows="6"
@@ -63,7 +60,7 @@
 <script>
     import Header from "./Header";
     import Body from "./Body";
-    import {findScholarById, sendMessage, updateBulletin} from "../../graphql/scholar";
+    import {findScholarById, sendMessage, updateBulletin, createAuthentication} from "../../graphql/scholar";
 
     export default {
         name: "Main",
@@ -76,9 +73,9 @@
             const id = that.$route.query.ID;
             const scholar = await findScholarById(id);
             this.scholarInfo = scholar.data["findScholarById"].scholar;
-            if(this.scholarInfo.userId === this.$store.getters.userId)
+            if (this.scholarInfo.userId === this.$store.getters.userId)
                 this.isSelf = true;
-            if(this.scholarInfo.orgs.length === 0)
+            if (this.scholarInfo.orgs.length === 0)
                 this.scholarInfo.orgs.push("No research institute");
             this.isFollowing = scholar.data["findScholarById"].isFollowing;
             this.headerFlag = true;
@@ -91,8 +88,8 @@
         },
         data() {
             return {
-                bodyFlag:false,
-                headerFlag:false,
+                bodyFlag: false,
+                headerFlag: false,
                 isFollowing: "",
                 isSelf: false,
                 privateMsgFlag: false,
@@ -120,8 +117,6 @@
                 });
             },
             updateBul() {
-                //alert(this.$store.getters.userId);
-                //alert(this.scholarBulletin);
                 updateBulletin(this.$store.getters.userId, this.scholarBulletin);
                 this.$notify({
                     title: "已成功更新",
@@ -130,8 +125,15 @@
                 });
                 this.bulletinFlag = false;
             },
-            sendAuth(){
-
+            sendAuth() {
+                const id = createAuthentication(this.$route.query.ID, this.authForm.content);
+                this.$notify({
+                    title: "已成功提交申请，请静待佳音",
+                    type: "success",
+                    message: "已经成功更新通知栏"
+                });
+                this.authFlag = false;
+                console.log(id);
             }
         },
     };
