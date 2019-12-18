@@ -370,10 +370,6 @@ body {
   margin: 0px;
 }
 
-* {
-  font-family: Avenir Next, Helvetica Neue, Helvetica, sans-serif;
-}
-
 .demo-description {
   max-width: 500px;
 }
@@ -393,7 +389,6 @@ body {
   margin: 0px;
   padding: 0px;
   resize: none;
-  font-family: Avenir Next, Helvetica Neue, Helvetica, sans-serif;
   background: #fafbfc;
   color: #8da2b5;
   border: 1px solid #dde5ed;

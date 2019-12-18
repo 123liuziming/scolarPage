@@ -213,10 +213,10 @@ export default {
         this.loading = false;
       }
     },
-    toPersonalPage(){
+    toPersonalPage() {
       this.$router
         .push({
-          name: "personalPage",
+          name: "PersonalPage"
         })
         .catch(() => {});
     }

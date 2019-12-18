@@ -182,7 +182,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   border-radius: 10px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   animation: fadeIn;
   animation-duration: 0.3s;
   animation-timing-function: ease-in-out;
