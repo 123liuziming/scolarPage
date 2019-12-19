@@ -6,11 +6,9 @@
       </h4>
       <el-tag
         class="transparent"
-        :key="tag"
-        v-for="tag in scholarInfo.tags.slice(0,4)"
-        :closable="isSelf"
+        v-for="(tag,index) in scholarinfo.tags.slice(0,4)"
+        :key="index"
         :disable-transitions="false"
-        @close="handleClose(tag)"
         v-on:click="goToSearchTag(tag.t)"
       >{{ tag.t }}
       </el-tag>
@@ -18,13 +16,13 @@
     <div style="margin-top: 3%;">
       <div style="display: flex; padding: 0 1vw 0 1vw;">
         <Card
-          v-for="(_, ind) in 4"
+          v-for="(item, ind) in 4"
           :key="ind"
           :title="news[ind].title"
           :description="news[ind].desc"
           :pic="news[ind].keyword"
           style="margin: 0 1vw 0 1vw; width: 100%"
-          v-on:click.native="gotoArticle(news[ind].id)"
+          :articleId="item.id"
         />
       </div>
     </div>
@@ -33,26 +31,26 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item title="个人简介" name="1">
           <div style="display:flex">
-            <Intro :scholarinfo="scholarInfo" :hasbox="isInfoBox"/>
+            <Intro :scholarinfo="scholarinfo" :hasbox="isInfoBox"/>
             <div class="infoBox" v-show="isInfoBox">
               <div id="editBtn">
-                <el-button v-show="isSelf" class="el-icon-edit" @click="$emit('editBulletin')"></el-button>
+                <el-button v-show="isself" class="el-icon-edit" @click="$emit('editBulletin')"></el-button>
               </div>
               <p class="selfIntro">
-                {{scholarInfo.bulletin}}
+                {{scholarinfo.bulletin}}
               </p>
               <p class="selfIntroTime">2019 年 5 月 31 日, 9:30 a.m.</p>
             </div>
           </div>
           <div style="height:100%;margin-left:2vw">
-            <ClienderGraph :Data="scholarInfo.tags.slice(0, 20)"></ClienderGraph>
+            <ClienderGraph :Data="scholarinfo.tags.slice(0, 20)"></ClienderGraph>
           </div>
         </el-collapse-item>
         <el-collapse-item title="相关学者" name="2">
-          <Relation :coauthors="scholarInfo.coauthors.splice(0,10)"></Relation>
+          <Relation :selfinfo="scholarinfo" :coauthors="scholarinfo.coauthors.slice(0,9)"></Relation>
         </el-collapse-item>
         <el-collapse-item title="论文列表" name="3">
-          <Paper v-if="asyncFlag" :selfnames="selfName" :articles="articles" :totalArticles="articles.length"/>
+          <Paper v-if="asyncFlag" :selfnames="selfName" :articles="articles"/>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -70,7 +68,7 @@
 
     export default {
         name: "Body",
-        props: ["scholarInfo", "isSelf"],
+        props: ["scholarinfo", "isself"],
         components: {
             Intro,
             Relation,
@@ -100,53 +98,26 @@
                         title: "最新发布",
                         desc: "",
                         keyword: "computer",
-                        id:""
                     },
                     {
                         title: "编辑推荐",
                         desc: "",
                         keyword: "book",
-                        id:""
                     },
                     {
                         title: "近期热门",
                         desc: "",
                         keyword: "student",
-                        id:""
                     },
                     {
                         title: "最新发布",
                         desc: "",
                         keyword: "bool",
-                        id:""
                     }
                 ]
             };
         },
         methods: {
-            handleClose(tag) {
-                this.scholarInfo.tags.splice(this.scholarInfo.tags.indexOf(tag), 1);
-                //removeTag()
-            },
-
-            showInput() {
-                this.inputVisible = true;
-                this.$nextTick(_ => {
-                    this.$refs.saveTagInput.$refs.input.focus();
-                });
-            },
-
-            handleInputConfirm() {
-                let inputValue1 = this.tagToken;
-                if (inputValue1){
-                    this.scholarInfo.tags.push({t:inputValue1});
-                    this.inputVisible = false;
-                    this.tagToken = "";
-                    this.tagWeight = "";
-                }
-                else
-                    this.$message.error("token不能为空");
-            },
             sortKey(array, key) {
                 return array.sort(function (a, b) {
                     let x = a[key];
@@ -164,9 +135,9 @@
         async mounted() {
             let that = this;
             const id = that.$route.query.ID;
-            if (id === this.$store.getters.id) this.isSelf = true;
+            if (id === this.$store.getters.id) that.isself = true;
             const result = await getPaperById(id);
-            this.articles = await this.sortKey(
+            that.articles = this.sortKey(
                 result.data["searchPapersByScholarId"],
                 "year"
             );
@@ -178,17 +149,15 @@
                         flag = true;
                         break;
                     }
-                    if (flag)
-                        break;
                 }
+                if (flag === true)
+                    break;
             }
             that.asyncFlag = true;
             for (let i = 0; i < 4; i++) {
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
-                this.news[i].id = this.articles[i].id;
             }
-            this.sortKey(this.scholarInfo.tags, "w");
         },
     };
 </script>

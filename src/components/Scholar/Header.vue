@@ -28,6 +28,7 @@
               round
               size="mini"
               @click="followScholar"
+              :disabled="followDisalbeFlag"
             >
               <font color="black">
                 <strong>{{ followBtnVal }}</strong>
@@ -83,7 +84,7 @@
         },
         computed: {
             followDisalbeFlag() {
-                return this.isself || this.isFollowDisabled || !this.$store.getters.hasLoggedIn;
+                return !this.$store.getters.hasLoggedIn;
             },
             sendMsgFlag(){
                 return this.isself || !this.$store.getters.hasLoggedIn;

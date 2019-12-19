@@ -29,7 +29,7 @@
                 ]
             };
         },
-        props: ["coauthors"],
+        props: ["coauthors", "selfinfo"],
         mounted() {
             let colorList = [
                 "#c23531",
@@ -66,18 +66,19 @@
                             return tmp;
                         } else {
                             return `
-                            <div style="display: flex"><img src="https://source.unsplash.com/400x200/" style="width: 120px; height: 120px;padding:5px">
+                            <div style="display: flex">
                             <div style="padding-left: 5px; padding-top: 3px ">
+                            <h4>
                             <strong>
                             ${params.data.name}
                             </strong>
-
-                            <div>
-                            北京航空天大学
-                            </div>
-                            <div style="padding-top: 1px">H-index:1</div>
-                            <div style="padding-top: 1px">发表论文数:1</div>
-                            <div style="padding-top: 1px">引用总数:100000</div>
+                            </h4>
+                            <li>
+                            ${params.data.org}
+                            </li>
+                            <li style="padding-top: 1px">H-index:${params.data.hindex}</li>
+                            <li style="padding-top: 1px">发表论文数:${params.data.npubs}</li>
+                            <li style="padding-top: 1px">引用总数:${params.data.ncitation}</li>
                            </div>
                            </div>
 
@@ -132,7 +133,11 @@
                         },
                         data: [
                             {
-                                name: "Sandra S. Hargett",
+                                name: this.selfinfo.name,
+                                org:this.selfinfo.orgs[0]? (this.selfinfo.orgs[0].length > 40 ? this.selfinfo.orgs[0].substr(0, 35) + "..." : this.selfinfo.orgs[0]) : "no search institute",
+                                hindex:this.selfinfo.hIndex,
+                                ncitation:this.selfinfo.nCitations,
+                                npubs:this.selfinfo.nPubs,
                                 draggable: true,
                                 info: {
                                     university: "BUAA",
@@ -165,15 +170,23 @@
             }
             console.log(option.series[0].categories);
             for (let i = 0; i < len; i++) {
-                option.series[0].data[i + 1] = {};
-                option.series[0].data[i + 1]["name"] = this.coauthors[i].scholarId;
-                option.series[0].data[i + 1]["id"] = i;
-                option.series[0].data[i + 1]["category"] = i + 1;
-                option.series[0].links[i] = {};
-                option.series[0].links[i].source = 0;
-                option.series[0].links[i].target = i + 1;
-                option.series[0].links[i].articles = ["ddd", "ccc", "d11"];
-                //option.series.links[i].articles =
+                if(this.coauthors[i].name){
+                    option.series[0].data[i + 1] = {};
+                    option.series[0].data[i + 1]["name"] = this.coauthors[i].name;
+                    let str = !this.coauthors[i].orgs[0] ? "no search institute" : this.coauthors[i].orgs[0];
+                    if(str.length > 40)
+                        str = str.substr(0, 35) + "...";
+                    option.series[0].data[i + 1]["org"] = str;
+                    option.series[0].data[i + 1]["hindex"] = this.coauthors[i].h_index;
+                    option.series[0].data[i + 1]["ncitation"] = this.coauthors[i].n_citation;
+                    option.series[0].data[i + 1]["npubs"] = this.coauthors[i].n_pubs;
+                    option.series[0].data[i + 1]["id"] = i;
+                    option.series[0].data[i + 1]["category"] = i + 1;
+                    option.series[0].links[i] = {};
+                    option.series[0].links[i].source = 0;
+                    option.series[0].links[i].target = i + 1;
+                    option.series[0].links[i].articles = ["ddd", "ccc", "d11"];
+                }
             }
             var chartObj = echarts.init(document.getElementById("relation"));
             chartObj.setOption(option);

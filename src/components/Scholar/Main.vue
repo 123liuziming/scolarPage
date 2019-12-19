@@ -4,7 +4,7 @@
             :scholarinfo="scholarInfo"
             :isself="isSelf"
             :isfollowing="isFollowing"></Header>
-    <Body v-if="bodyFlag" v-on:editBulletin="bulletinFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
+    <Body v-if="bodyFlag" v-on:editBulletin="bulletinFlag = true" :scholarinfo="scholarInfo" :isself="isSelf"></Body>
     <el-dialog title="发送私信" :visible.sync="privateMsgFlag" :modal-append-to-body="false">
       <el-form :model="privateMsgForm" :ref="privateMsgForm" label-position="left">
         <el-form-item label="内容">

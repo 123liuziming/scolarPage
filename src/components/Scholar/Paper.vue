@@ -5,7 +5,7 @@
       <el-button :type="refSel" size="mini" @click="sortByRef">按引用量排序</el-button>
     </el-button-group>
     <div class = "bigDiv">
-      <el-card class="articlesCard" v-for="(article, ind) in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh" :key="`ar${ind}`">
+      <el-card class="articlesCard" v-for="(article, ind) in articles.slice(5 * (pageNow - 1), 5 * pageNow)" style="margin-top:2vh" :key="ind">
         <div class="article-entry standard">
           <h4>
             <a class="title" @click="goToPaper(article.id)">{{ article.title }}({{article.year}})</a>
@@ -13,12 +13,12 @@
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:0.5vw">
             <a>{{selfnames}}</a>
-            <a class="other align alignNobottom" v-for="(author,ind) in article.authors" v-if="ind < 20" @click="goToAuthor(author.id)" :key="`ar${ind}`">{{ author.name }}</a>
+            <a :class="author.active ? 'other align alignNobottom' : 'noClick align alignNobottom'" v-for="(author,ind) in article.authors"  v-if="ind < 20" @click="author.active && goToAuthor(author.id)" :key="ind">{{ author.name }}</a>
           </div>
             <el-button
               size="mini"
               class="conference align"
-              v-for="(tag, index) in article.keywords" v-if="index < 3" :key="index" @click="goToSearch(tag)">
+              v-for="(tag, index) in article.tags" v-if="index < 3" :key="index" @click="goToSearch(tag)">
               {{ tag }}
             </el-button>
           <div class="align" style="color: yellowgreen" v-if="article.doi">doi:{{ article.doi }}</div>
@@ -38,7 +38,7 @@
     <el-pagination
       style="padding-left: 1vw;padding-top: 3vh"
       layout="prev, pager, next"
-      :total="totalArticles"
+      :total="articles.length"
       :page-size="5"
       @current-change="handleCurrentChange"
     >
@@ -50,11 +50,7 @@
 
     export default {
         name: "Paper",
-        props:{
-            articles : Array,
-            totalArticles: Number,
-            selfnames: String,
-        },
+        props:["articles", "selfnames"],
         data() {
             return {
                 tabPosition: "right",
@@ -120,6 +116,10 @@
 
   a.other {
     color: #5cb85c;
+  }
+
+  a.noClick{
+    color: gray;
   }
 
   a.title {

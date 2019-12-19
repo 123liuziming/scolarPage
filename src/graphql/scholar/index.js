@@ -9,6 +9,7 @@ const paperQuery = gql`
       authors{
         id
         name
+        active
       }
       year
       volume
@@ -37,6 +38,11 @@ const findScholarQuery = gql`
         bulletin
         coauthors{
           scholarId
+          h_index
+          n_citation
+          n_pubs
+          orgs
+          name
         }
         nPubs
         nCitations
