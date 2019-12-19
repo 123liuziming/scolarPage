@@ -313,7 +313,7 @@ export default {
   margin-bottom: 10px;
 }
 .body.bodyScholar {
-  margin-top: 300px;
+  margin-top: 330px;
 }
 
 .body.bodyArticle {
@@ -351,7 +351,7 @@ export default {
 
 .eChartContainer.relation {
   width: 75vw;
-  height: 590px;
+  height: 650px;
 }
 
 @media (max-width: 1200px) {

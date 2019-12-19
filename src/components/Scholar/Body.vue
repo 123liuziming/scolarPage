@@ -49,7 +49,7 @@
           </div>
         </el-collapse-item>
         <el-collapse-item title="相关学者" name="2">
-          <Relation :coAuthors="scholarInfo.coauthors"></Relation>
+          <Relation :coauthors="scholarInfo.coauthors"></Relation>
         </el-collapse-item>
         <el-collapse-item title="论文列表" name="3">
           <Paper v-if="asyncFlag" :selfnames="selfName" :articles="articles" :totalArticles="articles.length"/>
