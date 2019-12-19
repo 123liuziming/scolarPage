@@ -9,10 +9,6 @@
         <slot name="text-message-body" :message="scopedProps.message" :messageText="scopedProps.messageText" :messageColors="scopedProps.messageColors" :me="scopedProps.me">
         </slot>
       </template>
-      <!-- <template v-slot:text-message-toolbox="scopedProps">
-        <slot name="text-message-toolbox" :message="scopedProps.message" :me="scopedProps.me">
-        </slot>
-      </template> -->
     </Message>
     <Message v-show="showTypingIndicator !== ''" :message="{author: showTypingIndicator, type: 'typing'}" :user="{}" :colors="colors" :messageStyling="messageStyling" />
   </div>

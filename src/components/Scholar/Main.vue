@@ -1,11 +1,27 @@
 <template>
   <div class="scholarPg">
-    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:sendprivatemsg="privateMsgFlag = true"
+    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:message="privateMsgFlag = true"
             :scholarinfo="scholarInfo"
             :isself="isSelf"
             :isfollowing="isFollowing"></Header>
     <Body v-if="bodyFlag" v-on:editBulletin="bulletinFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
-    <!-- 对话框，发送私信用 -->
+    <el-dialog title="发送私信" :visible.sync="privateMsgFlag" :modal-append-to-body="false">
+      <el-form :model="privateMsgForm" :ref="privateMsgForm" label-position="left">
+        <el-form-item label="内容">
+          <el-input
+            type="textarea"
+            :rows="6"
+            style="width: 90%;"
+            v-model="privateMsgForm.privateMsgVal"
+            autocomplete="on"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="privateMsgFlag = false">取 消</el-button>
+        <el-button type="primary" @click="sendPrivateMsg">确 定</el-button>
+      </div>
+    </el-dialog>
     <el-dialog title="编辑通知" :visible.sync="bulletinFlag" :modal-append-to-body="false">
       <el-input
         type="textarea"
@@ -44,6 +60,7 @@
     import Header from "./Header";
     import Body from "./Body";
     import {findScholarById, sendMessage, updateBulletin, createAuthentication} from "../../graphql/scholar";
+    import { gql_sendMessage } from "@/graphql/social";
 
     export default {
         name: "Main",
@@ -66,7 +83,7 @@
         },
         computed: {
             id() {
-                return this.$store.getters.id;
+                return this.$store.getters.userId;
             }
         },
         data() {
@@ -92,12 +109,21 @@
         },
         methods: {
             sendPrivateMsg: function () {
-                sendMessage(this.$route.query.ID, this.privateMsgForm.privateMsgVal);
-                this.privateMsgFlag = false;
-                this.$message({
-                    type: "success",
-                    message: "已成功发送私信"
+              try{
+                gql_sendMessage(this.$route.query.ID, {data:{text:this.privateMsgForm.privateMsgVal},type:"text"}).then(action => {
+                  this.privateMsgFlag = false;
+                  this.$message({
+                      type: "success",
+                      message: "已成功发送私信"
+                  });
                 });
+              }catch(err){
+                console.log(err)
+                this.$message({
+                  type: "error",
+                  message: "私信发送失败"
+                });
+              }
             },
             updateBul() {
                 updateBulletin(this.$store.getters.userId, this.scholarBulletin);
