@@ -24,27 +24,6 @@
       @edit="editMessage"
       @remove="removeMessage"
     >
-      <template v-slot:text-message-toolbox="scopedProps">
-        <button
-          v-if="!scopedProps.me && scopedProps.message.type==='text'"
-          @click.prevent="like(scopedProps.message.id)"
-        >👍</button>
-      </template>
-      <template v-slot:text-message-body="scopedProps">
-        <p class="sc-message--text-content" v-html="scopedProps.messageText"></p>
-        <p
-          v-if="scopedProps.message.data.meta"
-          class="sc-message--meta"
-          :style="{color: scopedProps.messageColors.color}"
-        >{{scopedProps.message.data.meta}}</p>
-        <p
-          v-if="scopedProps.message.isEdited || scopedProps.message.liked"
-          class="sc-message--edited"
-        >
-          <template v-if="scopedProps.message.isEdited">✎</template>
-          <template v-if="scopedProps.message.liked">👍</template>
-        </p>
-      </template>
     </Launcher>
   </div>
 </template>
@@ -86,17 +65,32 @@ export default {
   created() {
     this.setColor("dark");
   },
-  async mounted() {
+  mounted() {
     if (!this.$store.getters.hasLoggedIn && !!localStorage.getItem("token")) {
       this.$store.dispatch(fetchUserInfo);
     }
     this.messageList.forEach(x => (x.liked = false));
     if (this.$store.getters.userId) {
-      await this.getAllContacts();
-      if (this.contacts.length) this.changeParticipant(this.contacts[0].id);
+      this.getAllContacts().then(action => {
+        if(!this.contacts.length){
+          this.contacts.push({
+            name:this.$store.getters.usersName,
+            id:this.$store.getters.userId,
+            imageUrl:this.$store.state.user.avatar
+          });
+        }
+        this.participants.push(this.contacts[0]);
+        this.changeParticipant(this.contacts[0].id);
+      });
     }
   },
   methods: {
+    clearAll(){
+      this.messageList = [];
+      this.contacts = [];
+      this.participants = [];
+      this.newMessagesCount = 0;
+    },
     scrollDown() {
       this.$refs.launcher.handleScrollDown();
     },
@@ -163,7 +157,7 @@ export default {
       }
     },
     async changeParticipant(userId) {
-      if (this.participants.length && this.participants[0].id == userId) return;
+      if (this.participants.length) return;
       this.participants = this.contacts.filter(x => x.id === userId);
       await this.getAllMessages();
       // update messages every 10s
@@ -272,10 +266,9 @@ export default {
   },
   watch: {
     "$store.getters.hasLoggedIn"(newVal) {
-      if (!newVal) {
-        this.closeChat();
-      }
+      this.closeChat();
       clearInterval(this.timer);
+      this.clearAll();
     }
   }
 };
