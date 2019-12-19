@@ -14,6 +14,7 @@ const getAllArticle = gql`
         }
         issue
         pdf
+        url
         keywords
         lang
         venue

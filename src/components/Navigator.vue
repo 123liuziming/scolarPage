@@ -71,7 +71,6 @@
         mode="horizontal"
         background-color="#000000"
         text-color="#ffffff"
-        active-text-color="#52e38a"
         router
       >
         <el-menu-item
@@ -132,7 +131,7 @@ export default {
       globalSearchUserInput: "",
       links: [
         {
-          name: "首页",
+          name: "Scholarly",
           to: "Index"
         }
       ],
@@ -229,12 +228,12 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 45vw;
+  width: 35vw;
   z-index: 999;
 }
 
 #global-nav--menu {
-  padding-left: 38%;
+  padding-left: 15vw;
   margin-right: 120px;
   overflow-x: scroll !important;
   overflow-y: hidden;
@@ -253,11 +252,14 @@ export default {
 }
 
 .global-nav--menu-item {
+  font-size: 19px;
+  font-family: "Roboto Mono";
+  font-weight: 600;
   display: inline-block !important;
 }
 
 #global-nav--menu-pad {
-  width: 240px !important;
+  width: 140px !important;
   height: 100%;
   padding-right: 120px;
 }

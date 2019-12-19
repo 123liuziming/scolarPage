@@ -21,10 +21,11 @@
         @keyup.enter="submitComment"
       />
       <button class="reply--button" @click.prevent="submitComment">
-        <i class="fa fa-paper-plane"></i> 发送
+        <font-awesome-icon :icon="['fa', 'paper-plane']" />
+        发送
       </button>
     </div>
-    <p style="color: white;" v-else>登录以发表评论。</p>
+    <p style="color: white; margin-top: 10px" v-else>登录以发表评论。</p>
   </div>
 </template>
 
@@ -39,7 +40,7 @@ export default {
   },
   data() {
     return {
-      reply: "",
+      reply: ""
     };
   },
   methods: {

@@ -10,13 +10,13 @@ import "../theme/index.css";
 import echarts from "echarts";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSearch, faUser, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faUser, faSyncAlt, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import defaultClient from "./graphql/client";
 import VueApollo from "vue-apollo";
 
-library.add(faSearch, faUser, faSyncAlt);
+library.add(faSearch, faUser, faSyncAlt, faPaperPlane);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.prototype.$echarts = echarts;

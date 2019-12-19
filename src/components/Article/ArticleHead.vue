@@ -24,6 +24,13 @@
             ><strong>{{ B }}</strong></font
           ></el-button
         >
+        <el-button
+          class="co"
+          type="success"
+          round
+          v-if="info.currentPaper.url[0]"
+          ><el-link target="blank" :href="info.currentPaper.url[0]"><font color="black"><strong>访问论文来源</strong></font></el-link></el-button
+        >
       </p>
     </div>
   </div>
