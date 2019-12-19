@@ -1,6 +1,6 @@
 <template>
   <div class="scholarPg">
-    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:sendprivatemsg="privateMsgFlag = true"
+    <Header v-if="headerFlag" v-on:auth="authFlag = true" v-on:message="privateMsgFlag = true"
             :scholarinfo="scholarInfo"
             :isself="isSelf"
             :isfollowing="isFollowing"></Header>

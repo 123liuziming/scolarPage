@@ -70,19 +70,6 @@ export default {
       this.$store.dispatch(fetchUserInfo);
     }
     this.messageList.forEach(x => (x.liked = false));
-    if (this.$store.getters.userId) {
-      this.getAllContacts().then(action => {
-        if(!this.contacts.length){
-          this.contacts.push({
-            name:this.$store.getters.usersName,
-            id:this.$store.getters.userId,
-            imageUrl:this.$store.state.user.avatar
-          });
-        }
-        this.participants.push(this.contacts[0]);
-        this.changeParticipant(this.contacts[0].id);
-      });
-    }
   },
   methods: {
     clearAll(){
@@ -102,7 +89,18 @@ export default {
           imageUrl: e.avatar
             ? e.avatar
             : "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
-        }));
+        })).then(action => {
+          if(!this.contacts.length){
+            this.contacts.push({
+              name:this.$store.getters.usersName,
+              id:this.$store.getters.userId,
+              imageUrl:this.$store.state.user.avatar
+            });
+          }
+          console.log(this.contacts.length);
+          this.participants.push(this.contacts[0]);
+          this.changeParticipant(this.contacts[0].id);
+        });
       } catch (err) {
         console.error(err);
       }
