@@ -6,23 +6,6 @@
             :isfollowing="isFollowing"></Header>
     <Body v-if="bodyFlag" v-on:editBulletin="bulletinFlag = true" :scholarInfo="scholarInfo" :isSelf="isSelf"></Body>
     <!-- 对话框，发送私信用 -->
-    <el-dialog title="发送私信" :visible.sync="privateMsgFlag" :modal-append-to-body="false">
-      <el-form :model="privateMsgForm" :ref="privateMsgForm" label-position="left">
-        <el-form-item label="内容">
-          <el-input
-            type="textarea"
-            :rows="6"
-            style="width: 90%;"
-            v-model="privateMsgForm.privateMsgVal"
-            autocomplete="on"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="privateMsgFlag = false">取 消</el-button>
-        <el-button type="primary" @click="sendPrivateMsg">确 定</el-button>
-      </div>
-    </el-dialog>
     <el-dialog title="编辑通知" :visible.sync="bulletinFlag" :modal-append-to-body="false">
       <el-input
         type="textarea"
