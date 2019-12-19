@@ -154,8 +154,8 @@
                 ]
             };
             option.series[0].categories = [];
-
-            for (let i = 0; i < colorList.length; i++) {
+            let len = this.coauthors.length;
+            for (let i = 0; i < len; i++) {
                 option.series[0].categories[i] = {};
                 option.series[0].categories[i].name = i;
                 option.series[0].categories[i].itemStyle = {};
@@ -164,10 +164,11 @@
                 option.series[0].categories[i].itemStyle.normal.color = colorList[i % colorList.length]
             }
             console.log(option.series[0].categories);
-            for (let i = 0; i < (this.coauthors.length <= 6 ? this.coauthors.length : 6 ); i++) {
+            for (let i = 0; i < len; i++) {
                 option.series[0].data[i + 1] = {};
                 option.series[0].data[i + 1]["name"] = this.coauthors[i].scholarId;
-                option.series[0].data[i + 1]["category"] = i;
+                option.series[0].data[i + 1]["id"] = i;
+                option.series[0].data[i + 1]["category"] = i + 1;
                 option.series[0].links[i] = {};
                 option.series[0].links[i].source = 0;
                 option.series[0].links[i].target = i + 1;

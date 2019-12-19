@@ -351,15 +351,9 @@ export default {
 
 .eChartContainer.relation {
   width: 75vw;
-  height: 650px;
+  height: 730px;
 }
 
-@media (max-width: 1200px) {
-  .eChartContainer.relation {
-    margin-left: 45vw;
-    width: 30vw;
-  }
-}
 /* ChatWindow needed */
 body {
   padding: 0px;
