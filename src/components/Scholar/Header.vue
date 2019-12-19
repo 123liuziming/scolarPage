@@ -16,7 +16,7 @@
               round
               size="mini"
               :disabled="sendMsgFlag"
-              @click="$emit('sendprivatemsg')"
+              @click="$emit('message', $route.query.ID)"
             >
               <font color="black">
                 <strong>发送私信</strong>
@@ -28,7 +28,6 @@
               round
               size="mini"
               @click="followScholar"
-              :disabled="followDisalbeFlag"
             >
               <font color="black">
                 <strong>{{ followBtnVal }}</strong>
@@ -97,14 +96,22 @@
             avatarOf,
             async followScholar() {
                 //var that = this;
-                this.$message({
-                    type: "success",
-                    message: "成功关注该学者"
-                });
                 const re = await followScholarOp(this.$route.query.ID);
-                this.isFollowed = "info";
-                this.followBtnVal = "取消关注";
-                this.isFollowDisabled = true;
+                if(this.isFollowed === "success"){
+                    this.isFollowed = "info";
+                    this.followBtnVal = "取消关注";
+                    this.$message({
+                        type: "success",
+                        message: "成功关注该学者"
+                    });
+                } else{
+                    this.isFollowed = "success";
+                    this.followBtnVal = "关注 +";
+                    this.$message({
+                        type: "success",
+                        message: "成功取消关注"
+                    });
+                }
             }
         }
     };

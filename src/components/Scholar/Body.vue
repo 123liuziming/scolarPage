@@ -14,32 +14,6 @@
         v-on:click="goToSearchTag(tag.t)"
       >{{ tag.t }}
       </el-tag>
-      <el-input
-        class="input-new-tag"
-        v-if="inputVisible"
-        v-model="tagToken"
-        ref="saveTagInput"
-        size="small"
-        @keyup.enter.native="handleInputConfirm"
-        placeholder="标签名"
-      ></el-input>
-      <el-input
-        class="input-new-tag"
-        v-if="inputVisible"
-        v-model="tagWeight"
-        ref="saveTagInput"
-        size="small"
-        @keyup.enter.native="handleInputConfirm"
-        placeholder="标签权重"
-      ></el-input>
-      <el-button
-        v-else
-        class="button-new-tag"
-        size="small"
-        @click="showInput"
-        v-show="isSelf"
-      >+ New Tag
-      </el-button>
     </div>
     <div style="margin-top: 3%;">
       <div style="display: flex; padding: 0 1vw 0 1vw;">
@@ -164,9 +138,8 @@
 
             handleInputConfirm() {
                 let inputValue1 = this.tagToken;
-                let inputValue2 = this.tagWeight;
                 if (inputValue1){
-                    this.scholarInfo.tags.push({id:"", w:inputValue2, t:inputValue1});
+                    this.scholarInfo.tags.push({t:inputValue1});
                     this.inputVisible = false;
                     this.tagToken = "";
                     this.tagWeight = "";
@@ -185,7 +158,7 @@
                 this.$router.push({path: '/search', query: {w: str}});
             },
             gotoArticle(id){
-                this.$router.push({path: '/article', query: {id: id}});
+                this.$router.push({path: '/article', query: {ID: id}});
             },
         },
         async mounted() {
