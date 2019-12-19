@@ -8,32 +8,32 @@ export default new Router({
     {
       path: "/chart",
       name: "Relation",
-      component: import(/* webpackChunkName: Scholar */ "../components/Scholar/Relation")
+      component: () => import(/* webpackChunkName: "Main" */ "../components/Scholar/Relation"),
     },
     {
       path: "/",
       name: "Index",
-      component: import(/* webpackChunkName: Index */ "@/components/Index")
+      component: () => import(/* webpackChunkName: "Index" */ "@/components/Index"),
     },
     {
       path: "/main",
       name: "Main",
-      component: import(/* webpackChunkName: Scholar */ "@/components/Scholar/Main")
+      component: () => import(/* webpackChunkName: "Main" */ "@/components/Scholar/Main")
     },
     {
       path: "/article",
       name: "Article",
-      component: import(/* webpackChunkName: Article */ "@/components/Article"),
+      component: () => import(/* webpackChunkName: "Article" */ "@/components/Article"),
     },
     {
       path: "/search",
       name: "Search",
-      component: import(/* webpackChunkName: Search */ "../components/Search"),
+      component: () => import(/* webpackChunkName: "Search" */ "../components/Search"),
     },
     {
       path: '/personalPage',
-      name: 'personalPage',
-      component: import(/* webpackChunkName: PersonalPage */ "../components/personal/PersonalPage")
+      name: 'PersonalPage',
+      component: () => import(/* webpackChunkName: "Personal" */ "../components/personal/PersonalPage")
     },
   ],
   mode: "history"

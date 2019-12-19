@@ -221,9 +221,6 @@ export default {
   max-width: calc(100% - 120px);
   word-wrap: break-word;
 }
-.sc-message--text code {
-  font-family: "Courier New", Courier, monospace !important;
-}
 .sc-message--content.received .sc-message--text {
   color: #263238;
   background-color: #f4f7f9;

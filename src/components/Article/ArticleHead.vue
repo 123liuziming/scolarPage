@@ -1,85 +1,91 @@
 <template>
   <div>
     <div>
-          <div class="article-header">
-            {{title}}
-          </div>
-          <p class="button" style="margin-top: 10%">
-            <el-button id="b1" class="co" type="success" round :disabled=!isLogin
-                       @click="CollectIt()"><font color="black"><strong>{{B}}</strong></font></el-button
-            >
-            <el-button  class="co" type="success" round style="margin-left: 3%"
-                       @click="GoToPdf()"><font color="black"><strong>查看PDF</strong></font></el-button
-            >
-          </p>
-
+      <div class="article-header">
+        {{ info.currentPaper.title }}
+      </div>
+      <p style="margin-left: 4vw; margin-top: 20px; color: white;">
+        <span v-if="info.currentPaper.venue"
+          >{{ info.currentPaper.venue
+          }}<span v-if="info.currentPaper.issue">, </span></span
+        ><span v-if="info.currentPaper.issue"
+          >ISSUE {{ info.currentPaper.issue }}</span
+        >
+      </p>
+      <p class="button" style="margin-top: 30px">
+        <el-button
+          v-show="hasLoggedIn"
+          id="b1"
+          class="co"
+          type="success"
+          round
+          @click="CollectIt()"
+          ><font color="black"
+            ><strong>{{ B }}</strong></font
+          ></el-button
+        >
+      </p>
     </div>
   </div>
 </template>
 
 <script>
-import {getFavourite,favoriteArticleOp,getPaper} from "../../graphql/Article"
+import {
+  getFavourite,
+  favoriteArticleOp,
+  getPaper
+} from "../../graphql/Article";
+
 export default {
-  name: "article_head",
+  name: "ArticleHead",
   data() {
     return {
-      id:'',
+      id: "",
       author: "",
-      title:"",
-      isLiked:false,
-      isCollected:"",
-      ButtonCollect:"收藏",
-      //isLogin:false
+      isLiked: false,
+      isCollected: "",
+      ButtonCollect: "收藏"
     };
   },
-  methods:{
-    CollectIt(){
-      if(!this.isLiked){
-        this.isCollected="已收藏";
-        this.ButtonCollect="取消收藏";
-        this.isLiked=true;
+  methods: {
+    CollectIt() {
+      if (!this.isLiked) {
+        this.isCollected = "已收藏";
+        this.ButtonCollect = "取消收藏";
+        this.isLiked = true;
+        favoriteArticleOp(this.id);
+      } else {
+        this.isCollected = "未收藏";
+        this.ButtonCollect = "收藏";
+        this.isLiked = false;
         favoriteArticleOp(this.id);
       }
-      else {
-        this.isCollected="未收藏";
-        this.ButtonCollect="收藏";
-        this.isLiked=false;
-        favoriteArticleOp(this.id);
-      }
-    },
-    GoToPdf(){
-      document.documentElement.scrollTop=1000;
     }
   },
-  computed:{
-    isLogin(){
+  computed: {
+    hasLoggedIn() {
       return this.$store.getters.hasLoggedIn;
     },
-    B(){
-      if(!this.isLogin){
-        return "收藏"
-      }
-      if(this.isLiked){
+    B() {
+      if (this.isLiked) {
         return "取消收藏";
-      }else{
-        return "收藏"
+      } else {
+        return "收藏";
       }
     }
   },
-  async mounted(){
-    this.id = this.$route.query.ID;
-    const item = (await getPaper(this.id)).data.getPaperById;
-    this.title = item.currentPaper.title;
-    if(this.isLogin){
+  props: {
+    info: { type: Object, required: true }
+  },
+  async mounted() {
+    if (this.hasLoggedIn) {
       const paper = (await getFavourite()).data.allFavorites;
-      for(let i = 0;i<paper.length;i++){
-        if(paper[i].id === this.id){
+      for (let i = 0; i < paper.length; i++) {
+        if (paper[i].id === this.id) {
           this.isLiked = true;
         }
-      };
-
+      }
     }
-
   }
 };
 </script>
@@ -90,8 +96,8 @@ export default {
   font-size: 38px;
   color: #fff;
   text-align: left;
-  margin-left: 5%;
-  margin-top: 3%;
+  margin-left: 4vw;
+  margin-top: 10px;
   width: 50%;
 }
 
@@ -106,7 +112,6 @@ a.search-tag-line {
 p.button {
   text-align: left;
   margin-left: 5%;
-
 }
 
 .bg {

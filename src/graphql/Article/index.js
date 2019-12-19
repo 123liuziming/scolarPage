@@ -13,6 +13,7 @@ const getAllArticle = gql`
           id
         }
         issue
+        pdf
         keywords
         lang
         venue
@@ -63,36 +64,32 @@ const favoriteArticleMutation = gql`
   }
 `;
 
-
-
-function favoriteArticleOp(paperId){
+function favoriteArticleOp(paperId) {
   return client.mutate({
     mutation: favoriteArticleMutation,
-    variables: {paperId},
+    variables: { paperId },
   });
 }
 
-
-function getFavourite(){
+function getFavourite() {
   return client.query({
     query: getFavorite
   });
 }
 
-
 //写评论
-function writeCommentOp(CommentInput){
+function writeCommentOp(CommentInput) {
   return client.mutate({
-    mutation:writeComment,
-    variables:{commentInput:CommentInput}
+    mutation: writeComment,
+    variables: { commentInput: CommentInput }
   })
 }
 
-function getPaper(paperId){
+function getPaper(paperId) {
   return client.query({
-    query:getAllArticle,
-    variables:{paperId}
+    query: getAllArticle,
+    variables: { paperId }
   })
 }
 
-export {getFavourite,favoriteArticleOp,writeCommentOp,getPaper}
+export { getFavourite, favoriteArticleOp, writeCommentOp, getPaper }

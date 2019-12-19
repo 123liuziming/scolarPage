@@ -4,7 +4,9 @@
       <div>
           <el-avatar class="avatarSize" :src="avatarOf({avatar:$store.state.user.avatar,name:$store.getters.usersName})" />
       </div>
-      <h1 style="color: white" class="h3 person-header"><b>{{$store.getters.usersName}}</b></h1>
+      <h1 style="color: white" class="h3 person-header">
+        <b>{{ $store.getters.usersName }}</b>
+      </h1>
     </div>
   </div>
 </template>
@@ -31,7 +33,6 @@ export default {
 }
 
 .h3.person-header {
-  font-family: "Consolas", "Microsoft YaHei", monospace;
   font-weight: bold;
   font-size: 36px;
   color: #fff;
@@ -42,7 +43,6 @@ export default {
 }
 
 a.search-tag-line {
-  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 20px;
   line-height: 28px;
   color: #fff;

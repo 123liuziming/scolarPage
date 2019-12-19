@@ -1,15 +1,11 @@
 <template>
-  <div>
-    <object class="pdfs" data="" />
-  </div>
+  <object class="pdfs" data="" />
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      pdfSrc: "//static.aminer.org/pdf/PDF/000/000/097/database_security.pdf" // pdf文件地址
-    };
+  props: {
+    pdfSrc: { type: String, required: true }
   },
   mounted() {
     var _this = this;

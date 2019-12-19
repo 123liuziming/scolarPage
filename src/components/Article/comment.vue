@@ -1,24 +1,27 @@
 <template>
-  <div id="app">
-    <p style="color:greenyellow;font-size:30px">评论区</p>
-    <el-divider ></el-divider>
+  <div>
+    <p style="color:white; font-size: 20px; font-weight: bold;">评论区</p>
     <comments
       :comments_wrapper_classes="['custom-scrollbar', 'comments-wrapper']"
       :comments="comments"
-      :current_user="current_user"
+      :currentUser="currentUser"
       @submit-comment="submitComment"
-    ></comments>
+    />
   </div>
 </template>
 
 <script>
 import Comments from "./comments.vue";
 import { getPaper, writeCommentOp } from "../../graphql/Article";
-import {avatarOf} from "../../common"
+import { avatarOf } from "../../common";
+
 export default {
   name: "app",
   components: {
     Comments
+  },
+  props: {
+    comments: { type: Array, required: true }
   },
   data() {
     return {
@@ -28,50 +31,49 @@ export default {
         avatar: "http://via.placeholder.com/100x100/a74848",
         user: "exampleCreator"
       },
-      current_user: {
+      currentUser: {
         avatar: "",
         user: ""
-      },
-      comments: []
+      }
     };
   },
 
   async mounted() {
-    this.id = this.$route.query.ID;
-    const CommentList = (await getPaper(this.id)).data.getPaperById.comments;
-    for (let i = 0; i < CommentList.length; i++) {
-      if (CommentList[i].body !== null) {
+    for (let i = 0; i < this.comments.length; i++) {
+      if (this.comments[i].body !== null) {
         let len = this.comments.length + 1;
         this.comments.push({
           id: len,
           user:
-            CommentList[i].author === null
+            this.comments[i].author === null
               ? "无名氏"
-              : CommentList[i].author.name,
+              : this.comments[i].author.name,
           email:
-            CommentList[i].author.email === null
+            this.comments[i].author.email === null
               ? "该用户暂无邮箱"
-              : CommentList[i].author.email,
+              : this.comments[i].author.email,
           avatar: avatarOf({
-            name:CommentList[i].author.name,
-            avatar:null}),
-          text: CommentList[i].body
+            name: this.comments[i].author.name,
+            avatar: null
+          }),
+          text: this.comments[i].body
         });
       }
     }
-    //加载当前用户的信息
-    this.current_user.user = this.$store.getters.usersName;
-    this.current_user.avatar = avatarOf({
-      name:this.$store.getters.usersName,
-      avatar:null});
+
+    this.currentUser.user = this.$store.getters.usersName;
+    this.currentUser.avatar = avatarOf({
+      name: this.$store.getters.usersName,
+      avatar: null
+    });
   },
 
   methods: {
     submitComment: async function(reply) {
       this.comments.push({
         id: this.comments.length + 1,
-        user: this.current_user.user,
-        avatar: this.current_user.avatar,
+        user: this.currentUser.user,
+        avatar: this.currentUser.avatar,
         text: reply
       });
       await writeCommentOp({

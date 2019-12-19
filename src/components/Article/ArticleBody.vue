@@ -2,84 +2,98 @@
   <div class="body bodyArticle">
     <el-row>
       <el-col :span="18">
-      <div id="content">
-        <div style="margin:2%">
-          <div style="color:white">文章信息</div>
-          <Article_Detail></Article_Detail>
-        </div>
-        <div style="margin:2%">
-          <div style="color:white;margin-bottom:1%">PDF预览</div>
-          <PDF id="PDF"></PDF>
+        <div id="content">
+          <div class="column-title">摘要</div>
+          <p
+            style="color: #eeeeee; padding-top: 10px; line-height: 1.4; font-size: 16px;"
+          >
+            {{
+              info.currentPaper.abstract ||
+                "应版权方要求，我们暂时无法提供摘要信息。"
+            }}
+          </p>
+          <div v-if="info.currentPaper.pdf">
+            <div style="color:white;margin-bottom:1%">PDF预览</div>
+            <PDF id="PDF" :pdfSrc="info.currentPaper.pdf" />
           </div>
-      </div>
-    </el-col>
-    <el-col :span="6">
-      <div id="yinyong">
-        <h1 id="fonter">
-          <strong>{{time_cite}}</strong>
-        </h1>
-        <p id="fonter2">
-          引用
-        </p>
-      </div>
-      <div id="fabu">
-        <h1 id="fonter">
-          <strong>{{year_publish}}</strong>
-        </h1>
-        <div id="fonter2">
-          发布于
+          <Comment style="margin-top: 20px" :comments="comments" />
         </div>
-      </div>
-      <div id="infoScolar">作者信息<el-divider ></el-divider>
-        <el-link  :underline="false" style="color:#808080;font-size:20px" v-for="a in author.slice(0,5)" @click="toNewPage(a.id)">{{a.name}}<br></el-link>
-        <p v-show="!author" style="color:#808080;font-size:20px">暂无学者</p>
-      </div>
-      <div id="relativeArticle">类似论文推荐<el-divider ></el-divider>
-        <el-link :underline="false" style="color: #808080;" v-for="article in RArticles.slice(0,3)" @click="toNewPage2(article.id)">{{article.name}}</el-link>
-        <p v-show="RArticles" style="color:grey;font-size:20px">暂无相关推荐</p>
-      </div>
-    </el-col>
-    </el-row>
-    <el-row>
-      <comment style="margin-left:10%;margin-right:10%;margin-top:5%"></comment>
+      </el-col>
+      <el-col :span="6">
+        <div class="yinyong">
+          <h1 class="fonter">
+            {{ paper.nCitation || 0 }}
+          </h1>
+          <p class="fonter2">
+            引用
+          </p>
+        </div>
+        <div class="fabu">
+          <h1 class="fonter">
+            {{ paper.year }}
+          </h1>
+          <div class="fonter2">
+            发布于
+          </div>
+        </div>
+        <div class="column-title" style="margin-bottom: 10px">作者</div>
+        <div v-for="(a, ind) in authors.slice(0, 5)" :key="`author${ind}`">
+          <el-link
+            :underline="false"
+            style="color:#808080;font-size:20px"
+            @click="toMain(a.id)"
+            >{{ a.name }}</el-link
+          >
+          <br />
+        </div>
+        <div v-if="relatedWorks.length">
+          <div class="column-title">类似论文推荐</div>
+          <el-link
+            :underline="false"
+            style="color: #808080;"
+            v-for="(article, ind) in relatedWorks.slice(0, 3)"
+            :key="`author${ind}`"
+            @click="toArticle(article.id)"
+            >{{ article.name }}</el-link
+          >
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
 import PDF from "../pdf";
-import comment from "./comment"
-import Article_Detail from "./ArticleDetail"
-import {getPaper} from "../../graphql/Article";
+import Comment from "./comment";
+import { getPaper } from "../../graphql/Article";
 
 export default {
   name: "article_body",
   components: {
-    PDF,Article_Detail,comment
+    PDF,
+    Comment
   },
-  async mounted() {
-    this.id = this.$route.query.ID;
-    const item = (await getPaper(this.id)).data.getPaperById;
-    this.author = item.currentPaper.authors;
-    this.time_cite = item.currentPaper.nCitation===null?0:item.currentPaper.nCitation;
-    this.year_publish = item.currentPaper.year===null?'???':item.currentPaper.year;
-    this.RArticles = item.relatedWorks;
-  },
-  data() {
-    return {
-      author: [],
-      time_cite:0,
-      year_publish:0,
-      id:'',
-      RArticles:[]
-    };
-  },
-  methods:{
-    toNewPage(aid){
-      window.location.href = "/main?ID=" + aid;
+  props: { info: { type: Object, required: true } },
+  methods: {
+    toMain(id) {
+      this.$router.push({ name: "Main", query: { ID: id } });
     },
-    toNewPage2(aid){
-      window.location.href = "/article?ID=" + aid;
+    toArticle(id) {
+      this.$router.push({ name: "Article", query: { ID: id } });
+    }
+  },
+  computed: {
+    authors() {
+      return this.info.currentPaper.authors || [];
+    },
+    relatedWorks() {
+      return this.info.relatedWorks || {};
+    },
+    paper() {
+      return this.info.currentPaper || {};
+    },
+    comments() {
+      return this.info.comments || [];
     }
   }
 };
@@ -103,31 +117,32 @@ export default {
   margin-top: 1%;
   margin-right: 0;
   margin-left: 5%;
-  font-size: 25px;
-  margin-bottom: 1% ;
+  margin-bottom: 1%;
 }
-#yinyong {
+.yinyong {
   width: 80%;
-  height: 13%;
-  margin-top: 21%;
-  background: gray;
+  margin-top: 40px;
+  padding: 1px 0 1px;
+  background: #333333;
+  border: 1px #4e4e4e solid;
 }
-#fabu {
+.fabu {
   width: 80%;
-  height: 13%;
   margin-top: 8%;
-  background: gray;
-  margin-bottom: 12%
+  background: #333333;
+  padding: 1px 0 1px;
+  margin-bottom: 12%;
+  border: 1px #4e4e4e solid;
 }
-#fonter {
+.fonter {
   margin-bottom: 0px;
+  font-weight: 600;
   margin-right: 2%;
   font-size: 70px;
   text-align: right;
   color: white;
 }
-#fonter2 {
-  margin-top: 0px;
+.fonter2 {
   font-size: 25px;
   margin-right: 6%;
   text-align: right;
@@ -139,16 +154,11 @@ export default {
     font-size: 4vmax;
   }
 }
-#infoScolar{
+.column-title {
   width: 80%;
-  margin-top: 1%;
-  font-size: 30px;
-  color:greenyellow;
-}
-#relativeArticle{
-  width: 80%;
-  margin-top: 10%;
-  font-size: 30px;
-  color:greenyellow;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
 }
 </style>
