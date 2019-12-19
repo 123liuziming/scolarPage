@@ -18,16 +18,17 @@
     <div id="index--container-content">
       <div style="display: flex;">
         <Card
-          v-for="(_, ind) in 4"
+          v-for="(item, ind) in news"
           :key="ind"
-          :title="news[ind].title"
-          :description="news[ind].desc"
-          :pic="news[ind].keyword"
+          :title="item.kind"
+          :description="item.title"
+          :pic="item.keyword"
           style="margin: 0 10px 0 10px; width: 25%;"
+          :articleId="item.id"
         />
       </div>
       <div style="width: 100%; padding-top: 20px; text-align: right;">
-        <el-button type="primary"
+        <el-button type="primary" @click="loadRecommendations"
           ><font-awesome-icon
             :icon="['fas', 'sync-alt']"
             style="margin-right: 8px;"
@@ -41,6 +42,24 @@
 <script>
 import Card from "./Scholar/Card";
 import { Loading } from "element-ui";
+import { getRecommendations } from "@/graphql/user";
+
+const keywords = [
+  "computer",
+  "book",
+  "student",
+  "machine",
+  "earth",
+  "sun",
+  "NASA",
+  "money",
+  "phone",
+  "study",
+  "weekend",
+  "see",
+  "world"
+];
+const kinds = ["猜你喜欢", "近期热门"];
 
 export default {
   name: "Index",
@@ -54,24 +73,24 @@ export default {
       spotlightInput: "",
       news: [
         {
-          title: "最新发布",
-          desc: "The rise of the machines: Artificial intelligence",
+          kind: "最新发布",
+          title: "The rise of the machines: Artificial intelligence",
           keyword: "computer"
         },
         {
-          title: "编辑推荐",
-          desc: "Exploring scholarly data with rexplorer",
+          kind: "编辑推荐",
+          title: "Exploring scholarly data with rexplorer",
           keyword: "book"
         },
         {
-          title: "近期热门",
-          desc: "Evaluating search engine models for scholarly purposes",
+          kind: "近期热门",
+          title: "Evaluating search engine models for scholarly purposes",
           keyword: "student"
         },
         {
-          title: "最新发布",
-          desc: "The visibility of Wikipedia in scholarly publications",
-          keyword: "book"
+          kind: "最新发布",
+          title: "The visibility of Wikipedia in scholarly publications",
+          keyword: "machine"
         }
       ]
     };
@@ -84,7 +103,20 @@ export default {
           query: { w: this.spotlightInput }
         })
         .catch(() => {});
+    },
+    async loadRecommendations() {
+      this.news = (await getRecommendations()).data.recommendation
+        .slice(0, 4)
+        .map((el, index) => ({
+          ...el,
+          kind: kinds[Math.floor(Math.random() * 2)],
+          keyword: keywords[Math.floor(Math.random() * keywords.length)]
+        }));
     }
+  },
+
+  async beforeMount() {
+    this.loadRecommendations();
   }
 };
 </script>

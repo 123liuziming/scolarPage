@@ -86,5 +86,27 @@ function getCurrentUser() {
   return client.query({ query: currentUserQuery });
 }
 
+const recommdationQuery = gql`
+  query recommendation {
+    recommendation {
+      id
+      title
+    }
+  }
+`;
 
-export { login, checkLoginFormValidity, register, checkRegisterFormValidity, getCurrentUser };
+function getRecommendations() {
+  return client.query({
+    query: recommdationQuery,
+    fetchPolicy: "network-only"
+  });
+}
+
+export {
+  login,
+  checkLoginFormValidity,
+  register,
+  checkRegisterFormValidity,
+  getCurrentUser,
+  getRecommendations
+};

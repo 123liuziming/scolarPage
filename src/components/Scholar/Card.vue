@@ -11,7 +11,16 @@
       fit="fit"
     />
     <el-image v-else style="width: 100%;" :src="pic" :fit="fit" />
+    <el-link
+      v-if="articleId"
+      style="color: white; margin-top: 3%; font-family: 'Roboto Mono', monospace; font-weight: bold;"
+      :underline="false"
+      @click="$router.push({ name: 'Article', query: { ID: articleId } })"
+    >
+      {{ description }}
+    </el-link>
     <p
+      v-else
       style="color: white; margin-top: 3%; font-family: 'Roboto Mono', monospace; font-weight: bold;"
       class="hideWhenOverflow"
     >
@@ -26,7 +35,8 @@ export default {
   props: {
     title: { required: true, type: String },
     description: { type: String },
-    pic: { required: true, type: String }
+    pic: { required: true, type: String },
+    articleId: { required: false, type: String }
   }
 };
 </script>
