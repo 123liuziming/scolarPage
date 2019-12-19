@@ -1,7 +1,7 @@
 <template>
   <div class="comments">
     <div :class="comments_wrapper_classes">
-      <single-comment
+      <SingleComment
         v-for="comment in comments"
         :comment="comment"
         :key="comment.id"
@@ -29,17 +29,17 @@
 </template>
 
 <script>
-import singleComment from "./shortComments";
+import SingleComment from "./SingleComment";
 import { avatarOf } from "../../common";
 
 export default {
-  name: "Comments",
+  name: "Comment",
   components: {
-    singleComment
+    SingleComment
   },
   data() {
     return {
-      reply: ""
+      reply: "",
     };
   },
   methods: {

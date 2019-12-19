@@ -1,20 +1,24 @@
 <template>
   <div class="comment">
     <div class="avatar">
-      <img :src="comment.avatar" />
+      <img :src="avatarOf(comment.author)" />
     </div>
     <div class="text">
-      <a class="username" @click="open">@{{ comment.user }}</a>
-      <span>{{ comment.text }}</span>
+      <a class="username" @click="open">@{{ comment.author.name }}</a>
+      <span>{{ comment.body }}</span>
     </div>
   </div>
 </template>
 
 <script>
+import { avatarOf } from '@/common.js'
+
 export default {
-  name: "singleComment",
+  name: "SingleComment",
   props: ["comment"],
   methods: {
+    avatarOf,
+    
     open() {
       this.$msgbox({
         title: "联系" + this.comment.user,

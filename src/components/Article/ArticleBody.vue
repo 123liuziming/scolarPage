@@ -13,10 +13,10 @@
             }}
           </p>
           <div v-if="info.currentPaper.pdf">
-            <div style="color:white;margin-bottom:1%">PDF预览</div>
+            <div style="color:white;margin-bottom:20px">PDF预览</div>
             <PDF id="PDF" :pdfSrc="info.currentPaper.pdf" />
           </div>
-          <Comment style="margin-top: 20px" :comments="comments" />
+          <CommentList style="margin-top: 20px" :comments="comments" />
         </div>
       </el-col>
       <el-col :span="6">
@@ -64,14 +64,14 @@
 
 <script>
 import PDF from "../pdf";
-import Comment from "./comment";
+import CommentList from "./CommentList";
 import { getPaper } from "../../graphql/Article";
 
 export default {
   name: "article_body",
   components: {
     PDF,
-    Comment
+    CommentList
   },
   props: { info: { type: Object, required: true } },
   methods: {
