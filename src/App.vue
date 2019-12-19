@@ -102,7 +102,12 @@ export default {
           this.changeParticipant(this.contacts[0].id);
         });
       } catch (err) {
+        this.isChatOpen = false;
         console.error(err);
+        this.$message({
+            type: "error",
+            message: "获取联系人信息失败"
+        });
       }
     },
     async getAllMessages() {
