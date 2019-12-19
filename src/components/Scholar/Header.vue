@@ -16,7 +16,7 @@
               round
               size="mini"
               :disabled="sendMsgFlag"
-              @click="$emit('sendprivatemsg')"
+              @click="$emit('message', $route.query.ID)"
             >
               <font color="black">
                 <strong>发送私信</strong>
