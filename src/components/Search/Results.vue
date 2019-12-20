@@ -159,7 +159,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #search-results--background {
   width: 100%;
   height: 80vh;

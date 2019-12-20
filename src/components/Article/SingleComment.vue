@@ -4,7 +4,7 @@
       <img :src="avatarOf(comment.author)" />
     </div>
     <div class="text">
-      <a class="username" @click="open">@{{ comment.author.name }}</a>
+      <a class="username">@{{ comment.author.name }}</a>
       <span>{{ comment.body }}</span>
     </div>
   </div>
@@ -18,24 +18,6 @@ export default {
   props: ["comment"],
   methods: {
     avatarOf,
-    
-    open() {
-      this.$msgbox({
-        title: "联系" + this.comment.user,
-        message: this.comment.email,
-        showCancelButton: true,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
-      }).then(action => {
-        this.$message({
-          type: "info",
-          message:
-            this.comment.email === "该用户暂无邮箱"
-              ? "操作取消"
-              : "已经复制到剪切板"
-        });
-      });
-    }
   }
 };
 </script>
