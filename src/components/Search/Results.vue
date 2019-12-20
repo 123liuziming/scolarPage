@@ -234,8 +234,10 @@ export default {
     margin-top: 0;
   }
 }
+</style>
 
+<style>
 .el-tabs__header {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 </style>
