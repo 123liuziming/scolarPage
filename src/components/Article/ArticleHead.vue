@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     CollectIt() {
-      this.isLiked = !isLiked;
+      this.isLiked = !this.isLiked;
       favoriteArticleOp(this.id);
     }
   },
