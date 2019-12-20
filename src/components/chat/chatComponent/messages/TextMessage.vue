@@ -2,16 +2,6 @@
   <div class="sc-message--text" :style="messageColors">
     <template>
       <div class="sc-message--toolbox" :style="{background: messageColors.backgroundColor}">
-        <!-- <button v-if="me && message.id != null && message.id != undefined" @click="edit" :disabled="isEditing">
-          <icon-base :color="isEditing? 'black': messageColors.color" width="10" icon-name="edit">
-            <icon-edit />
-          </icon-base>
-        </button>
-        <button v-if="me && message.id != null && message.id != undefined" @click="$emit('remove')">
-          <icon-base :color="messageColors.color" width="10" icon-name="remove">
-            <icon-cross />
-          </icon-base>
-        </button> -->
         <slot name="text-message-toolbox" :message="message" :me="me">
         </slot>
       </div>
@@ -44,7 +34,7 @@ export default {
     }
   },
   props: {
-    message:{
+    message: {
       type: Object,
       required: true
     },
@@ -59,9 +49,9 @@ export default {
   },
   computed: {
     messageText() {
-      if(!this.message.data.text)
+      if (!this.message.data.text)
         return;
-      const escaped = escapeGoat.escape(this.message.data.text)
+      const escaped = escapeGoat.htmlEscape(this.message.data.text)
 
       return Autolinker.link(this.messageStyling ? fmt(escaped) : escaped, {
         className: 'chatLink',

@@ -159,19 +159,7 @@ export default {
       }, 10000);
       this.scrollDown();
     },
-    sendMessage(text) {
-      if (text.length > 0) {
-        this.newMessagesCount = this.isChatOpen
-          ? this.newMessagesCount
-          : this.newMessagesCount + 1;
-        this.onMessageWasSent({
-          author: "support",
-          type: "text",
-          id: Math.random(),
-          data: { text }
-        });
-      }
-    },
+
     handleTyping(text) {
       this.showTypingIndicator =
         text.length > 0
