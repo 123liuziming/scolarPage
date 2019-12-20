@@ -150,8 +150,8 @@ export default {
       }
     },
     async changeParticipant(userId) {
-      if (this.participants.length) return;
-      this.participants = this.contacts.filter(x => x.id === userId);
+      if (!this.participants.length) return;
+      this.participants = this.contacts;
       await this.getAllMessages();
       if (this.timer) clearInterval(this.timer);
       this.timer = setInterval(() => {
