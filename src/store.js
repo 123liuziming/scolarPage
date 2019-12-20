@@ -3,6 +3,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { getCurrentUser } from "./graphql/user";
+import { avatarOf } from "./common";
 
 Vue.use(Vuex);
 
@@ -20,15 +21,14 @@ const store = new Vuex.Store({
       for (const key of Object.keys(state.user))
         if (payload[key] !== null && payload[key] !== undefined)
           state.user[key] = payload[key];
-      if (payload.token)
-        localStorage.setItem("token", payload.token);
+      if (payload.token) localStorage.setItem("token", payload.token);
     },
     clearUser(state) {
       state.user = {
         name: "",
         avatar: "",
         role: 0,
-        id: "",
+        id: ""
       };
       localStorage.setItem("token", "");
     }
@@ -51,6 +51,7 @@ const store = new Vuex.Store({
     usersName: state => state.user.name,
     hasLoggedIn: state => !!state.user.id,
     isAdmin: state => !!state.user.role,
+    avatar: state => avatarOf(state.user)
   }
 });
 

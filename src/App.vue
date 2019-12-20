@@ -72,7 +72,7 @@ export default {
     this.messageList.forEach(x => (x.liked = false));
   },
   methods: {
-    clearAll(){
+    clearAll() {
       this.messageList = [];
       this.contacts = [];
       this.participants = [];
@@ -89,24 +89,23 @@ export default {
           imageUrl: e.avatar
             ? e.avatar
             : "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
-        })).then(action => {
-          if(!this.contacts.length){
-            this.contacts.push({
-              name:this.$store.getters.usersName,
-              id:this.$store.getters.userId,
-              imageUrl:this.$store.state.user.avatar
-            });
-          }
-          console.log(this.contacts.length);
-          this.participants.push(this.contacts[0]);
-          this.changeParticipant(this.contacts[0].id);
-        });
+        }));
+        if (!this.contacts.length)
+          this.contacts = [
+            {
+              name: this.$store.getters.usersName,
+              id: this.$store.getters.userId,
+              imageUrl: this.$store.state.user.avatar
+            }
+          ];
+        this.participants = [this.contacts[0]];
+        this.changeParticipant(this.contacts[0].id);
       } catch (err) {
-        this.isChatOpen = false;
         console.error(err);
+        this.isChatOpen = false;
         this.$message({
-            type: "error",
-            message: "获取联系人信息失败"
+          type: "error",
+          message: "在处理您请求的过程中发生了问题。"
         });
       }
     },
@@ -119,7 +118,6 @@ export default {
           0,
           99
         );
-        // console.log(response.data);
         this.messageList = response.data.messages.map(e => {
           const result = {
             type: e.type || "text",
@@ -144,14 +142,6 @@ export default {
       }
     },
     async handleSendMessage(message) {
-      // message got format like this:
-      // {
-      //   author:...
-      //   type:
-      //   data:{
-      //     text:'...'
-      //   }
-      // }
       try {
         await gql_sendMessage(this.participants[0].id, message);
         this.scrollDown();
@@ -163,12 +153,10 @@ export default {
       if (this.participants.length) return;
       this.participants = this.contacts.filter(x => x.id === userId);
       await this.getAllMessages();
-      // update messages every 10s
       if (this.timer) clearInterval(this.timer);
       this.timer = setInterval(() => {
         this.getAllMessages();
       }, 10000);
-      // console.log(userId);
       this.scrollDown();
     },
     sendMessage(text) {

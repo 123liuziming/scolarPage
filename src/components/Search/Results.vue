@@ -118,6 +118,7 @@ export default {
           background: "rgba(0, 0, 0, 0.8)",
           text: "请稍候"
         });
+      this.updateRouterQueries();
       try {
         if (this.activeTab === "a") {
           const response = await searchPapers(this.keyword, this.currentPage);

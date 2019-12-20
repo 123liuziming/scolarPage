@@ -11,6 +11,7 @@ const getAllArticle = gql`
         authors{
           name
           id
+          active
         }
         issue
         pdf

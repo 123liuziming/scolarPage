@@ -15,6 +15,7 @@
               type="success"
               round
               size="mini"
+              v-if="authenticateFlag"
               :disabled="sendMsgFlag"
               @click="$emit('message', $route.query.ID)"
             >
@@ -39,7 +40,7 @@
               type="success"
               round
               size="mini"
-              :disabled="authenticateFlag"
+              v-if="!authenticateFlag"
               @click="$emit('auth')"
             >
               <font color="black">

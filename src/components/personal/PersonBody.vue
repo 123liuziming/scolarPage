@@ -9,15 +9,27 @@
       :visible.sync="isChangePwdVisible"
       top="10vh"
     >
-      <el-form :model="newUserInfo" :rules="pwdChangeRules" ref="pwdChangeRules">
+      <el-form
+        :model="newUserInfo"
+        :rules="pwdChangeRules"
+        ref="pwdChangeRules"
+      >
         <el-form-item label="原密码">
-          <el-input v-model="newUserInfo.password" type="password" auto-complete="off" />
+          <el-input
+            v-model="newUserInfo.password"
+            type="password"
+            auto-complete="off"
+          />
         </el-form-item>
         <el-form-item label="新密码" prop="pass">
           <el-input v-model="newPwd" type="password" auto-complete="off" />
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
-          <el-input v-model="newPwdConfirm" type="password" auto-complete="off" />
+          <el-input
+            v-model="newPwdConfirm"
+            type="password"
+            auto-complete="off"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -48,7 +60,9 @@
       </el-form>
       <div slot="footer">
         <template>
-          <el-button type="primary" @click="handleChangeUserInfo">确认</el-button>
+          <el-button type="primary" @click="handleChangeUserInfo"
+            >确认</el-button
+          >
           <el-button @click="closeUserInfoChange">取消</el-button>
         </template>
       </div>
@@ -75,11 +89,15 @@
           <el-header style="text-align: left; font-size: 12px">
             <h2 style="color: white">个人信息</h2>
           </el-header>
-          <h4 style="color: white">修改头像</h4>
-          <Pulpload @castImage="getImageUrl" />
-          <h4 style="color: white">用户名:{{$store.getters.usersName}}</h4>
-          <el-button @click="changePwd" size="mini">修改密码</el-button>
-          <el-button @click="changeUserName" size="mini">修改用户名</el-button>
+          <div style="margin-left: 20px;">
+            <h4 style="color: white">管理您的登录信息</h4>
+            <el-button @click="changePwd" size="small">修改密码</el-button>
+            <el-button @click="changeUserName" size="small"
+              >修改用户名</el-button
+            >
+            <h4 style="color: white; margin-top: 30px">修改头像</h4>
+            <Pulpload @castImage="getImageUrl" />
+          </div>
         </div>
         <div v-if="currentPage.subscribePage">
           <el-header style="text-align: left; font-size: 12px">
@@ -95,6 +113,7 @@
               <el-divider v-if="ind !== favoritePage.length - 1" />
             </div>
           </div>
+          <p v-else style="padding-left: 20px; color: white">您当前没有收藏任何文章。</p>
         </div>
         <div v-if="currentPage.followPage">
           <el-header style="text-align: left; font-size: 12px">
@@ -110,6 +129,7 @@
               <el-divider v-if="ind !== followScholars.length - 1" />
             </div>
           </div>
+          <p v-else style="padding-left: 20px; color: white">您当前没有收藏任何学者。</p>
         </div>
       </el-main>
     </el-container>
@@ -140,8 +160,8 @@ export default {
   data() {
     return {
       currentPage: {
-        subscribePage: true,
-        personalInfo: false,
+        subscribePage: false,
+        personalInfo: true,
         followPage: false
       },
       favoritePage: [],
@@ -360,6 +380,7 @@ export default {
 <style scoped>
 .el-menu {
   border-right: 0;
+  background: none !important;
 }
 
 @keyframes fadeInLeft {

@@ -105,7 +105,7 @@ export default {
   text-align: left;
   margin-left: 4vw;
   margin-top: 10px;
-  width: 50%;
+  width: 85%;
 }
 
 a.search-tag-line {

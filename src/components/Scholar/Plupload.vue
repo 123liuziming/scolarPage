@@ -1,8 +1,8 @@
 <template>
   <div name="'ddd">
-    <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+    <div id="ossfile">你的浏览器不支持 Flash, Silverlight 或者 HTML5。</div>
     <el-button id="selectfiles" size="small">选择图片</el-button>
-    <el-button size="small" type="primary" id="postfiles">点击上传</el-button>
+    <el-button size="small" type="info" id="postfiles">点击上传</el-button>
     <el-upload
       disable
       :file-list="fileList"
@@ -34,7 +34,6 @@
             };
         },
         mounted() {
-            document.title = "上传视频";
             this.initPlUploader();
             document.getElementsByName('file')[0].replaceWith("");
         },

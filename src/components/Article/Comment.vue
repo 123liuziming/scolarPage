@@ -57,10 +57,7 @@ export default {
     }
   },
   async mounted() {
-    this.currentUser.avatar = avatarOf({
-      name: this.$store.getters.usersName,
-      avatar: null
-    });
+    this.currentUser.avatar = this.$store.getters.avatar;
   },
   props: {
     comments: { type: Array },

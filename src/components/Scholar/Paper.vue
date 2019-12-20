@@ -13,12 +13,12 @@
           <div style="text-align:justify;white-space:normal;
          word-break:break-all;margin-left:0.5vw">
             <a>{{selfnames}}</a>
-            <a :class="author.active ? 'other align alignNobottom' : 'noClick align alignNobottom'" v-for="(author,ind) in article.authors"  v-if="ind < 20" @click="author.active && goToAuthor(author.id)" :key="ind">{{ author.name }}</a>
+            <a :class="author.active ? 'other align alignNobottom' : 'noClick align alignNobottom'" v-for="(author,ind) in (article.authors || []).slice(0, 20)" @click="author.active && goToAuthor(author.id)" :key="ind">{{ author.name }}</a>
           </div>
             <el-button
               size="mini"
               class="conference align"
-              v-for="(tag, index) in article.tags" v-if="index < 3" :key="index" @click="goToSearch(tag)">
+              v-for="(tag, index) in (article.tags || []).slice(0, 3)" :key="index" @click="goToSearch(tag)">
               {{ tag }}
             </el-button>
           <div class="align" style="color: yellowgreen" v-if="article.doi">doi:{{ article.doi }}</div>
@@ -26,7 +26,7 @@
           <div>
             <span
             ><el-button type="warning" size="mini" class="align">{{
-                article.lang === "zh" ? "中文":"English"
+                article.lang === "zh" ? "中文" : "English"
               }}</el-button></span
             >
             <el-divider direction="vertical"></el-divider>

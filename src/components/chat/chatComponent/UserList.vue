@@ -27,6 +27,7 @@ export default {
   margin-top: 5px;
 }
 .user-list {
+  background-color: #304154;
   height: 100%;
   overflow: auto;
   padding-left: 5px;
@@ -35,6 +36,7 @@ export default {
 .img-msg {
   border-radius: 50%;
   width: 30px;
+  height: 30px;
   margin: 3px;
 }
 .user-element {

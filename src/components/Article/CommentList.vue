@@ -49,7 +49,7 @@ export default {
         author: {
           id: this.currentUser.id,
           name: this.currentUser.name,
-          avatar: this.currentUser.avatar
+          avatar: this.$store.getters.avatar,
         },
         body: reply
       });

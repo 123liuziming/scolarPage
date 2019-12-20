@@ -38,13 +38,19 @@
         </div>
         <div class="column-title" style="margin-bottom: 10px">作者</div>
         <div v-for="(a, ind) in authors.slice(0, 5)" :key="`author${ind}`">
-          <el-link
-            :underline="false"
-            style="color:#808080;font-size:20px"
-            @click="toMain(a.id)"
-            >{{ a.name }}</el-link
-          >
-          <br />
+          <div v-if="a.active">
+            <el-link
+              :underline="false"
+              style="color:#ffffff;font-size:20px"
+              @click="toMain(a.id)"
+              >{{ a.name }}</el-link
+            >
+            <br />
+          </div>
+          <div v-else>
+            <p style="color:#808080;font-size:20px">{{ a.name }}</p>
+            <br />
+          </div>
         </div>
         <div v-if="relatedWorks.length">
           <div class="column-title">类似论文推荐</div>
