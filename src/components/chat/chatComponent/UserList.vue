@@ -2,7 +2,7 @@
   <div class="user-list">
     <table class="" style="padding-top: 5px;">
       <tbody>
-        <tr v-for="user in contacts" :key="user.id" @click="$emit('changeParticipant',user.id)">
+        <tr v-for="user in contacts" :key="user.id" @click="$emit('changeParticipant',user)">
           <el-button size="mini" class="el-button" type="primary" plain>
             <td style="text-align: center;"><img :src="user.imageUrl" class="img-msg"/></td>
             <td class="user-element">{{user.name}}</td>

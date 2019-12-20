@@ -99,7 +99,7 @@ export default {
             }
           ];
         this.participants = [this.contacts[0]];
-        this.changeParticipant(this.contacts[0].id);
+        this.changeParticipant(this.participants[0]);
       } catch (err) {
         console.error(err);
         this.isChatOpen = false;
@@ -149,9 +149,9 @@ export default {
         console.error(err);
       }
     },
-    async changeParticipant(userId) {
+    async changeParticipant(user) {
       if (!this.participants.length) return;
-      this.participants = [this.contacts[0]];
+      this.participants = [user];
       await this.getAllMessages();
       if (this.timer) clearInterval(this.timer);
       this.timer = setInterval(() => {

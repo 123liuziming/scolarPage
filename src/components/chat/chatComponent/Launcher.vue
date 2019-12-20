@@ -202,8 +202,8 @@ export default {
       this.open();
       this.$root.$emit('focusUserInput');
     },
-    changeParticipant(userId){
-      this.$emit('changeParticipant',userId)
+    changeParticipant(user){
+      this.$emit('changeParticipant',user)
     }
   },
   computed: {
@@ -211,14 +211,16 @@ export default {
       if (this.title !== '') {
         return this.title
       }
-
+      // 只能监测到数组的变化，对于其中的内容无法检测，所以对于participant必须要使用赋值
       if (this.participants.length === 0) {
         return 'You'
       } else if (this.participants.length > 1) {
+        console.log(this.participants[0].name)
         return 'You, ' + this.participants[0].name + ' & others'
       } else {
+        console.log(this.participants[0].name)
         return 'You & ' + this.participants[0].name
-      }
+      }      
     }
   },
   components: {

@@ -157,9 +157,9 @@ export default {
     getSuggestions(){
       return this.messages.length > 0 ? this.messages[this.messages.length - 1].suggestions : []
     },
-    changeParticipant(userId){
+    changeParticipant(user){
       this.showUserList = false
-      this.$emit('changeParticipant',userId)
+      this.$emit('changeParticipant',user)
     },
     handleScrollDown(){
       this.$refs.messageList.handleScrollDown()
