@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navigator />
-    <router-view />
+    <router-view v-on:messageScholar="messageScholar" />
     <Launcher
       ref="launcher"
       @changeParticipant="changeParticipant"
@@ -23,8 +23,7 @@
       @onType="handleOnType"
       @edit="editMessage"
       @remove="removeMessage"
-    >
-    </Launcher>
+    ></Launcher>
   </div>
 </template>
 
@@ -39,6 +38,7 @@ import {
   gql_sendMessage
 } from "@/graphql/social";
 import Launcher from "./components/chat/chatComponent/Launcher";
+import { avatarOf } from "@/common";
 
 export default {
   name: "App",
@@ -72,6 +72,17 @@ export default {
     this.messageList.forEach(x => (x.liked = false));
   },
   methods: {
+    avatarOf,
+    messageScholar(scholar) {
+      console.log(scholar);
+      this.changeParticipant({
+        id: scholar.userId,
+        imageUrl: avatarOf({ avatar: scholar.avatar, name: scholar.name }),
+        name: scholar.name
+      }).then(action => {
+        this.isChatOpen = true;
+      });
+    },
     clearAll() {
       this.messageList = [];
       this.contacts = [];
@@ -79,25 +90,22 @@ export default {
       this.newMessagesCount = 0;
     },
     scrollDown() {
-      this.$refs.launcher.handleScrollDown();
+      if(this.$refs.launcher)
+        this.$refs.launcher.handleScrollDown();
     },
     async getAllContacts() {
       try {
         const response = await gql_getAllContacts();
         this.contacts = response.data.recentContacts.map(e => ({
           ...e,
-          imageUrl: e.avatar
-            ? e.avatar
-            : "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png"
+          imageUrl: avatarOf({ avatar: e.avatar, name: e.name })
         }));
         if (!this.contacts.length)
-          this.contacts = [
-            {
-              name: this.$store.getters.usersName,
-              id: this.$store.getters.userId,
-              imageUrl: this.$store.state.user.avatar
-            }
-          ];
+          this.contacts.push({
+            name: this.$store.getters.usersName,
+            id: this.$store.getters.userId,
+            imageUrl: this.$store.state.user.avatar
+          });
         this.participants = [this.contacts[0]];
         this.changeParticipant(this.participants[0]);
       } catch (err) {
@@ -150,13 +158,18 @@ export default {
       }
     },
     async changeParticipant(user) {
-      if (!this.participants.length) return;
       this.participants = [user];
       await this.getAllMessages();
-      if (this.timer) clearInterval(this.timer);
-      this.timer = setInterval(() => {
-        this.getAllMessages();
-      }, 10000);
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+      this.timer = setInterval(
+        () => {
+          this.getAllMessages();
+        },
+        process.env.NODE_ENV === "production" ? 10000 : 1000
+      );
       this.scrollDown();
     },
 
@@ -183,12 +196,15 @@ export default {
         });
         return;
       }
-      this.isChatOpen = true;
-      this.newMessagesCount = 0;
-      this.getAllContacts();
+      this.getAllContacts().then(action => {
+        this.newMessagesCount = 0;
+        this.isChatOpen = true;
+      });
     },
     closeChat() {
       this.isChatOpen = false;
+      clearInterval(this.timer);
+      this.timer = null;
     },
     setColor(color) {
       this.colors = this.availableColors[color];
@@ -229,8 +245,8 @@ export default {
   },
   computed: {
     titleImageUrl() {
-      if (this.participants.length && this.participants[0].avatar)
-        return this.participants[0].avatar;
+      if (this.participants.length && this.participants[0].imageUrl)
+        return this.participants[0].imageUrl;
       else
         return "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png";
     },
@@ -246,7 +262,6 @@ export default {
   watch: {
     "$store.getters.hasLoggedIn"(newVal) {
       this.closeChat();
-      clearInterval(this.timer);
       this.clearAll();
     }
   }

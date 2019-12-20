@@ -17,7 +17,7 @@
               size="mini"
               v-if="authenticateFlag"
               :disabled="sendMsgFlag"
-              @click="$emit('message', $route.query.ID)"
+              @click="$emit('message', scholarinfo)"
             >
               <font color="black">
                 <strong>发送私信</strong>

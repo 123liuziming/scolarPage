@@ -215,10 +215,8 @@ export default {
       if (this.participants.length === 0) {
         return 'You'
       } else if (this.participants.length > 1) {
-        console.log(this.participants[0].name)
         return 'You, ' + this.participants[0].name + ' & others'
       } else {
-        console.log(this.participants[0].name)
         return 'You & ' + this.participants[0].name
       }      
     }
