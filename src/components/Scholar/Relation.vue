@@ -55,13 +55,14 @@
                 tooltip: {
                     trigger: "item",
                     enterable:true,
+                    alwaysShowContent:true,
                     formatter: function (params) {
                         if (params.data.target) {
                             let tmp = "";
                             let url = "";
                             for(let i = 0; i < params.data.articles.length; i++){
-                                url = "'/article?id=" + params.data.articles[i] + "'";
-                                tmp += "<div><a href=" + url + ">" + params.data.articles[i] + "</a></div>"
+                                url = "'/article?ID=" + params.data.articlesid[i] + "'";
+                                tmp += "<li><a href=" + url + ">" + (params.data.articles[i].length > 40 ? params.data.articles[i].substr(0, 35) + "..." : params.data.articles[i])  + "</a></li>"
                             }
                             return tmp;
                         } else {
@@ -181,12 +182,14 @@
                     option.series[0].data[i + 1]["ncitation"] = this.coauthors[i].n_citation;
                     option.series[0].data[i + 1]["npubs"] = this.coauthors[i].n_pubs;
                     option.series[0].data[i + 1]["id"] = i;
+                    option.series[0].data[i + 1]["symbolSize"] = 100 + 1.5 * this.coauthors[i].papers.length;
                     option.series[0].data[i + 1]["scid"] = this.coauthors[i].scholarId;
                     option.series[0].data[i + 1]["category"] = i + 1;
                     option.series[0].links[i] = {};
                     option.series[0].links[i].source = 0;
                     option.series[0].links[i].target = i + 1;
-                    option.series[0].links[i].articles = ["ddd", "ccc", "d11"];
+                    option.series[0].links[i].articles = this.coauthors[i].papers.map(item => item.title);
+                    option.series[0].links[i].articlesid = this.coauthors[i].papers.map(item => item.paperId);
                 }
             }
             let chartObj = echarts.init(document.getElementById("relation"));
