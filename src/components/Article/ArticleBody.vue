@@ -49,7 +49,6 @@
           </div>
           <div v-else>
             <p style="color:#808080;font-size:20px">{{ a.name }}</p>
-            <br />
           </div>
         </div>
         <div v-if="relatedWorks.length">
