@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 const getFavoritePapers = gql`
   query allFavorites{
     allFavorites{
+      id
       title
       authors {
         id
