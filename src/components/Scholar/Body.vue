@@ -169,7 +169,7 @@
             for (let i = 0; i < 4; i++) {
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
-                this.news[i].id = that.articles[i].id;
+                that.articles[i] ? this.news[i].id = that.articles[i].id : {};
             }
     },
     };
