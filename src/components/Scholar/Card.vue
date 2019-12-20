@@ -37,7 +37,7 @@ export default {
     description: { type: String },
     pic: { required: true, type: String },
     articleId: { required: false, type: String }
-  }
+  },
 };
 </script>
 

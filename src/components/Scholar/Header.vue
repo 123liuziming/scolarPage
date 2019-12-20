@@ -15,7 +15,7 @@
               type="success"
               round
               size="mini"
-              v-if="authenticateFlag"
+              v-if="canSendMessages"
               :disabled="sendMsgFlag"
               @click="$emit('message', scholarinfo)"
             >
@@ -92,6 +92,9 @@
             },
             authenticateFlag(){
                 return this.isself || !this.$store.getters.hasLoggedIn || this.scholarinfo.userId != null;
+            },
+            canSendMessages() {
+              return !!this.scholarinfo.userId;
             }
         },
         methods: {

@@ -22,7 +22,7 @@
           :description="news[ind].desc"
           :pic="news[ind].keyword"
           style="margin: 0 1vw 0 1vw; width: 100%"
-          :articleId="item.id"
+          :articleId="news[ind].id"
         />
       </div>
     </div>
@@ -34,7 +34,7 @@
             <Intro :scholarinfo="scholarinfo" :hasbox="isInfoBox"/>
             <div class="infoBox" v-show="isInfoBox">
               <div id="editBtn">
-                <el-button v-show="isself" class="el-icon-edit" @click="$emit('editBulletin')"></el-button>
+                <el-button v-show="isself" class="el-icon-edit" @click="updateBulletin"></el-button>
               </div>
               <p class="selfIntro">
                 {{scholarinfo.bulletin}}
@@ -90,7 +90,7 @@
                 activeNames: ["1", "2", "3", "4"],
                 selfName: "",
                 articles: [],
-                isInfoBox: false,
+
                 src:
                     "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
                 news: [
@@ -98,24 +98,33 @@
                         title: "最新发布",
                         desc: "",
                         keyword: "computer",
+                        id:""
                     },
                     {
                         title: "编辑推荐",
                         desc: "",
                         keyword: "book",
+                        id:""
                     },
                     {
                         title: "近期热门",
                         desc: "",
                         keyword: "student",
+                        id:""
                     },
                     {
                         title: "最新发布",
                         desc: "",
                         keyword: "bool",
+                        id:""
                     }
                 ]
             };
+        },
+        computed:{
+            isInfoBox(){
+                return this.isself || this.scholarinfo.userId;
+            }
         },
         methods: {
             sortKey(array, key) {
@@ -131,12 +140,15 @@
             gotoArticle(id){
                 this.$router.push({path: '/article', query: {ID: id}});
             },
+            updateBulletin(){
+                this.$emit('editBulletin')
+            }
         },
         async mounted() {
             let that = this;
-            const id = that.$route.query.ID;
+            const id = that.scholarinfo.userId;
             if (id === this.$store.getters.id) that.isself = true;
-            const result = await getPaperById(id);
+            const result = await getPaperById(this.$route.query.ID);
             that.articles = this.sortKey(
                 result.data["searchPapersByScholarId"],
                 "year"
@@ -157,8 +169,9 @@
             for (let i = 0; i < 4; i++) {
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
+                that.articles[i] ? this.news[i].id = that.articles[i].id : {};
             }
-        },
+    },
     };
 </script>
 

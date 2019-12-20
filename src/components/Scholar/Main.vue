@@ -89,6 +89,7 @@ export default {
       headerFlag: false,
       isFollowing: "",
       isSelf: false,
+      privateMsgFlag: false,
       bulletinFlag: false,
       authFlag: false,
       privateMsgForm: {
@@ -104,8 +105,54 @@ export default {
     };
   },
   methods: {
+    sendPrivateMsg: function() {
+      try {
+        gql_sendMessage(this.$route.query.ID, {
+          data: { text: this.privateMsgForm.privateMsgVal },
+          type: "text"
+        }).then(action => {
+          this.privateMsgFlag = false;
+          this.$message({
+            type: "success",
+            message: "已成功发送私信"
+          });
+        });
+      } catch (err) {
+        console.log(err);
+        this.$message({
+          type: "error",
+          message: "私信发送失败"
+        });
+      }
+    },
+    updateBul() {
+      updateBulletin(this.$route.query.ID, this.scholarBulletin);
+      this.$notify({
+        title: "已成功更新",
+        type: "success",
+        message: "已经成功更新通知栏"
+      });
+      this.scholarInfo.bulletin = this.scholarBulletin;
+      this.bulletinFlag = false;
+    },
+    sendAuth() {
+      const id = createAuthentication(
+        this.$route.query.ID,
+        this.authForm.content
+      );
+      this.$notify({
+        title: "已成功提交申请，请静待佳音",
+        type: "success",
+        message: "已经成功更新通知栏"
+      });
+      this.authFlag = false;
+      console.log(id);
+    }
+  },
+
+  methods: {
     addUserToParticipant(user) {
-      this.$emit("messageScholar",user);
+      this.$emit("messageScholar", user);
     },
     sendPrivateMsg: function() {
       try {
