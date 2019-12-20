@@ -6,11 +6,11 @@
       </h4>
       <el-tag
         class="transparent"
-        v-for="(tag,index) in scholarinfo.tags.slice(0,4)"
+        v-for="(tag,index) in scholarinfo.tags.slice(0,5)"
         :key="index"
         :disable-transitions="false"
         v-on:click="goToSearchTag(tag.t)"
-      >{{ tag.t }}
+      >{{ tag.t.length > 30 ? tag.t.substr(0, 25) + "..." : tag.t }}
       </el-tag>
     </div>
     <div style="margin-top: 3%;">
