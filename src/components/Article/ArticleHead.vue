@@ -63,11 +63,7 @@ export default {
       return this.$store.getters.hasLoggedIn;
     },
     B() {
-      if (this.isLiked) {
-        return "取消收藏";
-      } else {
-        return "收藏";
-      }
+      return this.isLiked ? "取消收藏" : "收藏";
     },
     id() {
       return this.$route.query.ID;
@@ -76,12 +72,14 @@ export default {
   props: {
     info: { type: Object, required: true }
   },
-  async mounted() {
-    if (this.$store.getters.hasLoggedIn) {
-      const paperId = this.$route.query.ID;
-      const allFavorites = (await getFavourite()).data.allFavorites;
-      this.isLiked =
-        allFavorites.filter(item => item.id === paperId).length > 0;
+  watch: {
+    async "$store.getters.hasLoggedIn"(newState) {
+      if (newState) {
+        const paperId = this.$route.query.ID;
+        const allFavorites = (await getFavourite()).data.allFavorites;
+        this.isLiked =
+          allFavorites.filter(item => item.id === paperId).length > 0;
+      }
     }
   }
 };
