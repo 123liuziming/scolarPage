@@ -104,7 +104,7 @@
             };
         },
         mounted() {
-            console.log(this.Data);
+            //console.log(this.Data);
             this.option.xAxis.data = this.Data.map((dt, index) => {
                 if (index === 0)
                     return dt.t.substr(0, 10) + "...";

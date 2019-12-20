@@ -65,7 +65,7 @@
     import Intro from "./Intro";
     import ClienderGraph from "./ClinderGraph";
     import {getPaperById, removeTag} from "../../graphql/scholar";
-
+    const kind = ["最新发表", "近期热门"];
     export default {
         name: "Body",
         props: ["scholarinfo", "isself"],
@@ -115,7 +115,7 @@
                     {
                         title: "最新发布",
                         desc: "",
-                        keyword: "bool",
+                        keyword: "study",
                         id:""
                     }
                 ]
@@ -170,6 +170,7 @@
                 this.news[i].desc =
                     i < this.articles.length ? this.articles[i].title : "暂无，敬请期待";
                 that.articles[i] ? this.news[i].id = that.articles[i].id : {};
+                that.articles[i] ? this.news[i].title = kind[Math.floor(Math.random() * 2)] : {};
             }
     },
     };

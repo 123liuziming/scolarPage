@@ -169,7 +169,7 @@
                 option.series[0].categories[i].itemStyle.normal.color = {};
                 option.series[0].categories[i].itemStyle.normal.color = colorList[i % colorList.length]
             }
-            console.log(option.series[0].categories);
+            //console.log(option.series[0].categories);
             for (let i = 0; i < len; i++) {
                 if(this.coauthors[i].name){
                     option.series[0].data[i + 1] = {};
