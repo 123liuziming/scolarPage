@@ -17,7 +17,7 @@
               size="mini"
               v-if="canSendMessages"
               :disabled="sendMsgFlag"
-              @click="$emit('message', scholarinfo)"
+              @click="$emit('message', scholarinfo.userId)"
             >
               <font color="black">
                 <strong>发送私信</strong>

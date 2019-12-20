@@ -74,13 +74,11 @@ export default {
   methods: {
     avatarOf,
     messageScholar(scholar) {
-      console.log(scholar);
+      this.openChat();
       this.changeParticipant({
-        id: scholar.userId,
+        id: scholar.id,
         imageUrl: avatarOf({ avatar: scholar.avatar, name: scholar.name }),
         name: scholar.name
-      }).then(action => {
-        this.isChatOpen = true;
       });
     },
     clearAll() {

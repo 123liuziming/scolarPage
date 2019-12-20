@@ -32,6 +32,16 @@ const getAllMessage = gql`
   }
 `;
 
+const getUserInfo = gql`
+  query getUserInfo($id:ID){
+    getUserInfo(id:$id){
+      id,
+      name,
+      avatar
+    }
+  }
+`;
+
 function gql_sendMessage(receiverId, message) {
   var content, type = message.type;
   if (type === 'text')
@@ -59,4 +69,12 @@ function gql_getAllMessage(idA, idB, page, perPage) {
   });
 }
 
-export { gql_getAllContacts, gql_getAllMessage, gql_sendMessage }
+function gql_getUserInfo(id) {
+  return client.query({
+    query: getUserInfo,
+    variables: { id },
+    fetchPolicy: "network-only",
+  });
+}
+
+export { gql_getAllContacts, gql_getAllMessage, gql_sendMessage, gql_getUserInfo }
