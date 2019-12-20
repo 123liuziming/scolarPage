@@ -5,7 +5,7 @@
           <el-avatar class="avatarSize" :src="avatarOf({avatar:$store.state.user.avatar,name:$store.getters.usersName})" />
       </div>
       <h1 style="color: white" class="h3 person-header">
-        <b>{{ $store.getters.usersName }}</b>
+        <b>你好，{{ $store.getters.usersName }}</b>
       </h1>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
   font-size: 36px;
   color: #fff;
   text-align: left;
-  margin-left: 10%;
+  margin-left: 40px;
   margin-top: 3%;
   width: 50%;
 }
