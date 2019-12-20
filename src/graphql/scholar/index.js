@@ -43,7 +43,10 @@ const findScholarQuery = gql`
           n_pubs
           orgs
           name
-         
+         papers{
+          title
+          paperId
+         }
         }
         nPubs
         nCitations
@@ -107,29 +110,29 @@ const createAuthMutation = gql`
 function createAuthentication(scholarId, content) {
 
   return client.mutate({
-    mutation:createAuthMutation,
-    variables:{scholarId, content}
+    mutation: createAuthMutation,
+    variables: {scholarId, content}
   });
 }
 
-function addTag(scholarId, t, w){
+function addTag(scholarId, t, w) {
   return client.mutate({
-    mutation:addTagMutation,
-    variables:{scholarId, t, w}
+    mutation: addTagMutation,
+    variables: {scholarId, t, w}
   });
 }
 
-function removeTag(scholarId, t, w){
+function removeTag(scholarId, t, w) {
   return client.mutate({
-    mutation:removeTagMutation,
-    variables:{scholarId, t, w}
+    mutation: removeTagMutation,
+    variables: {scholarId, t, w}
   });
 }
 
-function updateBulletin(scholarId, bulletin){
+function updateBulletin(scholarId, bulletin) {
   return client.mutate({
-    mutation:updateBulletinMutation,
-    variables:{scholarId, bulletin},
+    mutation: updateBulletinMutation,
+    variables: {scholarId, bulletin},
   })
 }
 
@@ -161,4 +164,13 @@ function getPaperById(scholarId) {
   });
 }
 
-export {getPaperById, findScholarById, followScholarOp, sendMessage, updateBulletin, addTag, removeTag, createAuthentication}
+export {
+  getPaperById,
+  findScholarById,
+  followScholarOp,
+  sendMessage,
+  updateBulletin,
+  addTag,
+  removeTag,
+  createAuthentication
+}
