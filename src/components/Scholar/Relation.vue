@@ -181,6 +181,7 @@
                     option.series[0].data[i + 1]["ncitation"] = this.coauthors[i].n_citation;
                     option.series[0].data[i + 1]["npubs"] = this.coauthors[i].n_pubs;
                     option.series[0].data[i + 1]["id"] = i;
+                    option.series[0].data[i + 1]["scid"] = this.coauthors[i].scholarId;
                     option.series[0].data[i + 1]["category"] = i + 1;
                     option.series[0].links[i] = {};
                     option.series[0].links[i].source = 0;
@@ -188,8 +189,12 @@
                     option.series[0].links[i].articles = ["ddd", "ccc", "d11"];
                 }
             }
-            var chartObj = echarts.init(document.getElementById("relation"));
+            let chartObj = echarts.init(document.getElementById("relation"));
             chartObj.setOption(option);
+            let data=chartObj._model.option.series[0].data;
+            chartObj.on("click", function (chartParam){
+                window.location.href = "/main?ID=" + data[chartParam.dataIndex].scid;
+            });
             window.addEventListener("resize", () => {
                 chartObj.resize();
             });

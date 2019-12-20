@@ -43,11 +43,13 @@ const findScholarQuery = gql`
           n_pubs
           orgs
           name
+         
         }
         nPubs
         nCitations
         hIndex,
         userId
+       
       }
       isFollowing
     }
