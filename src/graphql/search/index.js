@@ -9,6 +9,7 @@ const paperQuery = gql`
         title
         authors {
           id
+          active
           name
         }
         keywords

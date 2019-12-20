@@ -15,11 +15,12 @@
         v-for="(author, ind) in item.authors.slice(0, 5)"
         :key="`au${ind}`"
         ><el-link
-          style="color: #808080;"
+          v-if="author.active"
+          style="color: #ffffff;"
           :underline="false"
           @click="goToScholar(author.id)"
           >{{ author.name }}</el-link
-        ><span v-if="ind !== 4 && ind !== item.authors.length - 1"
+        ><span v-else style="color: #808080;">{{ author.name}}</span><span v-if="ind !== 4 && ind !== item.authors.length - 1"
           >,
         </span> </span
       ><span style="color: #808080;" v-if="item.authors.length > 5">

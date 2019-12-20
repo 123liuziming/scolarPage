@@ -6,8 +6,8 @@
           <h1 style="color: white" class="h1">
             <b>{{scholarinfo.name}}</b>
           </h1>
-          <h4 style="color: white" class="h4">
-            <a class="lineLimit">{{scholarinfo.orgs[0]}}</a>
+          <h4 style="color: #999999" class="h4">
+            <span class="lineLimit">{{scholarinfo.orgs[0]}}</span>
           </h4>
           <p class="button" style="margin-top: 3vh">
             <el-button
@@ -146,7 +146,6 @@
   }
 
   .h4 {
-    font-family: "Roboto Mono", "Microsoft YaHei", monospace;
     font-size: 20px;
     padding-top: 1vh;
   }
