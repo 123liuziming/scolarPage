@@ -126,12 +126,13 @@
               }
             },
             updateBul() {
-                updateBulletin(this.$store.getters.userId, this.scholarBulletin);
+                updateBulletin(this.$route.query.ID, this.scholarBulletin);
                 this.$notify({
                     title: "已成功更新",
                     type: "success",
                     message: "已经成功更新通知栏"
                 });
+                this.scholarInfo.bulletin = this.scholarBulletin;
                 this.bulletinFlag = false;
             },
             sendAuth() {
