@@ -29,7 +29,9 @@
           type="success"
           round
           v-if="info.currentPaper.url[0]"
-          ><el-link target="blank" :href="info.currentPaper.url[0]"><font color="black"><strong>访问论文来源</strong></font></el-link></el-button
+          ><el-link target="blank" :href="info.currentPaper.url[0]"
+            ><font color="black"><strong>访问论文来源</strong></font></el-link
+          ></el-button
         >
       </p>
     </div>
@@ -40,33 +42,20 @@
 import {
   getFavourite,
   favoriteArticleOp,
-  getPaper
+  getPaper,
 } from "../../graphql/Article";
 
 export default {
   name: "ArticleHead",
   data() {
     return {
-      id: "",
-      author: "",
-      isLiked: false,
-      isCollected: "",
-      ButtonCollect: "收藏"
+      isLiked: false
     };
   },
   methods: {
     CollectIt() {
-      if (!this.isLiked) {
-        this.isCollected = "已收藏";
-        this.ButtonCollect = "取消收藏";
-        this.isLiked = true;
-        favoriteArticleOp(this.id);
-      } else {
-        this.isCollected = "未收藏";
-        this.ButtonCollect = "收藏";
-        this.isLiked = false;
-        favoriteArticleOp(this.id);
-      }
+      this.isLiked = !isLiked;
+      favoriteArticleOp(this.id);
     }
   },
   computed: {
@@ -79,19 +68,20 @@ export default {
       } else {
         return "收藏";
       }
+    },
+    id() {
+      return this.$route.query.ID;
     }
   },
   props: {
     info: { type: Object, required: true }
   },
   async mounted() {
-    if (this.hasLoggedIn) {
-      const paper = (await getFavourite()).data.allFavorites;
-      for (let i = 0; i < paper.length; i++) {
-        if (paper[i].id === this.id) {
-          this.isLiked = true;
-        }
-      }
+    if (this.$store.getters.hasLoggedIn) {
+      const paperId = this.$route.query.ID;
+      const allFavorites = (await getFavourite()).data.allFavorites;
+      this.isLiked =
+        allFavorites.filter(item => item.id === paperId).length > 0;
     }
   }
 };

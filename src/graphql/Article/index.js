@@ -60,7 +60,7 @@ const getFavorite = gql`
 //收藏论文
 const favoriteArticleMutation = gql`
   mutation favoriteArticleMutation($paperId:ID){
-    favorite(paperId:$paperId){
+    favorite(paperId: $paperId){
       id
     }
   }
@@ -75,7 +75,8 @@ function favoriteArticleOp(paperId) {
 
 function getFavourite() {
   return client.query({
-    query: getFavorite
+    query: getFavorite,
+    fetchPolicy: 'network-only'
   });
 }
 
