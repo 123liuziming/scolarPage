@@ -9,27 +9,15 @@
       :visible.sync="isChangePwdVisible"
       top="10vh"
     >
-      <el-form
-        :model="newUserInfo"
-        :rules="pwdChangeRules"
-        ref="pwdChangeRules"
-      >
+      <el-form :model="newUserInfo" :rules="pwdChangeRules" ref="pwdChangeRules">
         <el-form-item label="原密码">
-          <el-input
-            v-model="newUserInfo.password"
-            type="password"
-            auto-complete="off"
-          />
+          <el-input v-model="newUserInfo.password" type="password" auto-complete="off" />
         </el-form-item>
         <el-form-item label="新密码" prop="pass">
           <el-input v-model="newPwd" type="password" auto-complete="off" />
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
-          <el-input
-            v-model="newPwdConfirm"
-            type="password"
-            auto-complete="off"
-          />
+          <el-input v-model="newPwdConfirm" type="password" auto-complete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -60,9 +48,7 @@
       </el-form>
       <div slot="footer">
         <template>
-          <el-button type="primary" @click="handleChangeUserInfo"
-            >确认</el-button
-          >
+          <el-button type="primary" @click="handleChangeUserInfo">确认</el-button>
           <el-button @click="closeUserInfoChange">取消</el-button>
         </template>
       </div>
@@ -79,6 +65,9 @@
           <el-menu-item index="3" @click="toFollows">
             <i class="el-icon-star-on"></i>关注学者
           </el-menu-item>
+          <el-menu-item index="5" v-if="ScholarId" @click="$router.push({ name: 'Main', query: { ID: ScholarId } })">
+            <i class="el-icon-s-home"></i>个人主页
+          </el-menu-item>
           <el-menu-item index="4" @click="logout">
             <i class="el-icon-lock"></i>注销
           </el-menu-item>
@@ -92,9 +81,7 @@
           <div style="margin-left: 20px;">
             <h4 style="color: white">管理您的登录信息</h4>
             <el-button @click="changePwd" size="small">修改密码</el-button>
-            <el-button @click="changeUserName" size="small"
-              >修改用户名</el-button
-            >
+            <el-button @click="changeUserName" size="small">修改用户名</el-button>
             <h4 style="color: white; margin-top: 30px">修改头像</h4>
             <Pulpload @castImage="getImageUrl" />
           </div>
@@ -145,7 +132,8 @@ import {
   gql_getFollows,
   gql_changePassword,
   gql_updateUserInfo,
-  gql_updateUserAvatar
+  gql_updateUserAvatar,
+  gql_getScholar
 } from "@/graphql/personal";
 import Pulpload from "../Scholar/Plupload";
 import { updateUser } from "../../store";
@@ -156,6 +144,11 @@ export default {
     PaperItem,
     ScholarItem,
     Pulpload
+  },
+  async mounted() {
+    const response = await gql_getScholar();
+    if(response.data.getOwnScholar.length)
+      this.ScholarId = response.data.getOwnScholar[0].id;
   },
   data() {
     return {
@@ -191,7 +184,8 @@ export default {
       pwdChangeRules: {
         pass: [{ validator: this.validatePass, trigger: "blur" }],
         checkPass: [{ validator: this.validatePass2, trigger: "blur" }]
-      }
+      },
+      ScholarId: ""
     };
   },
   methods: {

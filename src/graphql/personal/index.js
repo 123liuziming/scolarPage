@@ -60,6 +60,21 @@ const updateUserAvatar = gql`
   }
 `;
 
+const getOwnScholar = gql`
+  query getOwnScholar{
+    getOwnScholar{
+      id
+    }
+  }
+`;
+
+function gql_getScholar() {
+  return client.query({
+    query: getOwnScholar,
+    fetchPolicy: "network-only",
+  });
+}
+
 function gql_getFavoritePapers() {
   return client.query({
     query: getFavoritePapers,
@@ -93,4 +108,4 @@ function gql_updateUserAvatar(avatar) {
   });
 }
 
-export { gql_getFavoritePapers, gql_getFollows, gql_changePassword, gql_updateUserInfo, gql_updateUserAvatar }
+export { gql_getFavoritePapers, gql_getFollows, gql_changePassword, gql_updateUserInfo, gql_updateUserAvatar ,gql_getScholar}
